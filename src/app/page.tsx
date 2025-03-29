@@ -18,6 +18,15 @@ const CandlestickIcon = () => (
   </motion.div>
 );
 
+const pulseAnimation = {
+  scale: [1, 1.02, 1],
+  transition: {
+    duration: 2,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }
+};
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 bg-white relative">
@@ -32,7 +41,7 @@ export default function Home() {
         <div className="text-center">
           <CandlestickIcon />
           <motion.h1 
-            className="game-title text-4xl font-bold tracking-tight text-center mb-2"
+            className="game-title text-4xl font-bold tracking-tight text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -47,20 +56,33 @@ export default function Home() {
         {/* Menu buttons */}
         <div className="w-full space-y-6">
           <motion.button 
-            className="w-full py-4 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3"
-            whileHover={{ scale: 1.02 }}
+            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3 text-lg relative shadow-lg"
+            whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
+            animate={pulseAnimation}
           >
-            <span className="text-xl">🎮</span>
-            <span>NEW GAME</span>
+            <motion.span 
+              className="text-2xl absolute left-4"
+              animate={{ rotate: [0, 15, -15, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              🎮
+            </motion.span>
+            <span className="font-bold">NEW GAME</span>
           </motion.button>
 
           <motion.button 
             className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3"
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="text-xl">🏆</span>
+            <motion.span 
+              className="text-xl"
+              animate={{ rotateY: [0, 360] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              🏆
+            </motion.span>
             <span>LEADERBOARD</span>
           </motion.button>
 
@@ -69,7 +91,13 @@ export default function Home() {
             whileHover={{ scale: 1 }}
           >
             <div className="flex items-center justify-center space-x-3 mb-1">
-              <span className="text-xl">⚔️</span>
+              <motion.span 
+                className="text-xl"
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                ⚔️
+              </motion.span>
               <span>1-1 BATTLE</span>
             </div>
             <div className="scroll-text-container">
