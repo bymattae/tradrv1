@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Check, X, Camera, Hash } from 'lucide-react';
+import { ArrowDown, Check, X, Camera, Hash, User, Mail, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 interface Step {
@@ -18,6 +18,55 @@ interface FormData {
   bio: string;
   hashtags: string[];
   profilePic: string | null;
+}
+
+function ProfilePreview({ data }: { data: FormData }) {
+  return (
+    <motion.div 
+      className="w-full max-w-sm mx-auto mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+    >
+      <div className="relative h-24 bg-gradient-to-r from-blue-500 to-purple-500">
+        <div className="absolute -bottom-12 left-4">
+          <div className="relative w-24 h-24 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center overflow-hidden">
+            {data.profilePic ? (
+              <Image
+                src={data.profilePic}
+                alt="Profile"
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <User className="w-12 h-12 text-gray-400" />
+            )}
+          </div>
+        </div>
+      </div>
+      
+      <div className="pt-14 p-4">
+        <div className="space-y-1">
+          <h3 className="font-bold text-lg">
+            {data.username ? `@${data.username}` : 'Username'}
+          </h3>
+          <p className="text-sm text-gray-600">
+            {data.bio || 'No bio yet...'}
+          </p>
+        </div>
+
+        {data.hashtags.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {data.hashtags.map((tag, i) => (
+              <span key={i} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
 }
 
 export default function ProfileBuilder() {
@@ -241,18 +290,31 @@ export default function ProfileBuilder() {
     }
   };
 
+  const renderConfirmButton = () => (
+    <motion.button
+      className="mt-6 px-6 py-2 bg-green-500 text-white rounded-lg font-medium flex items-center gap-2 hover:bg-green-600 transition-colors mx-auto"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={handleNext}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5 }}
+    >
+      Looks good! <Check className="w-4 h-4" />
+    </motion.button>
+  );
+
   return (
     <div 
       ref={containerRef}
-      className="min-h-screen bg-white"
-      onClick={handleNext}
+      className="min-h-screen bg-gray-50"
     >
       <AnimatePresence mode="wait">
         {steps.map((step, index) => (
           <motion.div
             key={step.id}
             id={`step-${index}`}
-            className="min-h-screen flex flex-col items-center justify-center p-6"
+            className="min-h-screen flex flex-col items-center p-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -269,6 +331,10 @@ export default function ProfileBuilder() {
               </motion.div>
 
               {renderStepContent(step)}
+              
+              {step.type !== 'welcome' && <ProfilePreview data={formData} />}
+              
+              {step.type !== 'welcome' && renderConfirmButton()}
 
               {index < steps.length - 1 && (
                 <motion.div
