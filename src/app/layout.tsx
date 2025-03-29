@@ -4,6 +4,7 @@ import './globals.css';
 import { Press_Start_2P } from 'next/font/google';
 import NavigationBar from './components/NavigationBar';
 import { usePathname } from 'next/navigation';
+import { AuthProvider } from '@/lib/contexts/AuthContext';
 
 const pressStart2P = Press_Start_2P({
   weight: '400',
@@ -24,14 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={pressStart2P.className}>
       <body>
-        <NavigationBar 
-          showBack={showBack}
-          xp={0} // This should be connected to your global state management
-          userAvatar={null} // This should be connected to your global state management
-        />
-        <div className="pt-14">
-          {children}
-        </div>
+        <AuthProvider>
+          <NavigationBar 
+            showBack={showBack}
+            xp={0} // This should be connected to your global state management
+            userAvatar={null} // This should be connected to your global state management
+          />
+          <div className="pt-14">
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
