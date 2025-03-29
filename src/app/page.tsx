@@ -27,6 +27,16 @@ const pulseAnimation = {
   }
 };
 
+const ComingSoonText = () => (
+  <div className="scroll-text-container">
+    <div className="scroll-text-content">
+      <span>1-1 battles with your friends coming soon!</span>
+      <span>1-1 battles with your friends coming soon!</span>
+      <span>1-1 battles with your friends coming soon!</span>
+    </div>
+  </div>
+);
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 bg-white relative">
@@ -104,10 +114,8 @@ export default function Home() {
               </motion.span>
               <span>1-1 BATTLE</span>
             </div>
-            <div className="scroll-text-container mt-1">
-              <div className="scroll-text text-[10px] text-gray-500">
-                1-1 battles with your friends coming soon!
-              </div>
+            <div className="mt-1 text-[10px] text-gray-500">
+              <ComingSoonText />
             </div>
           </motion.button>
         </div>

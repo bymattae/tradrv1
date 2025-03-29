@@ -13,9 +13,7 @@ body {
 }
 
 .game-title {
-  text-shadow: 
-    2px 2px 0 rgba(0,0,0,0.1),
-    -2px -2px 0 rgba(255,255,255,0.5);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
   letter-spacing: -0.5px;
 }
 
@@ -23,6 +21,7 @@ body {
   @apply relative overflow-hidden transition-all duration-200;
   image-rendering: pixelated;
   text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+  transition: all 200ms;
 }
 
 .pixel-button::before {
@@ -34,21 +33,17 @@ body {
   @apply opacity-10;
 }
 
+.pixel-button:hover {
+  transform: translateY(-2px);
+}
+
 .pixel-border {
-  box-shadow: 
-    3px 3px 0 rgba(0,0,0,0.1),
-    -1px -1px 0 rgba(255,255,255,0.5),
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 200ms;
 }
 
 .pixel-border:hover {
-  box-shadow: 
-    4px 4px 0 rgba(0,0,0,0.1),
-    -1px -1px 0 rgba(255,255,255,0.5),
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
 }
 
 /* Add shimmer effect to the high score section */
@@ -70,20 +65,34 @@ body {
 
 /* Scrolling text animation */
 .scroll-text-container {
+  width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  width: 100%;
+  position: relative;
 }
 
 .scroll-text {
   display: inline-block;
-  animation: scrollText 15s linear infinite;
-  padding-left: 100%;
+  padding-right: 2rem;
+}
+
+.scroll-text-content {
+  display: inline-flex;
+  animation: scrollText 20s linear infinite;
+  padding: 0 1rem;
+}
+
+.scroll-text-content span {
+  margin-right: 20px;
 }
 
 @keyframes scrollText {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-200%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @layer utilities {
