@@ -56,41 +56,45 @@ export default function Home() {
         {/* Menu buttons */}
         <div className="w-full space-y-6">
           <motion.button 
-            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3 text-lg relative shadow-lg"
+            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             animate={pulseAnimation}
           >
-            <motion.span 
-              className="text-2xl absolute left-4"
-              animate={{ rotate: [0, 15, -15, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              🎮
-            </motion.span>
-            <span className="font-bold">NEW GAME</span>
+            <div className="flex items-center justify-center gap-3">
+              <motion.span 
+                className="text-2xl"
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🎮
+              </motion.span>
+              <span className="font-bold">NEW GAME</span>
+            </div>
           </motion.button>
 
           <motion.button 
-            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3"
+            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
-            <motion.span 
-              className="text-xl"
-              animate={{ rotateY: [0, 360] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              🏆
-            </motion.span>
-            <span>LEADERBOARD</span>
+            <div className="flex items-center justify-center gap-3">
+              <motion.span 
+                className="text-xl"
+                animate={{ rotateY: [0, 360] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                🏆
+              </motion.span>
+              <span>LEADERBOARD</span>
+            </div>
           </motion.button>
 
           <motion.button 
             className="w-full py-4 bg-gray-200 text-gray-500 rounded-lg pixel-button pixel-border flex flex-col items-center justify-center cursor-not-allowed"
             whileHover={{ scale: 1 }}
           >
-            <div className="flex items-center justify-center space-x-3 mb-1">
+            <div className="flex items-center justify-center gap-3">
               <motion.span 
                 className="text-xl"
                 animate={{ rotate: [0, 360] }}
@@ -100,7 +104,7 @@ export default function Home() {
               </motion.span>
               <span>1-1 BATTLE</span>
             </div>
-            <div className="scroll-text-container">
+            <div className="scroll-text-container mt-1">
               <div className="scroll-text text-[10px] text-gray-500">
                 1-1 battles with your friends coming soon!
               </div>
