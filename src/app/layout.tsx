@@ -1,11 +1,15 @@
 'use client';
 
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Press_Start_2P } from 'next/font/google';
 import NavigationBar from './components/NavigationBar';
 import { usePathname } from 'next/navigation';
 
-const inter = Inter({ subsets: ['latin'] });
+const pressStart2P = Press_Start_2P({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function RootLayout({
   children,
@@ -18,8 +22,8 @@ export default function RootLayout({
   const showBack = !['/'].includes(pathname);
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={pressStart2P.className}>
+      <body>
         <NavigationBar 
           showBack={showBack}
           xp={0} // This should be connected to your global state management
