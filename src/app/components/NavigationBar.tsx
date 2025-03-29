@@ -13,10 +13,10 @@ export default function NavigationBar({ showBack = false, xp = 0, userAvatar }: 
   const router = useRouter();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white z-50">
-      <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Back Button */}
-        <div className="w-24">
+    <nav className="fixed top-0 left-0 right-0 bg-white z-50 border-b border-gray-100">
+      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+        {/* Left Side - Back Button */}
+        <div className="w-24 flex items-center">
           {showBack && (
             <button
               onClick={() => router.back()}
@@ -28,21 +28,11 @@ export default function NavigationBar({ showBack = false, xp = 0, userAvatar }: 
           )}
         </div>
 
-        {/* Center - Logo or Title */}
-        <div className="flex-1 flex justify-center">
-          <Image
-            src="/logo.png"
-            alt="TRADR"
-            width={80}
-            height={24}
-            className="h-6 w-auto"
-          />
-        </div>
-
         {/* Right Side - XP and Avatar */}
-        <div className="w-24 flex items-center justify-end gap-3">
+        <div className="flex items-center justify-end gap-3">
           {/* XP Counter */}
-          <div className="text-xs sm:text-sm font-medium">
+          <div className="text-xs sm:text-sm font-medium flex items-center gap-1">
+            <span className="text-green-500">●</span>
             {xp.toLocaleString()} XP
           </div>
 
