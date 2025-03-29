@@ -7,8 +7,8 @@ export default function AuthPage() {
   const router = useRouter();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-white">
-      <div className="w-full max-w-sm mx-auto space-y-8">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 bg-white">
+      <div className="w-full max-w-sm mx-auto space-y-6 sm:space-y-8">
         {/* Logo section */}
         <div className="text-center">
           <motion.div
@@ -20,12 +20,12 @@ export default function AuthPage() {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="text-2xl mb-4"
+            className="text-xl sm:text-2xl mb-3 sm:mb-4"
           >
             📊
           </motion.div>
           <motion.h1 
-            className="text-4xl font-bold tracking-tight text-center"
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -37,16 +37,16 @@ export default function AuthPage() {
         </div>
 
         {/* Menu buttons */}
-        <div className="w-full space-y-6">
+        <div className="w-full space-y-4 sm:space-y-6">
           <motion.button
-            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
+            className="w-full py-4 sm:py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-base sm:text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push('/auth/signup/email')}
           >
             <div className="flex items-center justify-center gap-3">
               <motion.span 
-                className="text-2xl"
+                className="text-xl sm:text-2xl"
                 animate={{ rotate: [0, 15, -15, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -57,13 +57,13 @@ export default function AuthPage() {
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
+            className="w-full py-3 sm:py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center justify-center gap-3">
               <motion.span 
-                className="text-xl"
+                className="text-lg sm:text-xl"
                 animate={{ rotateY: [0, 360] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
@@ -75,7 +75,7 @@ export default function AuthPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-center space-y-2 mt-8">
+        <div className="text-center space-y-1 sm:space-y-2 mt-4 sm:mt-8">
           <motion.p 
             className="text-xs text-gray-400"
             animate={{
@@ -88,7 +88,7 @@ export default function AuthPage() {
           >
             INSERT COIN TO CONTINUE
           </motion.p>
-          <p className="text-[10px] text-gray-300">A PRODUCTION BY MATT JAMES</p>
+          <p className="text-[8px] sm:text-[10px] text-gray-300">A PRODUCTION BY MATT JAMES</p>
         </div>
       </div>
     </main>

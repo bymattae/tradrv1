@@ -7,8 +7,8 @@ export default function EmailSignupPage() {
   const router = useRouter();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-white">
-      <div className="w-full max-w-sm mx-auto space-y-8">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 bg-white">
+      <div className="w-full max-w-sm mx-auto space-y-4 sm:space-y-8">
         {/* Logo section */}
         <div className="text-center">
           <motion.div
@@ -20,12 +20,12 @@ export default function EmailSignupPage() {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="text-2xl mb-4"
+            className="text-xl sm:text-2xl mb-2 sm:mb-4"
           >
             📊
           </motion.div>
           <motion.h1 
-            className="text-4xl font-bold tracking-tight text-center"
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -37,29 +37,29 @@ export default function EmailSignupPage() {
         </div>
 
         {/* Email signup form */}
-        <div className="space-y-6">
-          <div className="space-y-2">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-1 sm:space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Enter your email
             </label>
             <input
               type="email"
               id="email"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
               placeholder="you@example.com"
               required
             />
           </div>
 
           <motion.button
-            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
+            className="w-full py-3 sm:py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-base sm:text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push('/auth/signup/onboarding')}
           >
             <div className="flex items-center justify-center gap-3">
               <motion.span 
-                className="text-2xl"
+                className="text-xl sm:text-2xl"
                 animate={{ rotate: [0, 15, -15, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -71,45 +71,45 @@ export default function EmailSignupPage() {
         </div>
 
         {/* Social login options */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
+            <div className="relative flex justify-center text-xs sm:text-sm">
               <span className="px-2 bg-white text-gray-500">Or continue with</span>
             </div>
           </div>
 
           <motion.button
-            className="w-full py-4 bg-white hover:bg-gray-50 text-gray-700 rounded-lg pixel-button pixel-border flex items-center justify-center border border-gray-300"
+            className="w-full py-2.5 sm:py-4 bg-white hover:bg-gray-50 text-gray-700 rounded-lg pixel-button pixel-border flex items-center justify-center border border-gray-300 text-sm sm:text-base"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center justify-center gap-3">
-              <span className="text-xl">G</span>
+              <span className="text-lg sm:text-xl">G</span>
               <span>Google</span>
             </div>
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-black hover:bg-gray-900 text-white rounded-lg pixel-button pixel-border flex items-center justify-center"
+            className="w-full py-2.5 sm:py-4 bg-black hover:bg-gray-900 text-white rounded-lg pixel-button pixel-border flex items-center justify-center text-sm sm:text-base"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center justify-center gap-3">
-              <span className="text-xl">🍎</span>
+              <span className="text-lg sm:text-xl">🍎</span>
               <span>Apple</span>
             </div>
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg pixel-button pixel-border flex items-center justify-center"
+            className="w-full py-2.5 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg pixel-button pixel-border flex items-center justify-center text-sm sm:text-base"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center justify-center gap-3">
-              <span className="text-xl">f</span>
+              <span className="text-lg sm:text-xl">f</span>
               <span>Facebook</span>
             </div>
           </motion.button>
@@ -117,7 +117,7 @@ export default function EmailSignupPage() {
 
         {/* Back button */}
         <motion.button 
-          className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg pixel-button pixel-border flex items-center justify-center mt-4"
+          className="w-full py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg pixel-button pixel-border flex items-center justify-center mt-2 sm:mt-4 text-sm sm:text-base"
           whileHover={{ scale: 1.02, y: -1 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => router.push('/auth')}
@@ -129,7 +129,7 @@ export default function EmailSignupPage() {
         </motion.button>
 
         {/* Footer */}
-        <div className="text-center space-y-2 mt-8">
+        <div className="text-center space-y-1 sm:space-y-2 mt-2 sm:mt-8">
           <motion.p 
             className="text-xs text-gray-400"
             animate={{
@@ -142,7 +142,7 @@ export default function EmailSignupPage() {
           >
             INSERT COIN TO CONTINUE
           </motion.p>
-          <p className="text-[10px] text-gray-300">A PRODUCTION BY MATT JAMES</p>
+          <p className="text-[8px] sm:text-[10px] text-gray-300">A PRODUCTION BY MATT JAMES</p>
         </div>
       </div>
     </main>

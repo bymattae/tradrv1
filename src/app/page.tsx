@@ -23,19 +23,19 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8 bg-white relative">
+    <main className="flex min-h-screen flex-col items-center justify-between p-4 sm:p-8 bg-white relative">
       {/* Language selector */}
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-2 right-2 sm:top-4 sm:right-4">
         <button className="text-gray-600 text-xs">English ▾</button>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm mx-auto space-y-12">
+      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm mx-auto space-y-6 sm:space-y-12">
         {/* Logo section */}
         <div className="text-center">
           <CandlestickIcon />
           <motion.h1 
-            className="game-title text-4xl font-bold tracking-tight text-center"
+            className="game-title text-3xl sm:text-4xl font-bold tracking-tight text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -47,9 +47,9 @@ export default function Home() {
         </div>
 
         {/* Menu buttons */}
-        <div className="w-full space-y-6">
+        <div className="w-full space-y-4 sm:space-y-6">
           <motion.button
-            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
+            className="w-full py-4 sm:py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-base sm:text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push('/auth')}
@@ -67,7 +67,7 @@ export default function Home() {
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-gray-200 text-gray-500 rounded-lg pixel-button pixel-border flex flex-col items-center justify-center cursor-not-allowed"
+            className="w-full py-3 sm:py-4 bg-gray-200 text-gray-500 rounded-lg pixel-button pixel-border flex flex-col items-center justify-center cursor-not-allowed"
             whileHover={{ scale: 1 }}
           >
             <div className="flex items-center justify-center gap-3">
@@ -90,7 +90,7 @@ export default function Home() {
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
+            className="w-full py-3 sm:py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push('/auth')}
@@ -110,7 +110,7 @@ export default function Home() {
 
         {/* High score section */}
         <motion.div 
-          className="w-full bg-yellow-100 rounded-lg p-6 text-center transform hover:scale-105 transition-transform"
+          className="w-full bg-yellow-100 rounded-lg p-4 sm:p-6 text-center transform hover:scale-105 transition-transform"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -130,7 +130,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <div className="text-center space-y-2 mt-16 mb-4">
+      <div className="text-center space-y-2 mt-4 sm:mt-16 mb-2 sm:mb-4">
         <motion.p 
           className="text-xs text-gray-400"
           animate={{
