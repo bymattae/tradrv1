@@ -18,24 +18,26 @@ export default function AuthPage() {
         <NavBar variant="onboarding" step={1} />
         
         {/* Content */}
-        <div className="flex-1 flex flex-col items-center p-4 gap-4">
-          <motion.h2 
-            className="text-4xl font-bold mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            style={{ fontFamily: 'monospace' }}
-          >
-            WELCOME
-          </motion.h2>
-          <motion.p
-            className="text-sm text-gray-600 mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            style={{ fontFamily: 'monospace' }}
-          >
-            Choose how to get started
-          </motion.p>
+        <div className="flex-1 flex flex-col items-center justify-center p-4 gap-8">
+          <div className="text-center">
+            <motion.h2 
+              className="text-4xl font-bold"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ fontFamily: 'monospace' }}
+            >
+              WELCOME
+            </motion.h2>
+            <motion.p
+              className="text-sm text-gray-600 mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              style={{ fontFamily: 'monospace' }}
+            >
+              Choose how to get started
+            </motion.p>
+          </div>
 
           {/* Buttons */}
           <div className="w-full max-w-sm space-y-4">
