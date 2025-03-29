@@ -12,9 +12,17 @@ body {
   background: rgb(var(--background-rgb));
 }
 
+.game-title {
+  text-shadow: 
+    2px 2px 0 rgba(0,0,0,0.1),
+    -2px -2px 0 rgba(255,255,255,0.5);
+  letter-spacing: -0.5px;
+}
+
 .pixel-button {
   @apply relative overflow-hidden transition-transform;
   image-rendering: pixelated;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 }
 
 .pixel-button::before {
@@ -23,20 +31,30 @@ body {
 }
 
 .pixel-button:hover::before {
-  @apply opacity-100;
+  @apply opacity-10;
 }
 
 .pixel-border {
   box-shadow: 
-    2px 2px 0 rgba(0,0,0,0.1),
-    -2px -2px 0 rgba(255,255,255,0.1);
+    3px 3px 0 rgba(0,0,0,0.1),
+    -1px -1px 0 rgba(255,255,255,0.5);
 }
 
-.game-title {
-  background: linear-gradient(90deg, #4ADE80 0%, #60A5FA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+/* Add shimmer effect to the high score section */
+.high-score-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.5) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 @layer utilities {

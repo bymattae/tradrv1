@@ -2,6 +2,22 @@
 
 import { motion } from 'framer-motion';
 
+const CandlestickIcon = () => (
+  <motion.div
+    animate={{
+      y: [0, -5, 0],
+    }}
+    transition={{
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }}
+    className="text-2xl mb-4"
+  >
+    📊
+  </motion.div>
+);
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 bg-white relative">
@@ -12,59 +28,91 @@ export default function Home() {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm mx-auto space-y-8">
-        {/* Logo */}
-        <motion.h1 
-          className="game-title text-4xl font-bold tracking-tight text-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          BUY OR SELL
-        </motion.h1>
-        <p className="text-sm text-gray-500">You choose.</p>
+        {/* Logo section */}
+        <div className="text-center">
+          <CandlestickIcon />
+          <motion.h1 
+            className="game-title text-4xl font-bold tracking-tight text-center mb-2"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="text-green-500">BUY</span>
+            {" "}or{" "}
+            <span className="text-red-500">SELL</span>
+          </motion.h1>
+          <p className="text-xs text-gray-500 italic">a game by matt james</p>
+        </div>
 
         {/* Menu buttons */}
         <div className="w-full space-y-4">
           <motion.button 
-            className="w-full py-3 bg-green-200 hover:bg-green-300 text-black font-pixel rounded-lg pixel-button pixel-border flex items-center justify-center space-x-2"
+            className="w-full py-4 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="text-lg">🚀</span>
+            <span className="text-xl">🎮</span>
             <span>NEW GAME</span>
           </motion.button>
 
           <motion.button 
-            className="w-full py-3 bg-purple-200 hover:bg-purple-300 text-black font-pixel rounded-lg pixel-button pixel-border"
+            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            LEADERBOARD
+            <span className="text-xl">🏆</span>
+            <span>LEADERBOARD</span>
           </motion.button>
 
-          <motion.button 
-            className="w-full py-3 bg-gray-200 hover:bg-gray-300 text-black font-pixel rounded-lg pixel-button pixel-border"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            1-1 BATTLE
-          </motion.button>
+          <div className="relative">
+            <motion.button 
+              className="w-full py-4 bg-gray-200 text-gray-500 rounded-lg pixel-button pixel-border flex items-center justify-center space-x-3 cursor-not-allowed"
+              whileHover={{ scale: 1 }}
+            >
+              <span className="text-xl">⚔️</span>
+              <span>1-1 BATTLE</span>
+            </motion.button>
+            <div className="absolute -bottom-6 left-0 right-0 text-center">
+              <p className="text-[10px] text-gray-500">1-1 battles with friends coming soon!</p>
+            </div>
+          </div>
         </div>
 
         {/* High score section */}
-        <div className="w-full bg-yellow-100 rounded-lg p-4 text-center">
-          <p className="text-sm font-bold mb-2">HIGHEST SCORE</p>
-          <div className="flex items-center justify-center space-x-2">
-            <span className="text-sm">ALEX_SS</span>
-            <span className="text-sm text-green-500">$487K</span>
+        <motion.div 
+          className="w-full bg-yellow-100 rounded-lg p-6 text-center transform hover:scale-105 transition-transform"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="border-b-2 border-yellow-200 pb-2 mb-3">
+            <p className="text-sm font-bold text-yellow-800">🌟 HIGHEST SCORE 🌟</p>
           </div>
-          <p className="text-xs text-gray-600 mt-2">CAN YOU BEAT IT?</p>
-        </div>
+          <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center">
+              <span className="text-xl mr-2">👑</span>
+              <span className="text-sm">ALEX_SS</span>
+            </div>
+            <span className="text-lg font-bold text-green-500">$487K</span>
+          </div>
+          <p className="text-xs text-yellow-700 mt-3 font-bold">CAN YOU BEAT IT?</p>
+        </motion.div>
       </div>
 
       {/* Footer */}
-      <div className="text-center space-y-2 mt-8">
-        <p className="text-xs text-gray-400">INSERT COIN TO CONTINUE</p>
+      <div className="text-center space-y-2 mt-12 mb-4">
+        <motion.p 
+          className="text-xs text-gray-400"
+          animate={{
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+          }}
+        >
+          INSERT COIN TO CONTINUE
+        </motion.p>
         <p className="text-[10px] text-gray-300">A PRODUCTION BY MATT JAMES</p>
       </div>
     </main>
