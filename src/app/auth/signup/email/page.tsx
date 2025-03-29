@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import PageTransition from '../../../components/PageTransition';
+import NavBar from '../../../components/NavBar';
 
 export default function EmailSignupPage() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function EmailSignupPage() {
   return (
     <PageTransition>
       <main className="min-h-screen flex flex-col bg-white">
+        <NavBar variant="onboarding" step={2} />
+        
         {/* Header Section - Fixed at top */}
         <div className="w-full p-8 text-center space-y-4">
           <motion.div 

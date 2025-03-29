@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import PageTransition from '@/app/components/PageTransition';
+import NavBar from '@/app/components/NavBar';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -41,6 +42,8 @@ export default function OnboardingPage() {
   return (
     <PageTransition>
       <main className="min-h-screen flex flex-col bg-white">
+        <NavBar variant="onboarding" step={3} />
+        
         {/* Header Section - Fixed at top */}
         <div className="w-full p-8 text-center space-y-4">
           <motion.div 

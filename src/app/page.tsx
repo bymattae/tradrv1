@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
 import PageTransition from './components/PageTransition';
+import NavBar from './components/NavBar';
 
 export default function Home() {
   const router = useRouter();
@@ -17,6 +18,8 @@ export default function Home() {
   return (
     <PageTransition>
       <main className="min-h-screen flex flex-col bg-white">
+        <NavBar variant="home" />
+        
         {/* Content */}
         <div className="flex-1 flex flex-col items-center p-4 gap-6">
           {/* Header */}
