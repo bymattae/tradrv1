@@ -1,40 +1,26 @@
 'use client';
 
 import './globals.css';
-import { Press_Start_2P } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import NavigationBar from './components/NavigationBar';
-import { usePathname } from 'next/navigation';
-import { AuthProvider } from '@/lib/contexts/AuthContext';
 
-const pressStart2P = Press_Start_2P({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-});
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata = {
+  title: 'TRADR',
+  description: 'A game by Matt James',
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
-  // Determine if we should show the back button based on the current path
-  const showBack = !['/'].includes(pathname);
-
   return (
-    <html lang="en" className={pressStart2P.className}>
-      <body>
-        <AuthProvider>
-          <NavigationBar 
-            showBack={showBack}
-            xp={0} // This should be connected to your global state management
-            userAvatar={null} // This should be connected to your global state management
-          />
-          <div className="pt-14">
-            {children}
-          </div>
-        </AuthProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <NavigationBar />
+        {children}
       </body>
     </html>
   );

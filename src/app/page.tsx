@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 
 const CandlestickIcon = () => (
   <motion.div
@@ -39,127 +38,46 @@ const ComingSoonText = () => (
 );
 
 export default function Home() {
-  const router = useRouter();
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8 bg-white relative">
-      {/* Language selector */}
-      <div className="absolute top-4 right-4">
-        <button className="text-gray-600 text-xs">English ▾</button>
-      </div>
-
-      {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm mx-auto space-y-12">
-        {/* Logo section */}
-        <div className="text-center">
-          <CandlestickIcon />
-          <motion.h1 
-            className="game-title text-4xl font-bold tracking-tight text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-green-500">BUY</span>
-            {" "}or{" "}
-            <span className="text-red-500">SELL</span>
-          </motion.h1>
-          <p className="text-xs text-gray-500 italic">a game by matt james</p>
-        </div>
-
-        {/* Menu buttons */}
-        <div className="w-full space-y-6">
-          <motion.button 
-            className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
-            whileHover={{ scale: 1.03, y: -2 }}
+    <main className="min-h-screen bg-black text-white p-4">
+      <div className="max-w-lg mx-auto pt-20">
+        <div className="space-y-4">
+          {/* New Game Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => router.push('/auth')}
+            className="w-full bg-white hover:bg-gray-100 text-black font-bold py-6 rounded-xl flex items-center justify-center gap-3"
           >
-            <div className="flex items-center justify-center gap-3">
-              <motion.span 
-                className="text-2xl"
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                🎮
-              </motion.span>
-              <span className="font-bold">NEW GAME</span>
-            </div>
+            <span className="text-xl">NEW GAME</span>
           </motion.button>
 
-          <motion.button 
-            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
-            whileHover={{ scale: 1.02, y: -1 }}
+          {/* 1-1 Battle Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => router.push('/auth')}
+            className="w-full bg-[#333] hover:bg-[#444] text-white py-4 rounded-xl flex flex-col items-center justify-center"
           >
-            <div className="flex items-center justify-center gap-3">
-              <motion.span 
-                className="text-xl"
-                animate={{ rotateY: [0, 360] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                🏆
-              </motion.span>
-              <span>LEADERBOARD</span>
-            </div>
-          </motion.button>
-
-          <motion.button 
-            className="w-full py-4 bg-gray-200 text-gray-500 rounded-lg pixel-button pixel-border flex flex-col items-center justify-center cursor-not-allowed"
-            whileHover={{ scale: 1 }}
-          >
-            <div className="flex items-center justify-center gap-3">
-              <motion.span 
-                className="text-xl"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
-                ⚔️
-              </motion.span>
+            <div className="flex items-center gap-3">
               <span>1-1 BATTLE</span>
             </div>
-            <div className="mt-1 text-[10px] text-gray-500">
-              <ComingSoonText />
+            <div className="overflow-hidden w-full">
+              <div className="scroll-text">
+                <div className="scroll-text-content">
+                  COMPETE AGAINST OTHER TRADERS IN REAL-TIME
+                </div>
+              </div>
             </div>
           </motion.button>
+
+          {/* Leaderboard Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full bg-[#333] hover:bg-[#444] text-white py-4 rounded-xl flex items-center justify-center gap-3"
+          >
+            <span>LEADERBOARD</span>
+          </motion.button>
         </div>
-
-        {/* High score section */}
-        <motion.div 
-          className="w-full bg-yellow-100 rounded-lg p-6 text-center transform hover:scale-105 transition-transform"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <div className="border-b-2 border-yellow-200 pb-2 mb-3">
-            <p className="text-sm font-bold text-yellow-800">🌟 HIGHEST SCORE 🌟</p>
-          </div>
-          <div className="flex items-center justify-center space-x-4">
-            <div className="flex items-center">
-              <span className="text-xl mr-2">👑</span>
-              <span className="text-sm">ALEX_SS</span>
-            </div>
-            <span className="text-lg font-bold text-green-500">$487K</span>
-          </div>
-          <p className="text-xs text-yellow-700 mt-3 font-bold">CAN YOU BEAT IT?</p>
-        </motion.div>
-      </div>
-
-      {/* Footer */}
-      <div className="text-center space-y-2 mt-16 mb-4">
-        <motion.p 
-          className="text-xs text-gray-400"
-          animate={{
-            opacity: [0.5, 1, 0.5],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-          }}
-        >
-          INSERT COIN TO CONTINUE
-        </motion.p>
-        <p className="text-[10px] text-gray-300">A PRODUCTION BY MATT JAMES</p>
       </div>
     </main>
   );

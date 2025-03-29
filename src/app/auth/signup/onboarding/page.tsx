@@ -1,117 +1,77 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Image from 'next/image';
 
-export default function ProfileBuilderPage() {
+export default function OnboardingPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState({
-    username: '',
-    bio: '',
-    profilePicture: null as string | null,
-  });
-
-  const handleProfileChange = (field: string, value: string) => {
-    setProfile(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfile(prev => ({ ...prev, profilePicture: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
-    <main className="min-h-screen flex flex-col bg-white px-4">
-      {/* Header Section */}
-      <div className="pt-20 pb-4">
-        <div className="max-w-md mx-auto text-center space-y-3">
-          <h1 className="text-[32px] leading-tight tracking-wide">
-            BUILD YOUR
-            <br />
-            PROFILE
-          </h1>
-          <p className="text-gray-400 text-sm tracking-wide">Make it yours! 🎨</p>
-        </div>
-      </div>
+    <main className="min-h-screen bg-black text-white p-4">
+      <div className="max-w-lg mx-auto pt-20">
+        <div className="space-y-6">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-2">CREATE YOUR PROFILE</h1>
+            <p className="text-gray-400">Let's get to know you better</p>
+          </div>
 
-      {/* Live Preview Indicator */}
-      <div className="max-w-md mx-auto w-full flex items-center justify-end gap-2 mb-3">
-        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-        <span className="text-xs text-gray-400 tracking-wide">LIVE PREVIEW</span>
-      </div>
+          <div className="space-y-6">
+            {/* Profile Picture Upload */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-32 h-32 rounded-full bg-[#333] flex items-center justify-center">
+                <span className="text-4xl">📸</span>
+              </div>
+              <button className="text-sm text-gray-400 hover:text-white transition-colors">
+                Upload Photo
+              </button>
+            </div>
 
-      {/* Content Section */}
-      <div className="flex-1 max-w-md mx-auto w-full">
-        <div className="bg-white rounded-3xl p-6 space-y-8 pixel-border">
-          {/* Profile Info */}
-          <div className="space-y-8">
-            {/* Profile Picture */}
-            <div className="flex justify-center">
-              <label className="w-28 h-28 relative cursor-pointer rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center bg-white pixel-border">
-                {profile.profilePicture ? (
-                  <Image
-                    src={profile.profilePicture}
-                    alt="Profile"
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="text-center">
-                    <span className="text-2xl block mb-1">📷</span>
-                    <span className="text-[10px] text-gray-400">Upload Photo</span>
-                  </div>
-                )}
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                />
+            {/* Username Input */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-400">
+                Username
               </label>
-            </div>
-
-            {/* Username */}
-            <div className="space-y-2">
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">@</span>
-                <input
-                  type="text"
-                  value={profile.username}
-                  onChange={(e) => handleProfileChange('username', e.target.value)}
-                  className="w-full bg-white rounded-xl px-10 py-3 text-lg placeholder-gray-300 focus:outline-none pixel-border text-center tracking-wide"
-                  placeholder="username"
-                  maxLength={15}
-                />
-              </div>
-              <div className="text-xs text-gray-400 flex items-center gap-2 justify-center tracking-wide">
-                <span>🔗</span>
-                tradr.co/{profile.username || 'username'}
-              </div>
-            </div>
-
-            {/* Bio */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center px-1">
-                <label className="text-sm text-gray-400 tracking-wide">BIO</label>
-                <span className="text-xs text-gray-400">{profile.bio.length}/150</span>
-              </div>
-              <textarea
-                value={profile.bio}
-                onChange={(e) => handleProfileChange('bio', e.target.value)}
-                className="w-full bg-white rounded-xl p-4 text-lg resize-none focus:outline-none pixel-border tracking-wide"
-                placeholder="What's your trading style?"
-                rows={3}
-                maxLength={150}
+              <input
+                type="text"
+                placeholder="Choose a username"
+                className="w-full bg-[#333] text-white placeholder-gray-400 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white"
               />
             </div>
+
+            {/* Tradr.co Link */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-400">
+                Your Tradr.co Link
+              </label>
+              <div className="flex items-center gap-2 bg-[#333] rounded-xl px-4 py-3">
+                <span className="text-gray-400">tradr.co/</span>
+                <input
+                  type="text"
+                  placeholder="username"
+                  className="bg-transparent text-white placeholder-gray-400 focus:outline-none flex-1"
+                />
+              </div>
+            </div>
+
+            {/* Bio Input */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-400">
+                Bio
+              </label>
+              <textarea
+                placeholder="Tell us about yourself"
+                rows={4}
+                className="w-full bg-[#333] text-white placeholder-gray-400 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white resize-none"
+              ></textarea>
+            </div>
+
+            {/* Continue Button */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push('/')}
+              className="w-full bg-white hover:bg-gray-100 text-black font-bold py-4 rounded-xl flex items-center justify-center gap-3"
+            >
+              <span>COMPLETE PROFILE</span>
+            </motion.button>
           </div>
         </div>
       </div>
