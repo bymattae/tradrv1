@@ -8,9 +8,9 @@ export default function EmailSignupPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 bg-white">
-      <div className="w-full max-w-sm mx-auto space-y-4 sm:space-y-8">
+      <div className="flex flex-col items-center justify-center w-full max-w-sm mx-auto">
         {/* Logo section */}
-        <div className="text-center">
+        <div className="text-center mb-6 sm:mb-8">
           <motion.div
             animate={{
               y: [0, -5, 0],
@@ -37,7 +37,7 @@ export default function EmailSignupPage() {
         </div>
 
         {/* Email signup form */}
-        <div className="space-y-4 sm:space-y-6">
+        <div className="w-full space-y-4 sm:space-y-6 mb-6 sm:mb-8">
           <div className="space-y-1 sm:space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Enter your email
@@ -71,7 +71,7 @@ export default function EmailSignupPage() {
         </div>
 
         {/* Social login options */}
-        <div className="space-y-3 sm:space-y-4">
+        <div className="w-full space-y-3 sm:space-y-4 mb-4 sm:mb-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
@@ -117,7 +117,7 @@ export default function EmailSignupPage() {
 
         {/* Back button */}
         <motion.button 
-          className="w-full py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg pixel-button pixel-border flex items-center justify-center mt-2 sm:mt-4 text-sm sm:text-base"
+          className="w-full py-2 sm:py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg pixel-button pixel-border flex items-center justify-center text-sm sm:text-base mb-6 sm:mb-8"
           whileHover={{ scale: 1.02, y: -1 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => router.push('/auth')}
@@ -129,9 +129,9 @@ export default function EmailSignupPage() {
         </motion.button>
 
         {/* Footer */}
-        <div className="text-center space-y-1 sm:space-y-2 mt-2 sm:mt-8">
+        <div className="text-center">
           <motion.p 
-            className="text-xs text-gray-400"
+            className="text-xs text-gray-400 mb-1 sm:mb-2"
             animate={{
               opacity: [0.5, 1, 0.5],
             }}

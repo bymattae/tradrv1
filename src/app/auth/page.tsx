@@ -8,9 +8,9 @@ export default function AuthPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 bg-white">
-      <div className="w-full max-w-sm mx-auto space-y-6 sm:space-y-8">
+      <div className="flex flex-col items-center justify-center w-full max-w-sm mx-auto">
         {/* Logo section */}
-        <div className="text-center">
+        <div className="text-center mb-6 sm:mb-8">
           <motion.div
             animate={{
               y: [0, -5, 0],
@@ -37,7 +37,7 @@ export default function AuthPage() {
         </div>
 
         {/* Menu buttons */}
-        <div className="w-full space-y-4 sm:space-y-6">
+        <div className="w-full space-y-4 sm:space-y-6 mb-6 sm:mb-8">
           <motion.button
             className="w-full py-4 sm:py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-base sm:text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
@@ -75,9 +75,9 @@ export default function AuthPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-center space-y-1 sm:space-y-2 mt-4 sm:mt-8">
+        <div className="text-center">
           <motion.p 
-            className="text-xs text-gray-400"
+            className="text-xs text-gray-400 mb-1 sm:mb-2"
             animate={{
               opacity: [0.5, 1, 0.5],
             }}
