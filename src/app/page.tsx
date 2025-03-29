@@ -2,15 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { useState } from 'react';
-import { useAuth } from '../lib/hooks/useAuth';
 import PageTransition from './components/PageTransition';
 import BattleInviteModal from './components/BattleInviteModal';
 
 export default function Home() {
   const router = useRouter();
-  const { user } = useAuth();
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
 
   return (
@@ -82,16 +79,12 @@ export default function Home() {
             </h3>
             <div className="flex items-center justify-center gap-3">
               <div className="w-10 h-10 bg-gray-100 border-2 border-black rounded-none overflow-hidden">
-                {user?.photoURL ? (
-                  <Image src={user.photoURL} alt="Profile" width={40} height={40} />
-                ) : (
-                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-600 text-xl">👤</span>
-                  </div>
-                )}
+                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                  <span className="text-gray-600 text-xl">👤</span>
+                </div>
               </div>
               <div className="text-left">
-                <p className="text-sm font-bold">{user?.displayName || '@anonymous'}</p>
+                <p className="text-sm font-bold">@anonymous</p>
                 <p className="text-xl font-bold text-green-500 flex items-center gap-1">
                   +10,250
                   <motion.span
