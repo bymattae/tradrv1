@@ -1,47 +1,36 @@
-import Link from "next/link";
+'use client';
+import React from 'react';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8">
-      <div>
-        <h2 className="text-2xl font-semibold text-center border p-4 font-mono rounded-md">
-          Get started by choosing a template path from the /paths/ folder.
-        </h2>
-      </div>
-      <div>
-        <h1 className="text-6xl font-bold text-center">Make anything you imagine 🪄</h1>
-        <h2 className="text-2xl text-center font-light text-gray-500 pt-4">
-          This whole page will be replaced when you run your template path.
-        </h2>
-      </div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">AI Chat App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            An intelligent conversational app powered by AI models, featuring real-time responses
-            and seamless integration with Next.js and various AI providers.
-          </p>
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-gray-50">
+      <div className="text-center space-y-8">
+        <h1 className="text-6xl font-bold tracking-tight">
+          Buy or Sell
+        </h1>
+        <div className="space-y-4">
+          <button className="w-64 py-3 px-6 bg-green-400 hover:bg-green-500 text-white font-semibold rounded-lg transition-all">
+            NEW GAME
+          </button>
+          <div className="flex flex-col gap-2">
+            <button className="w-64 py-3 px-6 bg-purple-400 hover:bg-purple-500 text-white font-semibold rounded-lg transition-all">
+              LEADERBOARD
+            </button>
+            <button className="w-64 py-3 px-6 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-lg transition-all">
+              1-1 BATTLE
+            </button>
+          </div>
         </div>
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">AI Image Generation App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            Create images from text prompts using AI, powered by the Replicate API and Next.js.
-          </p>
+        <div className="mt-8 p-4 bg-yellow-50 rounded-lg">
+          <p className="font-semibold text-gray-700">HIGHEST SCORE</p>
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <span className="font-mono">ALEX_SS</span>
+            <span className="font-mono text-green-500">$487K</span>
+          </div>
+          <p className="text-sm text-gray-600 mt-1">CAN YOU BEAT IT?</p>
         </div>
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">Social Media App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            A feature-rich social platform with user profiles, posts, and interactions using
-            Firebase and Next.js.
-          </p>
-        </div>
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">Voice Notes App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            A voice-based note-taking app with real-time transcription using Deepgram API, 
-            Firebase integration for storage, and a clean, simple interface built with Next.js.
-          </p>
-        </div>
+        <p className="text-sm text-gray-500 mt-8">INSERT COIN TO CONTINUE</p>
+        <p className="text-xs text-gray-400">A PRODUCTION BY MATT JAMES</p>
       </div>
     </main>
   );
