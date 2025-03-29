@@ -15,63 +15,105 @@ export default function Home() {
     router.push('/auth');
   };
 
+  // Animation variants for the title
+  const titleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0
+    }
+  };
+
   return (
     <PageTransition>
-      <main className="min-h-screen flex flex-col bg-white">
+      <main className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-white to-green-50 opacity-50" />
+        <div className="absolute inset-0" style={{ 
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #000 1px, transparent 0)',
+          backgroundSize: '40px 40px',
+          opacity: 0.05
+        }} />
+        
         <NavBar variant="home" />
         
         {/* Content */}
-        <div className="flex-1 flex flex-col items-center px-4 pt-8 pb-4 gap-6">
+        <div className="flex-1 flex flex-col items-center px-4 pt-12 pb-4 gap-8 relative">
           {/* Header */}
           <div className="text-center">
             <motion.div
-              className="overflow-hidden"
+              variants={titleVariants}
+              initial="hidden"
+              animate="visible"
+              className="mb-4"
+            >
+              <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold" style={{ fontFamily: 'monospace' }}>
+                <motion.span 
+                  variants={letterVariants}
+                  className="text-yellow-500 hover:text-yellow-600 transition-colors cursor-default"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  BUY
+                </motion.span>
+                <motion.span 
+                  variants={letterVariants}
+                  className="text-black hover:text-gray-700 transition-colors cursor-default"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  OR
+                </motion.span>
+                <motion.span 
+                  variants={letterVariants}
+                  className="text-green-500 hover:text-green-600 transition-colors cursor-default"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  SELL
+                </motion.span>
+              </div>
+            </motion.div>
+            <motion.p 
+              className="text-base text-gray-600"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
+              transition={{ delay: 0.8 }}
+              style={{ fontFamily: 'monospace' }}
             >
-              <motion.h2 
-                className="text-3xl sm:text-4xl font-bold"
-                initial={{ y: 20 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                style={{ fontFamily: 'monospace' }}
-              >
-                <span className="text-yellow-500">BUY</span>{' '}
-                <span className="text-black">OR</span>{' '}
-                <span className="text-green-500">SELL</span>
-              </motion.h2>
-            </motion.div>
-            <motion.div
-              className="overflow-hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <motion.p 
-                className="text-sm mt-2 text-gray-600"
-                initial={{ y: 20 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                style={{ fontFamily: 'monospace' }}
-              >
-                The game for traders.
-              </motion.p>
-            </motion.div>
+              The game for traders.
+            </motion.p>
           </div>
 
           {/* Menu Buttons */}
           <div className="w-full max-w-sm space-y-6">
             <motion.button
-              className="w-full py-6 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-xl font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full py-6 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-xl font-bold gap-3 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group"
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
               onClick={handleNewGame}
             >
-              <span>NEW GAME</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-green-300 to-green-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+                animate={{ scale: [1, 1.5], rotate: [0, 90] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+              <span className="relative">NEW GAME</span>
               <motion.span
+                className="relative"
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -80,13 +122,20 @@ export default function Home() {
             </motion.button>
 
             <motion.button
-              className="w-full py-4 bg-gradient-to-r from-blue-400 to-blue-500 border-2 border-black text-black rounded-none flex flex-col items-center justify-center text-lg font-bold gap-1 transition-all duration-200 hover:from-blue-500 hover:to-blue-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full py-4 bg-gradient-to-r from-blue-400 to-blue-500 border-2 border-black text-black rounded-none flex flex-col items-center justify-center text-lg font-bold gap-1 transition-all duration-200 hover:from-blue-500 hover:to-blue-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group"
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <div className="flex items-center gap-2">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+                animate={{ scale: [1, 1.5], rotate: [0, 90] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+              <div className="relative flex items-center gap-2">
                 <span>1-1 BATTLE</span>
                 <motion.span
                   animate={{ rotate: [0, 15, -15, 0] }}
@@ -96,7 +145,7 @@ export default function Home() {
                 </motion.span>
               </div>
               <motion.span 
-                className="text-xs opacity-70"
+                className="text-xs opacity-70 relative"
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -105,14 +154,22 @@ export default function Home() {
             </motion.button>
 
             <motion.button
-              className="w-full py-4 bg-gradient-to-r from-purple-400 to-purple-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-purple-500 hover:to-purple-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full py-4 bg-gradient-to-r from-purple-400 to-purple-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-purple-500 hover:to-purple-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group"
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <span>LEADERBOARD</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-purple-300 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+                animate={{ scale: [1, 1.5], rotate: [0, 90] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+              <span className="relative">LEADERBOARD</span>
               <motion.span
+                className="relative"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
@@ -123,14 +180,21 @@ export default function Home() {
 
           {/* High Score */}
           <motion.div 
-            className="w-full max-w-sm bg-gradient-to-r from-yellow-100 to-yellow-200 border-2 border-black rounded-none p-4 text-center space-y-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="w-full max-w-sm bg-gradient-to-r from-yellow-100 to-yellow-200 border-2 border-black rounded-none p-4 text-center space-y-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
+            whileHover={{ scale: 1.02 }}
           >
-            <h3 className="font-bold">HIGHEST SCORE</h3>
-            <p className="text-3xl font-bold text-green-500">+10,250</p>
-            <div className="flex items-center justify-center gap-2">
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-yellow-50 to-yellow-100"
+              initial={false}
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            <h3 className="font-bold relative">HIGHEST SCORE</h3>
+            <p className="text-3xl font-bold text-green-500 relative">+10,250</p>
+            <div className="flex items-center justify-center gap-2 relative">
               {user?.photoURL ? (
                 <Image
                   src={user.photoURL}
@@ -140,7 +204,7 @@ export default function Home() {
                   className="border-2 border-black"
                 />
               ) : (
-                <div className="w-8 h-8 bg-gray-200 border-2 border-black flex items-center justify-center">
+                <div className="w-8 h-8 bg-gray-100 border-2 border-black flex items-center justify-center">
                   👤
                 </div>
               )}
