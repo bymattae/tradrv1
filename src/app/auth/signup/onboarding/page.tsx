@@ -12,7 +12,7 @@ export default function OnboardingPage() {
         <div className="space-y-6">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-2">CREATE YOUR PROFILE</h1>
-            <p className="text-gray-400">Let's get to know you better</p>
+            <p className="text-gray-400">Let&apos;s get to know you better</p>
           </div>
 
           <div className="space-y-6">

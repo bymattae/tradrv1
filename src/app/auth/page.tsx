@@ -16,7 +16,7 @@ export default function AuthPage() {
             onClick={() => router.push('/auth/signup/email')}
             className="w-full bg-white hover:bg-gray-100 text-black font-bold py-6 rounded-xl flex items-center justify-center gap-3"
           >
-            <span className="text-xl">I'M NEW HERE</span>
+            <span className="text-xl">I&apos;M NEW HERE</span>
           </motion.button>
 
           <motion.button
