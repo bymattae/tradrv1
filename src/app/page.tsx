@@ -3,12 +3,15 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useAuth } from '../lib/hooks/useAuth';
 import PageTransition from './components/PageTransition';
+import BattleInviteModal from './components/BattleInviteModal';
 
 export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
 
   return (
     <PageTransition>
@@ -121,6 +124,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
+              onClick={() => setIsInviteModalOpen(true)}
             >
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-blue-300/20 to-transparent"
@@ -254,6 +258,11 @@ export default function Home() {
             box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
           }
         `}</style>
+
+        <BattleInviteModal 
+          isOpen={isInviteModalOpen}
+          onClose={() => setIsInviteModalOpen(false)}
+        />
       </main>
     </PageTransition>
   );
