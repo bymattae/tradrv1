@@ -29,111 +29,89 @@ export default function ProfileBuilderPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col bg-white">
+    <main className="min-h-screen flex flex-col bg-white px-4">
       {/* Header Section */}
-      <div className="pt-24 pb-6 px-4">
-        <div className="max-w-md mx-auto text-center space-y-2">
-          <h1 className="text-2xl sm:text-3xl">
-            BUILD YOUR PROFILE
+      <div className="pt-20 pb-4">
+        <div className="max-w-md mx-auto text-center space-y-3">
+          <h1 className="text-[32px] leading-tight tracking-wide">
+            BUILD YOUR
+            <br />
+            PROFILE
           </h1>
-          <p className="text-xs sm:text-sm text-gray-500">Make it yours! 🎨</p>
+          <p className="text-gray-400 text-sm tracking-wide">Make it yours! 🎨</p>
         </div>
       </div>
 
+      {/* Live Preview Indicator */}
+      <div className="max-w-md mx-auto w-full flex items-center justify-end gap-2 mb-3">
+        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+        <span className="text-xs text-gray-400 tracking-wide">LIVE PREVIEW</span>
+      </div>
+
       {/* Content Section */}
-      <div className="flex-1 px-4 pb-8">
-        <div className="max-w-md mx-auto">
-          {/* Live Preview Label */}
-          <div className="flex items-center justify-end gap-2 mb-3">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-[10px] uppercase text-gray-500">Live Preview</span>
-          </div>
-
-          {/* Main Card */}
-          <div className="bg-gray-50 rounded-xl p-6 space-y-8 pixel-border">
-            {/* Profile Info */}
-            <div className="space-y-8">
-              {/* Profile Picture and Username */}
-              <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-                <label className="w-24 h-24 shrink-0 relative cursor-pointer rounded-xl overflow-hidden border-2 border-dashed border-gray-300 hover:border-green-500 transition-colors flex items-center justify-center bg-white pixel-border">
-                  {profile.profilePicture ? (
-                    <Image
-                      src={profile.profilePicture}
-                      alt="Profile"
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="text-center">
-                      <span className="text-2xl block mb-1">📷</span>
-                      <span className="text-[10px] text-gray-500">Upload Photo</span>
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleImageUpload}
+      <div className="flex-1 max-w-md mx-auto w-full">
+        <div className="bg-white rounded-3xl p-6 space-y-8 pixel-border">
+          {/* Profile Info */}
+          <div className="space-y-8">
+            {/* Profile Picture */}
+            <div className="flex justify-center">
+              <label className="w-28 h-28 relative cursor-pointer rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center bg-white pixel-border">
+                {profile.profilePicture ? (
+                  <Image
+                    src={profile.profilePicture}
+                    alt="Profile"
+                    fill
+                    className="object-cover"
                   />
-                </label>
-                <div className="flex-1 w-full sm:w-auto space-y-2">
-                  <div className="relative">
-                    <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-sm">@</span>
-                    <input
-                      type="text"
-                      value={profile.username}
-                      onChange={(e) => handleProfileChange('username', e.target.value)}
-                      className="w-full bg-white rounded-lg pl-7 pr-3 py-2 text-sm placeholder-gray-400 focus:outline-none pixel-border"
-                      placeholder="username"
-                      maxLength={15}
-                    />
+                ) : (
+                  <div className="text-center">
+                    <span className="text-2xl block mb-1">📷</span>
+                    <span className="text-[10px] text-gray-400">Upload Photo</span>
                   </div>
-                  <div className="text-[10px] text-gray-500 flex items-center gap-2 justify-center sm:justify-start">
-                    <span>🔗</span>
-                    tradr.co/{profile.username || 'username'}
-                  </div>
-                </div>
-              </div>
+                )}
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              </label>
+            </div>
 
-              {/* Bio */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center px-1">
-                  <label className="text-xs text-gray-600">BIO</label>
-                  <span className="text-[10px] text-gray-500">{profile.bio.length}/150</span>
-                </div>
-                <textarea
-                  value={profile.bio}
-                  onChange={(e) => handleProfileChange('bio', e.target.value)}
-                  className="w-full bg-white rounded-lg p-3 text-sm resize-none focus:outline-none pixel-border"
-                  placeholder="What's your trading style? 📈"
-                  rows={3}
-                  maxLength={150}
+            {/* Username */}
+            <div className="space-y-2">
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">@</span>
+                <input
+                  type="text"
+                  value={profile.username}
+                  onChange={(e) => handleProfileChange('username', e.target.value)}
+                  className="w-full bg-white rounded-xl px-10 py-3 text-lg placeholder-gray-300 focus:outline-none pixel-border text-center tracking-wide"
+                  placeholder="username"
+                  maxLength={15}
                 />
               </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="text-center bg-white rounded-lg p-3 pixel-border">
-                  <div className="text-lg font-bold">0</div>
-                  <div className="text-[10px] text-gray-500 mt-1">YOUR XP</div>
-                </div>
-                <div className="text-center bg-white rounded-lg p-3 pixel-border">
-                  <div className="text-lg font-bold">0</div>
-                  <div className="text-[10px] text-gray-500 mt-1">HIGHEST STREAK</div>
-                </div>
+              <div className="text-xs text-gray-400 flex items-center gap-2 justify-center tracking-wide">
+                <span>🔗</span>
+                tradr.co/{profile.username || 'username'}
               </div>
             </div>
 
-            {/* Save Profile Button */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => router.push('/game')}
-              className="w-full py-3 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button flex items-center justify-center gap-2"
-            >
-              <span>✨</span>
-              <span className="text-sm">SAVE PROFILE</span>
-            </motion.button>
+            {/* Bio */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center px-1">
+                <label className="text-sm text-gray-400 tracking-wide">BIO</label>
+                <span className="text-xs text-gray-400">{profile.bio.length}/150</span>
+              </div>
+              <textarea
+                value={profile.bio}
+                onChange={(e) => handleProfileChange('bio', e.target.value)}
+                className="w-full bg-white rounded-xl p-4 text-lg resize-none focus:outline-none pixel-border tracking-wide"
+                placeholder="What's your trading style?"
+                rows={3}
+                maxLength={150}
+              />
+            </div>
           </div>
         </div>
       </div>
