@@ -46,6 +46,11 @@ body {
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
 }
 
+.pixel-border-bottom {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.05);
+}
+
 /* Add shimmer effect to the high score section */
 .high-score-shimmer {
   background: linear-gradient(
@@ -64,26 +69,17 @@ body {
 }
 
 /* Scrolling text animation */
-.scroll-text-container {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-}
-
 .scroll-text {
   display: inline-block;
   padding-right: 2rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .scroll-text-content {
   display: inline-flex;
   animation: scrollText 20s linear infinite;
   padding: 0 1rem;
-}
-
-.scroll-text-content span {
-  margin-right: 20px;
 }
 
 @keyframes scrollText {
