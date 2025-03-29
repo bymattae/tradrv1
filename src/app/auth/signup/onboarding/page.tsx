@@ -67,7 +67,7 @@ export default function OnboardingPage() {
             CREATE PROFILE
           </motion.h2>
           <motion.p
-            className="text-sm text-gray-600"
+            className="text-base text-gray-600"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
