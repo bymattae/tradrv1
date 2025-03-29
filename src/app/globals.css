@@ -7,12 +7,16 @@
 
 :root {
   /* Brand Colors */
-  --color-primary: #16C784;
-  --color-secondary: #FF4B4B;
-  --color-accent: #FFB800;
-  --color-black: #1A1A1A;
+  --color-primary: #00C087;
+  --color-secondary: #F3F4F6;
+  --color-text: #111827;
+  --color-text-secondary: #6B7280;
+  --color-border: #E5E7EB;
+  --color-success: #16C784;
+  --color-danger: #EA3943;
   
   /* Gradients */
+  --gradient-hero: linear-gradient(135deg, #E1FFE8 0%, #E5F4FF 100%);
   --gradient-success: linear-gradient(135deg, #16C784 0%, #0F9F6B 100%);
   --gradient-danger: linear-gradient(135deg, #FF4B4B 0%, #E03131 100%);
   --gradient-warning: linear-gradient(135deg, #FFB800 0%, #F59F00 100%);
@@ -29,6 +33,11 @@
   html {
     font-family: 'Inter', sans-serif;
     background: #FFFFFF;
+    color: var(--color-text);
+  }
+
+  body {
+    @apply antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -37,6 +46,62 @@
 }
 
 @layer components {
+  .nav-link {
+    @apply px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors;
+  }
+
+  .nav-link.active {
+    @apply text-gray-900 font-medium;
+  }
+
+  .mission-card {
+    @apply bg-white rounded-2xl p-4 flex items-center justify-between border border-gray-100 hover:border-gray-200 transition-colors;
+  }
+
+  .tournament-card {
+    @apply bg-white rounded-2xl p-6 border border-gray-100 hover:border-gray-200 transition-all;
+  }
+
+  .stats-card {
+    @apply flex flex-col items-center p-6 bg-gray-50 rounded-2xl;
+  }
+
+  .stats-value {
+    @apply text-3xl font-bold text-gray-900;
+  }
+
+  .stats-label {
+    @apply text-sm text-gray-600 mt-1;
+  }
+
+  .button-primary {
+    @apply px-4 py-2 bg-[#00C087] text-white font-medium rounded-lg hover:bg-[#00A877] transition-colors;
+  }
+
+  .button-secondary {
+    @apply px-4 py-2 bg-gray-50 text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors;
+  }
+
+  .badge {
+    @apply px-2 py-1 text-xs font-medium rounded-full;
+  }
+
+  .badge-live {
+    @apply bg-green-50 text-green-700;
+  }
+
+  .badge-soon {
+    @apply bg-gray-50 text-gray-600;
+  }
+
+  .progress-bar {
+    @apply h-2 bg-gray-100 rounded-full overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full bg-[#00C087] rounded-full transition-all;
+  }
+
   .mario-card {
     @apply bg-gradient-to-b from-white to-gray-50 rounded-xl p-4 relative;
     box-shadow: var(--shadow-mario);
@@ -53,46 +118,6 @@
     pointer-events: none;
   }
 
-  .stats-value {
-    @apply text-2xl font-bold;
-    font-family: 'Press Start 2P', cursive;
-    color: var(--color-primary);
-    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-  }
-
-  .button-primary {
-    @apply px-6 py-4 rounded-xl font-bold text-white transition-all duration-200 relative overflow-hidden;
-    background: var(--gradient-success);
-    box-shadow: var(--shadow-mario);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .button-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.5s ease;
-  }
-
-  .button-primary:hover::after {
-    transform: translateX(100%);
-  }
-
-  .button-secondary {
-    @apply px-6 py-4 rounded-xl font-bold transition-all duration-200 relative overflow-hidden;
-    background: white;
-    color: var(--color-black);
-    box-shadow: var(--shadow-mario);
-    border: 2px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .button-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
-  }
-
   .live-badge {
     @apply px-3 py-1 rounded-full text-xs font-bold;
     background: var(--gradient-success);
@@ -106,6 +131,24 @@
     color: white;
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
   }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-300;
 }
 
 /* Mobile-first media queries */
