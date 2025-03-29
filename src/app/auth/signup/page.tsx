@@ -36,7 +36,7 @@ export default function SignUpPage() {
           </motion.h1>
         </div>
 
-        {/* Sign up options */}
+        {/* Get Started section */}
         <div className="space-y-4">
           <motion.button 
             className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
@@ -50,27 +50,9 @@ export default function SignUpPage() {
                 animate={{ rotate: [0, 15, -15, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                ✉️
+                🚀
               </motion.span>
-              <span className="font-bold">SIGN UP WITH EMAIL</span>
-            </div>
-          </motion.button>
-
-          <motion.button 
-            className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => router.push('/auth/signup/google')}
-          >
-            <div className="flex items-center justify-center gap-3">
-              <motion.span 
-                className="text-xl"
-                animate={{ rotateY: [0, 360] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                🔑
-              </motion.span>
-              <span>CONTINUE WITH GOOGLE</span>
+              <span className="font-bold">GET STARTED</span>
             </div>
           </motion.button>
 
