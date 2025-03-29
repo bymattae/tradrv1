@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <PageTransition>
-      <div className="min-h-[100dvh] bg-white px-4 py-6">
+      <div className="min-h-[100dvh] bg-white px-4 py-6 flex flex-col items-center justify-center">
         {/* Game Title */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -61,7 +61,7 @@ export default function Home() {
 
         {/* High Score Card */}
         <motion.div
-          className="bg-white border-2 border-black rounded-none p-4 w-full max-w-sm mx-auto mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="bg-white border-2 border-black rounded-none p-4 w-full max-w-sm mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.7 }}
@@ -100,7 +100,7 @@ export default function Home() {
         </motion.div>
 
         {/* Game Buttons */}
-        <div className="flex flex-col gap-4 w-full max-w-sm mx-auto">
+        <div className="flex flex-col gap-4 w-full max-w-sm">
           <motion.button
             onClick={() => router.push('/auth')}
             className="game-btn bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600"
