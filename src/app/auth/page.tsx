@@ -52,7 +52,7 @@ export default function AuthPage() {
               >
                 🎮
               </motion.span>
-              <span className="font-bold">I'M NEW HERE</span>
+              <span className="font-bold">I&apos;M NEW HERE</span>
             </div>
           </motion.button>
 
