@@ -11,31 +11,40 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col bg-white">
-      {/* Nav Bar */}
-      <div className="w-full border-b border-black p-4">
-        <h1 className="text-xl font-bold text-center">TRADR</h1>
-      </div>
-
       {/* Content */}
       <div className="flex-1 flex flex-col items-center p-4 gap-6">
         {/* Header */}
         <div className="text-center pt-12 pb-8">
-          <motion.h2 
-            className="text-3xl font-bold"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            BUY OR SELL
-          </motion.h2>
-          <motion.p 
-            className="text-sm mt-1"
+          <motion.div
+            className="overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            transition={{ duration: 0.6 }}
           >
-            The game for traders.
-          </motion.p>
+            <motion.h2 
+              className="text-3xl font-bold"
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              BUY OR SELL
+            </motion.h2>
+          </motion.div>
+          <motion.div
+            className="overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <motion.p 
+              className="text-sm mt-1"
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              The game for traders.
+            </motion.p>
+          </motion.div>
         </div>
 
         {/* Menu Buttons */}
