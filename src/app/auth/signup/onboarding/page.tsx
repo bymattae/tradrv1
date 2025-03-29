@@ -44,138 +44,118 @@ export default function OnboardingPage() {
       <main className="min-h-screen flex flex-col bg-white">
         <NavBar variant="onboarding" step={3} />
         
-        {/* Header Section - Fixed at top */}
-        <div className="w-full p-8 text-center space-y-4">
-          <motion.div 
-            className="flex justify-center items-center gap-4 text-sm mb-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <span className="w-6 h-6 border-2 border-black rounded-full flex items-center justify-center opacity-30 text-xs">✓</span>
-            <div className="w-8 h-0.5 bg-black"></div>
-            <span className="w-6 h-6 border-2 border-black rounded-full flex items-center justify-center opacity-30 text-xs">✓</span>
-            <div className="w-8 h-0.5 bg-black"></div>
-            <span className="w-6 h-6 border-2 border-black rounded-full flex items-center justify-center bg-yellow-300 text-xs">3</span>
-          </motion.div>
-
+        {/* Content */}
+        <div className="flex-1 flex flex-col items-center p-4">
           <motion.h2 
-            className="text-4xl font-bold"
+            className="text-4xl font-bold mt-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            style={{ fontFamily: 'monospace' }}
           >
             CREATE PROFILE
           </motion.h2>
           <motion.p
-            className="text-sm text-gray-600"
+            className="text-sm text-gray-600 mb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
+            style={{ fontFamily: 'monospace' }}
           >
             Set up your trading profile
           </motion.p>
-        </div>
 
-        {/* Content Section - Scrollable */}
-        <div className="flex-1 flex flex-col items-center p-4 overflow-y-auto">
-          <div className="w-full max-w-sm">
-            <motion.div 
-              className="space-y-6 border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              {/* Profile Picture */}
-              <div className="flex justify-center">
-                <label className="relative cursor-pointer group">
-                  <div className="w-24 h-24 border-2 border-black flex items-center justify-center overflow-hidden transition-all duration-200 group-hover:border-yellow-300">
-                    {avatarPreview ? (
-                      <Image
-                        src={avatarPreview}
-                        alt="Avatar preview"
-                        width={96}
-                        height={96}
-                        className="object-cover"
-                      />
-                    ) : (
-                      <motion.div 
-                        className="text-center p-2"
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <span className="text-xl">📸</span>
-                        <div className="text-[10px] text-gray-500 mt-1">Click to upload</div>
-                      </motion.div>
-                    )}
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleAvatarUpload}
-                  />
-                </label>
-              </div>
-
-              {/* Username */}
-              <div className="space-y-1">
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border-2 border-black rounded-none text-lg text-center transition-all duration-200 focus:border-yellow-300"
-                    placeholder="@Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                  {username.length > 0 && (
+          <div className="w-full max-w-sm space-y-6">
+            {/* Profile Picture */}
+            <div className="flex justify-center">
+              <label className="relative cursor-pointer group">
+                <div className="w-24 h-24 border-2 border-black flex items-center justify-center overflow-hidden transition-all duration-200 group-hover:border-yellow-300">
+                  {avatarPreview ? (
+                    <Image
+                      src={avatarPreview}
+                      alt="Avatar preview"
+                      width={96}
+                      height={96}
+                      className="object-cover"
+                    />
+                  ) : (
                     <motion.div 
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      className="text-center p-2"
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
                     >
-                      {isUsernameAvailable ? '✅' : '❌'}
+                      <span className="text-xl">📸</span>
+                      <div className="text-[10px] text-gray-500 mt-1">Click to upload</div>
                     </motion.div>
                   )}
                 </div>
-                <motion.p 
-                  className="text-sm text-center"
-                  animate={{ 
-                    color: isUsernameAvailable ? '#059669' : '#DC2626'
-                  }}
-                >
-                  tradr.co/@{username || 'username'}
-                </motion.p>
-              </div>
-
-              {/* Bio */}
-              <div className="space-y-2">
-                <textarea
-                  className="w-full p-4 border-2 border-black rounded-none text-lg resize-none transition-all duration-200 focus:border-yellow-300"
-                  placeholder="Write your bio ✍️"
-                  rows={2}
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  maxLength={160}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarUpload}
                 />
-                <div className="flex justify-end">
-                  <span className="text-xs text-gray-500">{bio.length}/160</span>
-                </div>
-              </div>
+              </label>
+            </div>
 
-              {/* Complete Button */}
-              <motion.button
-                className="w-full py-4 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
-                onClick={handleComplete}
+            {/* Username */}
+            <div className="space-y-1">
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 border-2 border-black rounded-none text-lg text-center transition-all duration-200 focus:border-yellow-300"
+                  placeholder="@Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {username.length > 0 && (
+                  <motion.div 
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                  >
+                    {isUsernameAvailable ? '✅' : '❌'}
+                  </motion.div>
+                )}
+              </div>
+              <motion.p 
+                className="text-sm text-center"
+                animate={{ 
+                  color: isUsernameAvailable ? '#059669' : '#DC2626'
+                }}
               >
-                <span>COMPLETE</span>
-                <motion.span
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  🎮
-                </motion.span>
-              </motion.button>
-            </motion.div>
+                tradr.co/@{username || 'username'}
+              </motion.p>
+            </div>
+
+            {/* Bio */}
+            <div className="space-y-2">
+              <textarea
+                className="w-full p-4 border-2 border-black rounded-none text-lg resize-none transition-all duration-200 focus:border-yellow-300"
+                placeholder="Write your bio ✍️"
+                rows={2}
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                maxLength={160}
+              />
+              <div className="flex justify-end">
+                <span className="text-xs text-gray-500">{bio.length}/160</span>
+              </div>
+            </div>
+
+            {/* Complete Button */}
+            <motion.button
+              className="w-full py-4 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
+              onClick={handleComplete}
+            >
+              <span>COMPLETE</span>
+              <motion.span
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🎮
+              </motion.span>
+            </motion.button>
           </div>
         </div>
       </main>
