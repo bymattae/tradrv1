@@ -2,39 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   /* Brand Colors */
-  --color-primary: #00C087;
-  --color-secondary: #F3F4F6;
-  --color-text: #111827;
-  --color-text-secondary: #6B7280;
-  --color-border: #E5E7EB;
-  --color-success: #16C784;
-  --color-danger: #EA3943;
-  
-  /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #E1FFE8 0%, #E5F4FF 100%);
-  --gradient-success: linear-gradient(135deg, #16C784 0%, #0F9F6B 100%);
-  --gradient-danger: linear-gradient(135deg, #FF4B4B 0%, #E03131 100%);
-  --gradient-warning: linear-gradient(135deg, #FFB800 0%, #F59F00 100%);
-  --gradient-card: linear-gradient(135deg, #FFFFFF 0%, #F8F9FF 100%);
+  --color-primary: #0079D3;
+  --color-success: #28a745;
+  --color-danger: #F08080;
+  --color-xp: #90EE90;
+  --color-text: #1A1A1B;
+  --color-text-secondary: #7C7C7C;
+  --color-border: #D3D3D3;
+  --color-background: #F8F8F8;
+  --color-card: #FFFFFF;
+  --color-nav: #F0F0F0;
   
   /* Shadows */
-  --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0px 4px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0px 8px 16px rgba(0, 0, 0, 0.12);
-  --shadow-retro: 3px 3px 0px rgba(0, 0, 0, 0.8);
+  --shadow-sm: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 5px var(--color-success);
 }
 
 @layer base {
   html {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #FFFFFF;
+    background: var(--color-background);
     color: var(--color-text);
   }
 
@@ -43,126 +39,109 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Roboto Slab', Georgia, serif;
     @apply font-bold tracking-tight;
   }
 }
 
 @layer components {
   .nav-link {
-    @apply p-2 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors md:px-4 md:py-2;
+    @apply p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-all md:px-4 md:py-2;
   }
 
   .nav-link.active {
-    @apply text-gray-900 font-medium bg-gray-50;
-    box-shadow: var(--shadow-retro);
-    transform: translate(-1px, -1px);
-  }
-
-  .nav-link.active:hover {
-    transform: translate(0px, 0px);
-    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+    @apply text-[#0079D3] font-medium bg-blue-50;
+    animation: tabSelect 0.3s ease-out;
   }
 
   .mission-card {
-    @apply bg-white rounded-xl p-4 flex items-center justify-between border-2 border-black transition-all;
-    box-shadow: var(--shadow-retro);
+    @apply bg-white rounded-lg p-4 flex items-center justify-between border border-[#D3D3D3] transition-all;
+    box-shadow: var(--shadow-sm);
   }
 
   .mission-card:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
-  }
-
-  .tournament-card {
-    @apply bg-white rounded-xl p-4 border-2 border-black transition-all md:p-6 md:rounded-2xl;
-    box-shadow: var(--shadow-retro);
+    @apply border-[#0079D3];
+    box-shadow: var(--shadow-md);
   }
 
   .stats-card {
-    @apply flex flex-col items-center p-4 bg-white rounded-xl border-2 border-black md:p-6 md:rounded-2xl;
-    box-shadow: var(--shadow-retro);
+    @apply flex flex-col items-center p-4 bg-white rounded-lg border border-[#D3D3D3] md:p-6;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .stats-card:hover {
+    box-shadow: var(--shadow-md);
   }
 
   .stats-value {
-    font-family: 'Space Grotesk', monospace;
-    @apply text-2xl font-bold text-gray-900 md:text-3xl;
+    font-family: 'Roboto Slab', Georgia, serif;
+    @apply text-3xl font-bold text-[#0079D3] md:text-4xl;
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
-    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
   }
 
   .stats-label {
-    @apply text-xs font-bold text-gray-600 mt-1 md:text-sm;
-    letter-spacing: 0.05em;
+    @apply text-sm font-semibold text-gray-600 mt-2 md:text-base;
+    font-family: 'Open Sans', sans-serif;
   }
 
   .button-primary {
-    @apply px-3 py-2 bg-[#00C087] text-white font-bold rounded-lg text-sm md:px-4 md:py-2 border-2 border-black transition-all;
-    box-shadow: var(--shadow-retro);
+    @apply px-4 py-2 bg-[#0079D3] text-white font-semibold rounded-lg text-sm md:px-6 md:py-3 
+    border border-[#D3D3D3] transition-all hover:bg-[#006CBD];
+    box-shadow: var(--shadow-sm);
   }
 
   .button-primary:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+    box-shadow: var(--shadow-md);
   }
 
-  .button-primary:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+  .button-claim {
+    @apply px-4 py-2 text-white font-semibold rounded-lg text-sm transition-all;
   }
 
-  .button-secondary {
-    @apply px-3 py-2 bg-gray-50 text-gray-900 font-bold rounded-lg text-sm md:px-4 md:py-2 border-2 border-black transition-all;
-    box-shadow: var(--shadow-retro);
+  .button-claim:not(:disabled) {
+    @apply bg-[#28a745] hover:bg-[#218838];
   }
 
-  .button-secondary:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+  .button-claim:not(:disabled):hover {
+    box-shadow: 0 0 5px #28a745;
   }
 
-  .button-secondary:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+  .button-claim:disabled {
+    @apply bg-gray-400 cursor-not-allowed;
   }
 
   .badge {
-    @apply px-2 py-1 text-xs font-bold rounded-full border border-black;
+    @apply px-2 py-1 text-xs font-semibold rounded-full;
+  }
+
+  .badge-xp {
+    @apply bg-[#90EE90] text-[#006400];
   }
 
   .badge-live {
-    @apply bg-green-50 text-green-700;
-  }
-
-  .badge-soon {
-    @apply bg-gray-50 text-gray-600;
-  }
-
-  .progress-bar {
-    @apply h-1.5 bg-gray-100 rounded-full overflow-hidden border border-black md:h-2;
-  }
-
-  .progress-bar-fill {
-    @apply h-full bg-[#00C087] rounded-full transition-all;
+    @apply bg-blue-50 text-[#0079D3];
   }
 
   .icon-box {
-    @apply flex items-center justify-center rounded-xl transition-transform;
-    box-shadow: var(--shadow-retro);
-    border: 2px solid black;
+    @apply flex items-center justify-center rounded-lg transition-transform bg-white;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
   }
 
   .icon-box:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+    box-shadow: var(--shadow-md);
+  }
+
+  .meme-icon {
+    @apply w-8 h-8 md:w-10 md:h-10 object-cover rounded;
   }
 }
 
 /* Mobile-first media queries */
 @media (max-width: 768px) {
   .sidebar {
-    @apply fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black p-2 z-50;
+    @apply fixed bottom-0 left-0 right-0 bg-[#F0F0F0] border-t border-[#D3D3D3] p-2 z-50;
   }
 
   .sidebar-nav {
@@ -178,7 +157,7 @@
   }
 
   .nav-top {
-    @apply px-4 border-b-2 border-black;
+    @apply px-4 border-b border-[#D3D3D3] bg-white;
   }
 
   .nav-top .nav-link {
@@ -191,39 +170,25 @@
   }
 }
 
-/* Custom Scrollbar - Only on desktop */
-@media (min-width: 768px) {
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full border border-black;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-300;
-  }
+/* Animations */
+@keyframes tabSelect {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
-/* Retro animations */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px) rotate(2deg); }
+  50% { transform: translateY(-4px); }
 }
 
 .float-animation {
-  animation: float 2s infinite ease-in-out;
+  animation: float 3s infinite ease-in-out;
 }
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.02); }
 }
 
 .pulse-animation {
