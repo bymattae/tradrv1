@@ -22,6 +22,16 @@ export default function OnboardingPage() {
     }
   }, [username]);
 
+  const handleComplete = () => {
+    // Animate out
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.3s ease';
+    
+    setTimeout(() => {
+      router.push('/');
+    }, 300);
+  };
+
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -37,59 +47,43 @@ export default function OnboardingPage() {
     <main className="min-h-screen flex flex-col bg-white">
       {/* Header Section - Fixed at top */}
       <div className="w-full p-8 text-center space-y-4">
-        <div className="flex justify-center items-center gap-4 text-sm">
-          <motion.div 
-            className="flex items-center"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center bg-yellow-300">1</span>
-            <div className="w-12 h-0.5 bg-black"></div>
-          </motion.div>
-          <motion.div 
-            className="flex items-center"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center">2</span>
-            <div className="w-12 h-0.5 bg-black"></div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center">3</span>
-          </motion.div>
-        </div>
+        <motion.div 
+          className="flex justify-center items-center gap-4 text-sm mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center opacity-30">✓</span>
+          <div className="w-12 h-0.5 bg-black"></div>
+          <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center opacity-30">✓</span>
+          <div className="w-12 h-0.5 bg-black"></div>
+          <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center bg-yellow-300">3</span>
+        </motion.div>
+
         <motion.h2 
           className="text-2xl font-bold"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          BUILD YOUR PROFILE
+          STEP THREE
         </motion.h2>
-        <motion.div 
-          className="flex items-center justify-center gap-2"
+        <motion.p
+          className="text-sm text-gray-600"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.2 }}
         >
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-sm">LIVE PREVIEW</span>
-        </motion.div>
+          Build your profile
+        </motion.p>
       </div>
 
       {/* Content Section - Scrollable */}
       <div className="flex-1 flex flex-col items-center p-4 overflow-y-auto">
         <div className="w-full max-w-sm">
           <motion.div 
-            className="space-y-6 border-2 border-black p-6"
+            className="space-y-6 border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.3 }}
           >
             {/* Profile Picture */}
             <div className="flex justify-center">
@@ -105,13 +99,12 @@ export default function OnboardingPage() {
                     />
                   ) : (
                     <motion.div 
-                      className="text-center"
+                      className="text-center p-2"
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <span className="text-2xl">📸</span>
-                      <br />
-                      <span className="text-xs text-gray-500">Click to upload</span>
+                      <span className="text-xl">📸</span>
+                      <div className="text-[10px] text-gray-500 mt-1">Click to upload</div>
                     </motion.div>
                   )}
                 </div>
@@ -129,7 +122,7 @@ export default function OnboardingPage() {
               <div className="relative">
                 <input
                   type="text"
-                  className="w-full px-4 py-3 border-2 border-black rounded-none text-lg text-center"
+                  className="w-full px-4 py-3 border-2 border-black rounded-none text-lg text-center transition-all duration-200 focus:border-yellow-300"
                   placeholder="@Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -171,9 +164,9 @@ export default function OnboardingPage() {
 
             {/* Complete Button */}
             <motion.button
-              className="w-full py-4 bg-yellow-300 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:bg-yellow-400"
-              whileTap={{ scale: 0.98 }}
-              onClick={() => router.push('/')}
+              className="w-full py-4 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
+              onClick={handleComplete}
             >
               <span>COMPLETE</span>
               <motion.span
