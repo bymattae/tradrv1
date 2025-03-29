@@ -83,66 +83,83 @@ export default function Home() {
           </motion.div>
 
           {/* Game Buttons */}
-          <div className="flex flex-col gap-3 w-full max-w-md">
+          <div className="flex flex-col gap-4 w-full max-w-sm">
             <motion.button
               onClick={() => router.push('/auth')}
-              className="game-button bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              className="w-full py-4 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <span className="text-xl">🎮 NEW GAME</span>
+              <span>NEW GAME</span>
+              <motion.span
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🎮
+              </motion.span>
             </motion.button>
 
             <motion.button
-              className="game-button bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 relative"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              className="w-full py-4 bg-gradient-to-r from-blue-400 to-blue-500 border-2 border-black text-black rounded-none flex flex-col items-center justify-center text-lg font-bold gap-1 transition-all duration-200 hover:from-blue-500 hover:to-blue-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <span className="text-xl">⚔️ 1-1 BATTLE</span>
-              <span className="absolute bottom-1 text-xs opacity-75">Coming soon</span>
+              <div className="flex items-center gap-2">
+                <span>1-1 BATTLE</span>
+                <motion.span
+                  animate={{ rotate: [0, 15, -15, 0] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  ⚔️
+                </motion.span>
+              </div>
+              <span className="text-xs opacity-70">Coming soon. Battle your friends!</span>
             </motion.button>
 
             <motion.button
               onClick={() => router.push('/leaderboard')}
-              className="game-button bg-gradient-to-r from-purple-400 to-purple-500 hover:from-purple-500 hover:to-purple-600"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              className="w-full py-4 bg-gradient-to-r from-purple-400 to-purple-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-purple-500 hover:to-purple-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <span className="text-xl">🏆 LEADERBOARD</span>
+              <span>LEADERBOARD</span>
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                🏆
+              </motion.span>
             </motion.button>
           </div>
 
           {/* High Score Card */}
           <motion.div
-            className="mt-6 bg-gray-50 border border-gray-100 rounded-xl p-4 w-full max-w-md shadow-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 bg-white border-2 border-black rounded-none p-4 w-full max-w-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
           >
             <div className="text-center">
-              <h3 className="text-lg font-bold text-gray-800 mb-3">HIGHEST SCORE</h3>
+              <h3 className="text-lg font-bold text-black mb-3">HIGHEST SCORE</h3>
               <div className="flex items-center justify-center gap-3">
-                <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                <div className="w-10 h-10 bg-gray-100 border-2 border-black rounded-none overflow-hidden">
                   {user?.photoURL ? (
                     <Image src={user.photoURL} alt="Profile" width={40} height={40} />
                   ) : (
-                    <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                      <span className="text-gray-600 text-xl">?</span>
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                      <span className="text-gray-600 text-xl">👤</span>
                     </div>
                   )}
                 </div>
                 <div className="text-left">
-                  <p className="text-sm text-gray-600">{user?.displayName || '@anonymous'}</p>
+                  <p className="text-sm font-bold">{user?.displayName || '@anonymous'}</p>
                   <p className="text-xl font-bold text-green-500">+10,250</p>
                 </div>
               </div>
@@ -150,45 +167,6 @@ export default function Home() {
           </motion.div>
         </div>
       </main>
-
-      <style>{`
-        .game-button {
-          padding: 0.875rem;
-          border-radius: 0.75rem;
-          color: white;
-          font-weight: bold;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
-          min-height: 64px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .game-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.3),
-            transparent
-          );
-          transition: 0.5s;
-        }
-
-        .game-button:hover::before {
-          left: 100%;
-        }
-      `}</style>
     </PageTransition>
   );
 }
