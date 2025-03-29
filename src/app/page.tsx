@@ -9,6 +9,16 @@ export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
 
+  const handleNewGame = () => {
+    // Animate out
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.3s ease';
+    
+    setTimeout(() => {
+      router.push('/auth');
+    }, 300);
+  };
+
   return (
     <main className="min-h-screen flex flex-col bg-white">
       {/* Content */}
@@ -22,7 +32,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <motion.h2 
-              className="text-3xl font-bold"
+              className="text-4xl font-bold bg-gradient-to-r from-yellow-400 via-green-400 to-blue-400 bg-clip-text text-transparent"
               initial={{ y: 20 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
@@ -37,7 +47,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <motion.p 
-              className="text-sm mt-1"
+              className="text-sm mt-2 text-gray-600"
               initial={{ y: 20 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -48,14 +58,14 @@ export default function Home() {
         </div>
 
         {/* Menu Buttons */}
-        <div className="w-full max-w-sm space-y-4">
+        <div className="w-full max-w-sm space-y-6">
           <motion.button
-            className="w-full py-4 bg-green-400 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:bg-green-500"
-            whileTap={{ scale: 0.98 }}
+            className="w-full py-6 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-xl font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            onClick={() => router.push('/auth')}
+            onClick={handleNewGame}
           >
             <span>NEW GAME</span>
             <motion.span
@@ -67,24 +77,33 @@ export default function Home() {
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-blue-400 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:bg-blue-500"
-            whileTap={{ scale: 0.98 }}
+            className="w-full py-4 bg-gradient-to-r from-blue-400 to-blue-500 border-2 border-black text-black rounded-none flex flex-col items-center justify-center text-lg font-bold gap-1 transition-all duration-200 hover:from-blue-500 hover:to-blue-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <span>1-1 BATTLE</span>
-            <motion.span
-              animate={{ rotate: [0, 15, -15, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
+            <div className="flex items-center gap-2">
+              <span>1-1 BATTLE</span>
+              <motion.span
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                ⚔️
+              </motion.span>
+            </div>
+            <motion.span 
+              className="text-xs opacity-70"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-              ⚔️
+              Coming soon. Battle your friends!
             </motion.span>
           </motion.button>
 
           <motion.button
-            className="w-full py-4 bg-purple-400 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:bg-purple-500"
-            whileTap={{ scale: 0.98 }}
+            className="w-full py-4 bg-gradient-to-r from-purple-400 to-purple-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-purple-500 hover:to-purple-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6 }}
@@ -101,7 +120,7 @@ export default function Home() {
 
         {/* High Score */}
         <motion.div 
-          className="w-full max-w-sm bg-yellow-100 border-2 border-black rounded-none p-4 text-center space-y-2"
+          className="w-full max-w-sm bg-gradient-to-r from-yellow-100 to-yellow-200 border-2 border-black rounded-none p-4 text-center space-y-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}

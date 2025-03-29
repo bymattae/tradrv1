@@ -2,21 +2,42 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 export default function EmailSignupPage() {
   const router = useRouter();
+
+  const handleContinue = () => {
+    // Animate out
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.3s ease';
+    
+    setTimeout(() => {
+      router.push('/auth/signup/onboarding');
+    }, 300);
+  };
 
   return (
     <main className="min-h-screen flex flex-col bg-white">
       {/* Header Section - Fixed at top */}
       <div className="w-full p-8 text-center space-y-4">
+        <motion.div 
+          className="flex justify-center items-center gap-4 text-sm mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center opacity-30">✓</span>
+          <div className="w-12 h-0.5 bg-black"></div>
+          <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center bg-yellow-300">2</span>
+          <div className="w-12 h-0.5 bg-black opacity-30"></div>
+          <span className="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center opacity-30">3</span>
+        </motion.div>
+
         <motion.h2 
           className="text-2xl font-bold"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          JOIN THE GAME
+          STEP TWO
         </motion.h2>
         <motion.p
           className="text-sm text-gray-600"
@@ -24,7 +45,7 @@ export default function EmailSignupPage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          Start trading and compete with others
+          Choose how to join
         </motion.p>
       </div>
 
@@ -47,12 +68,12 @@ export default function EmailSignupPage() {
 
           {/* Start button */}
           <motion.button
-            className="w-full py-4 bg-yellow-300 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:bg-yellow-400"
-            whileTap={{ scale: 0.98 }}
+            className="w-full py-4 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            onClick={() => router.push('/auth/signup/onboarding')}
+            onClick={handleContinue}
           >
             <span>START NOW</span>
             <motion.span
@@ -86,40 +107,25 @@ export default function EmailSignupPage() {
             transition={{ delay: 0.6 }}
           >
             <motion.button
-              className="relative py-3 bg-white border-2 border-black rounded-none text-lg font-bold transition-all duration-200 hover:bg-gray-50"
-              whileTap={{ scale: 0.98 }}
+              className="relative py-3 bg-white border-2 border-black rounded-none flex flex-col items-center justify-center gap-1 transition-all duration-200 hover:bg-gray-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             >
-              <Image
-                src="/google.svg"
-                alt="Google"
-                width={24}
-                height={24}
-                className="mx-auto"
-              />
+              <span className="text-2xl">🔍</span>
+              <span className="text-xs">Google</span>
             </motion.button>
             <motion.button
-              className="relative py-3 bg-black border-2 border-black rounded-none text-lg font-bold text-white transition-all duration-200 hover:bg-gray-900"
-              whileTap={{ scale: 0.98 }}
+              className="relative py-3 bg-black border-2 border-black rounded-none flex flex-col items-center justify-center gap-1 transition-all duration-200 hover:bg-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             >
-              <Image
-                src="/apple.svg"
-                alt="Apple"
-                width={24}
-                height={24}
-                className="mx-auto"
-              />
+              <span className="text-2xl">🍎</span>
+              <span className="text-xs text-white">Apple</span>
             </motion.button>
             <motion.button
-              className="relative py-3 bg-[#1877F2] border-2 border-black rounded-none text-lg font-bold text-white transition-all duration-200 hover:bg-blue-600"
-              whileTap={{ scale: 0.98 }}
+              className="relative py-3 bg-[#1877F2] border-2 border-black rounded-none flex flex-col items-center justify-center gap-1 transition-all duration-200 hover:bg-blue-600 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
             >
-              <Image
-                src="/facebook.svg"
-                alt="Facebook"
-                width={24}
-                height={24}
-                className="mx-auto"
-              />
+              <span className="text-2xl">👥</span>
+              <span className="text-xs text-white">Facebook</span>
             </motion.button>
           </motion.div>
         </div>
