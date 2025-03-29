@@ -17,22 +17,53 @@ export default function Home() {
 
   // Animation variants for the title
   const titleVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        duration: 0.5,
         staggerChildren: 0.1
       }
     }
   };
 
-  const letterVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const buyVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.8 },
     visible: {
       opacity: 1,
-      y: 0
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 10
+      }
+    }
+  };
+
+  const orVariants = {
+    hidden: { opacity: 0, scale: 1.5 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 15
+      }
+    }
+  };
+
+  const sellVariants = {
+    hidden: { opacity: 0, y: -20, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 10
+      }
     }
   };
 
@@ -57,32 +88,77 @@ export default function Home() {
               variants={titleVariants}
               initial="hidden"
               animate="visible"
-              className="mb-4"
+              className="mb-4 relative"
             >
-              <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold" style={{ fontFamily: 'monospace' }}>
+              {/* Price Ticker Background */}
+              <motion.div
+                className="absolute -top-6 left-0 w-full flex justify-around text-xs opacity-20 font-mono"
+                animate={{ opacity: [0.2, 0.3, 0.2] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <span>BTC +2.4%</span>
+                <span>ETH -1.2%</span>
+                <span>SOL +5.8%</span>
+              </motion.div>
+              
+              <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold relative" style={{ fontFamily: 'monospace' }}>
+                <motion.div className="relative">
+                  <motion.span 
+                    variants={buyVariants}
+                    className="text-yellow-500 hover:text-yellow-600 transition-colors cursor-default inline-block"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    BUY
+                  </motion.span>
+                  <motion.div
+                    className="absolute -top-1 -right-1 text-xs text-green-500"
+                    animate={{ opacity: [0, 1, 0], y: [-8, -12, -8] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    +1.2%
+                  </motion.div>
+                </motion.div>
+
                 <motion.span 
-                  variants={letterVariants}
-                  className="text-yellow-500 hover:text-yellow-600 transition-colors cursor-default"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  BUY
-                </motion.span>
-                <motion.span 
-                  variants={letterVariants}
+                  variants={orVariants}
                   className="text-black hover:text-gray-700 transition-colors cursor-default"
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
                 >
                   OR
                 </motion.span>
-                <motion.span 
-                  variants={letterVariants}
-                  className="text-green-500 hover:text-green-600 transition-colors cursor-default"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  SELL
-                </motion.span>
+
+                <motion.div className="relative">
+                  <motion.span 
+                    variants={sellVariants}
+                    className="text-green-500 hover:text-green-600 transition-colors cursor-default inline-block"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    SELL
+                  </motion.span>
+                  <motion.div
+                    className="absolute -top-1 -right-1 text-xs text-red-500"
+                    animate={{ opacity: [0, 1, 0], y: [-8, -12, -8] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  >
+                    -0.8%
+                  </motion.div>
+                </motion.div>
               </div>
+
+              {/* Candlestick Pattern */}
+              <motion.div
+                className="absolute -bottom-6 left-0 w-full flex justify-center gap-1"
+                animate={{ opacity: [0.2, 0.3, 0.2] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <div className="w-1 h-4 bg-green-500"></div>
+                <div className="w-1 h-3 bg-red-500"></div>
+                <div className="w-1 h-5 bg-green-500"></div>
+                <div className="w-1 h-2 bg-red-500"></div>
+                <div className="w-1 h-4 bg-green-500"></div>
+              </motion.div>
             </motion.div>
+
             <motion.p 
               className="text-base text-gray-600"
               initial={{ opacity: 0 }}
