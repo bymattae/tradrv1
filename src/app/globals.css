@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
 
 :root {
   /* Brand Colors */
@@ -26,7 +26,7 @@
   --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.05);
   --shadow-md: 0px 4px 8px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0px 8px 16px rgba(0, 0, 0, 0.12);
-  --shadow-mario: 4px 4px 0px rgba(0, 0, 0, 0.2);
+  --shadow-retro: 3px 3px 0px rgba(0, 0, 0, 0.8);
 }
 
 @layer base {
@@ -43,7 +43,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-bold tracking-tight;
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-bold tracking-tight;
   }
 }
 
@@ -54,40 +55,80 @@
 
   .nav-link.active {
     @apply text-gray-900 font-medium bg-gray-50;
+    box-shadow: var(--shadow-retro);
+    transform: translate(-1px, -1px);
+  }
+
+  .nav-link.active:hover {
+    transform: translate(0px, 0px);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
   }
 
   .mission-card {
-    @apply bg-white rounded-xl p-4 flex items-center justify-between border border-gray-100 hover:border-gray-200 transition-colors;
+    @apply bg-white rounded-xl p-4 flex items-center justify-between border-2 border-black transition-all;
+    box-shadow: var(--shadow-retro);
+  }
+
+  .mission-card:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
   }
 
   .tournament-card {
-    @apply bg-white rounded-xl p-4 border border-gray-100 hover:border-gray-200 transition-all md:p-6 md:rounded-2xl;
+    @apply bg-white rounded-xl p-4 border-2 border-black transition-all md:p-6 md:rounded-2xl;
+    box-shadow: var(--shadow-retro);
   }
 
   .stats-card {
-    @apply flex flex-col items-center p-4 bg-white rounded-xl border border-gray-100 md:p-6 md:rounded-2xl;
+    @apply flex flex-col items-center p-4 bg-white rounded-xl border-2 border-black md:p-6 md:rounded-2xl;
+    box-shadow: var(--shadow-retro);
   }
 
   .stats-value {
+    font-family: 'Space Grotesk', monospace;
     @apply text-2xl font-bold text-gray-900 md:text-3xl;
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
   }
 
   .stats-label {
-    @apply text-xs text-gray-600 mt-1 md:text-sm;
+    @apply text-xs font-bold text-gray-600 mt-1 md:text-sm;
+    letter-spacing: 0.05em;
   }
 
   .button-primary {
-    @apply px-3 py-2 bg-[#00C087] text-white font-medium rounded-lg hover:bg-[#00A877] transition-colors text-sm md:px-4 md:py-2;
+    @apply px-3 py-2 bg-[#00C087] text-white font-bold rounded-lg text-sm md:px-4 md:py-2 border-2 border-black transition-all;
+    box-shadow: var(--shadow-retro);
+  }
+
+  .button-primary:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+  }
+
+  .button-primary:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
   }
 
   .button-secondary {
-    @apply px-3 py-2 bg-gray-50 text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors text-sm md:px-4 md:py-2;
+    @apply px-3 py-2 bg-gray-50 text-gray-900 font-bold rounded-lg text-sm md:px-4 md:py-2 border-2 border-black transition-all;
+    box-shadow: var(--shadow-retro);
+  }
+
+  .button-secondary:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+  }
+
+  .button-secondary:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
   }
 
   .badge {
-    @apply px-2 py-1 text-xs font-medium rounded-full;
+    @apply px-2 py-1 text-xs font-bold rounded-full border border-black;
   }
 
   .badge-live {
@@ -99,48 +140,29 @@
   }
 
   .progress-bar {
-    @apply h-1.5 bg-gray-100 rounded-full overflow-hidden md:h-2;
+    @apply h-1.5 bg-gray-100 rounded-full overflow-hidden border border-black md:h-2;
   }
 
   .progress-bar-fill {
     @apply h-full bg-[#00C087] rounded-full transition-all;
   }
 
-  .mario-card {
-    @apply bg-gradient-to-b from-white to-gray-50 rounded-xl p-4 relative;
-    box-shadow: var(--shadow-mario);
-    border: 2px solid rgba(0, 0, 0, 0.1);
+  .icon-box {
+    @apply flex items-center justify-center rounded-xl transition-transform;
+    box-shadow: var(--shadow-retro);
+    border: 2px solid black;
   }
 
-  .mario-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: 2px dashed rgba(0, 0, 0, 0.05);
-    border-radius: 0.75rem;
-    margin: 4px;
-    pointer-events: none;
-  }
-
-  .live-badge {
-    @apply px-3 py-1 rounded-full text-xs font-bold;
-    background: var(--gradient-success);
-    color: white;
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
-  }
-
-  .prize-badge {
-    @apply px-3 py-1 rounded-full text-xs font-bold;
-    background: var(--gradient-warning);
-    color: white;
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+  .icon-box:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
   }
 }
 
 /* Mobile-first media queries */
 @media (max-width: 768px) {
   .sidebar {
-    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-2 z-50;
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black p-2 z-50;
   }
 
   .sidebar-nav {
@@ -156,7 +178,7 @@
   }
 
   .nav-top {
-    @apply px-4;
+    @apply px-4 border-b-2 border-black;
   }
 
   .nav-top .nav-link {
@@ -181,7 +203,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full;
+    @apply bg-gray-200 rounded-full border border-black;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -189,28 +211,21 @@
   }
 }
 
-/* Mario Kart style animations */
-@keyframes bounce {
+/* Retro animations */
+@keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+  50% { transform: translateY(-4px) rotate(2deg); }
 }
 
-.bounce-animation {
-  animation: bounce 2s infinite ease-in-out;
+.float-animation {
+  animation: float 2s infinite ease-in-out;
 }
 
-@keyframes shine {
-  0% { background-position: -100% 0; }
-  100% { background-position: 200% 0; }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
-.shine-effect {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.4) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: shine 3s infinite linear;
+.pulse-animation {
+  animation: pulse 2s infinite ease-in-out;
 }
