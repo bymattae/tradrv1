@@ -2,9 +2,23 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useState } from 'react';
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <main className="min-h-screen flex flex-col bg-white">
@@ -27,9 +41,31 @@ export default function OnboardingPage() {
           <div className="space-y-6 border-2 border-black p-6">
             {/* Profile Picture */}
             <div className="flex justify-center">
-              <div className="w-24 h-24 border-2 border-black flex items-center justify-center">
-                <span className="text-sm">Add Photo</span>
-              </div>
+              <label className="relative cursor-pointer">
+                <div className="w-24 h-24 border-2 border-black flex items-center justify-center overflow-hidden">
+                  {avatarPreview ? (
+                    <Image
+                      src={avatarPreview}
+                      alt="Avatar preview"
+                      width={96}
+                      height={96}
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <span className="text-sm">Add Photo</span>
+                      <br />
+                      <span className="text-xs text-gray-500">Click to upload</span>
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarUpload}
+                />
+              </label>
             </div>
 
             {/* Username */}
@@ -49,6 +85,9 @@ export default function OnboardingPage() {
                 placeholder="Write your bio"
                 rows={2}
               />
+              <div className="flex justify-end">
+                <span className="text-xs text-gray-500">0/160</span>
+              </div>
             </div>
 
             {/* Complete Button */}
