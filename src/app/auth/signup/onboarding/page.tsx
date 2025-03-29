@@ -2,117 +2,64 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 export default function OnboardingPage() {
   const router = useRouter();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 bg-white">
-      <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto">
-        {/* Header Section */}
-        <div className="text-center mb-4 sm:mb-6">
-          <h1 className="text-2xl sm:text-[32px] leading-tight tracking-wide">
-            BUILD YOUR
-            <br />
-            PROFILE
-          </h1>
-          <p className="text-gray-400 text-xs sm:text-sm tracking-wide mt-2">Make it yours! 🎨</p>
-        </div>
+    <main className="min-h-screen flex flex-col bg-white">
+      {/* Nav Bar */}
+      <div className="w-full border-b border-black p-4">
+        <h1 className="text-xl font-bold text-center">TRADR</h1>
+      </div>
 
-        {/* Live Preview Indicator */}
-        <div className="w-full flex items-center justify-end gap-2 mb-4 sm:mb-6">
-          <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-[10px] sm:text-xs text-gray-400 tracking-wide">LIVE PREVIEW</span>
-        </div>
+      {/* Content */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-sm space-y-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-xl font-bold">BUILD YOUR PROFILE</h2>
+            <div className="flex items-center justify-end gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="text-sm">LIVE PREVIEW</span>
+            </div>
+          </div>
 
-        {/* Content Section */}
-        <div className="w-full">
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-4 sm:space-y-8 pixel-border">
-            {/* Profile Info */}
-            <div className="space-y-4 sm:space-y-8">
-              {/* Profile Picture */}
-              <div className="flex justify-center">
-                <label className="w-20 h-20 sm:w-28 sm:h-28 relative cursor-pointer rounded-xl sm:rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 hover:border-green-500 transition-colors flex items-center justify-center bg-white pixel-border">
-                  <div className="text-center">
-                    <span className="text-xl sm:text-2xl block mb-0.5 sm:mb-1">📷</span>
-                    <span className="text-[8px] sm:text-[10px] text-gray-400">Upload Photo</span>
-                  </div>
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                  />
-                </label>
-              </div>
-
-              {/* Username */}
-              <div className="space-y-1 sm:space-y-2">
-                <div className="relative">
-                  <span className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400 text-base sm:text-lg">@</span>
-                  <input
-                    type="text"
-                    className="w-full bg-white rounded-lg sm:rounded-xl px-8 sm:px-10 py-2 sm:py-3 text-base sm:text-lg placeholder-gray-300 focus:outline-none pixel-border text-center tracking-wide"
-                    placeholder="username"
-                    maxLength={15}
-                  />
-                </div>
-                <div className="text-[10px] sm:text-xs text-gray-400 flex items-center gap-1 sm:gap-2 justify-center tracking-wide">
-                  <span>🔗</span>
-                  tradr.co/username
-                </div>
-              </div>
-
-              {/* Bio */}
-              <div className="space-y-1 sm:space-y-2">
-                <div className="flex justify-between items-center px-1">
-                  <label className="text-xs sm:text-sm text-gray-400 tracking-wide">BIO</label>
-                  <span className="text-[10px] sm:text-xs text-gray-400">0/150</span>
-                </div>
-                <textarea
-                  className="w-full bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 text-sm sm:text-lg resize-none focus:outline-none pixel-border tracking-wide"
-                  placeholder="What's your trading style?"
-                  rows={2}
-                  maxLength={150}
-                />
+          <div className="space-y-6 border-2 border-black p-6">
+            {/* Profile Picture */}
+            <div className="flex justify-center">
+              <div className="w-24 h-24 border-2 border-black flex items-center justify-center">
+                <span className="text-sm">Add Photo</span>
               </div>
             </div>
 
-            {/* Continue Button */}
+            {/* Username */}
+            <div className="space-y-1">
+              <input
+                type="text"
+                className="w-full px-4 py-3 border-2 border-black rounded-none text-lg text-center"
+                placeholder="@Username"
+              />
+              <p className="text-sm text-center">tradr.co/@username</p>
+            </div>
+
+            {/* Bio */}
+            <div className="space-y-2">
+              <textarea
+                className="w-full p-4 border-2 border-black rounded-none text-lg resize-none"
+                placeholder="Write your bio"
+                rows={2}
+              />
+            </div>
+
+            {/* Complete Button */}
             <motion.button
-              className="w-full py-3 sm:py-4 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-sm sm:text-base"
-              whileHover={{ scale: 1.02, y: -1 }}
+              className="w-full py-4 bg-yellow-300 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold"
               whileTap={{ scale: 0.98 }}
               onClick={() => router.push('/')}
             >
-              <div className="flex items-center justify-center gap-2 sm:gap-3">
-                <motion.span 
-                  className="text-lg sm:text-xl"
-                  animate={{ rotate: [0, 15, -15, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  ✨
-                </motion.span>
-                <span>COMPLETE PROFILE</span>
-              </div>
+              COMPLETE
             </motion.button>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-4 sm:mt-8">
-          <motion.p 
-            className="text-[10px] sm:text-xs text-gray-400"
-            animate={{
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-            }}
-          >
-            INSERT COIN TO CONTINUE
-          </motion.p>
         </div>
       </div>
     </main>
