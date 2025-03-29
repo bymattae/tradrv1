@@ -9,8 +9,8 @@ export default function AuthPage() {
   return (
     <main className="min-h-screen flex flex-col bg-white">
       {/* Nav Bar */}
-      <div className="w-full border-b border-black p-4">
-        <h1 className="text-xl font-bold text-center">TRADR</h1>
+      <div className="w-full border-b-2 border-black p-4">
+        <h1 className="text-xl font-bold text-center">NAV BAR</h1>
       </div>
 
       {/* Content */}
