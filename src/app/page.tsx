@@ -21,9 +21,9 @@ export default function Home() {
         <NavBar variant="home" />
         
         {/* Content */}
-        <div className="flex-1 flex flex-col items-center p-4 gap-6">
+        <div className="flex-1 flex flex-col items-center px-4 pt-8 pb-4 gap-6">
           {/* Header */}
-          <div className="text-center pt-12 pb-8">
+          <div className="text-center">
             <motion.div
               className="overflow-hidden"
               initial={{ opacity: 0 }}
@@ -31,12 +31,15 @@ export default function Home() {
               transition={{ duration: 0.6 }}
             >
               <motion.h2 
-                className="text-4xl font-bold bg-gradient-to-r from-yellow-400 via-green-400 to-blue-400 bg-clip-text text-transparent"
+                className="text-3xl sm:text-4xl font-bold"
                 initial={{ y: 20 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
+                style={{ fontFamily: 'monospace' }}
               >
-                BUY OR SELL
+                <span className="text-yellow-500">BUY</span>{' '}
+                <span className="text-black">OR</span>{' '}
+                <span className="text-green-500">SELL</span>
               </motion.h2>
             </motion.div>
             <motion.div
@@ -50,6 +53,7 @@ export default function Home() {
                 initial={{ y: 20 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
+                style={{ fontFamily: 'monospace' }}
               >
                 The game for traders.
               </motion.p>

@@ -26,18 +26,18 @@ export default function NavBar({ variant, step }: NavBarProps) {
 
   return (
     <motion.nav 
-      className="w-full border-b-2 border-yellow-300 bg-white shadow-sm"
+      className="w-full border-b-2 border-black bg-white"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      <div className="px-4 py-2">
+        <div className="flex justify-between items-center h-12">
           {variant === 'home' ? (
             <>
               {/* XP Amount */}
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-yellow-500">XP</span>
-                <span className="text-2xl font-bold text-yellow-600">1,234</span>
+              <div className="flex items-center gap-1">
+                <span className="font-bold text-yellow-500" style={{ fontFamily: 'monospace' }}>XP</span>
+                <span className="font-bold text-yellow-500" style={{ fontFamily: 'monospace' }}>1,234</span>
               </div>
               
               {/* Avatar */}
@@ -46,17 +46,17 @@ export default function NavBar({ variant, step }: NavBarProps) {
                   <Image
                     src={user.photoURL}
                     alt={user.displayName || 'User avatar'}
-                    width={32}
-                    height={32}
-                    className="border-2 border-yellow-300 rounded-full"
+                    width={24}
+                    height={24}
+                    className="border-2 border-black"
                   />
                 ) : (
-                  <div className="w-8 h-8 bg-gray-100 border-2 border-yellow-300 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 bg-gray-100 border-2 border-black flex items-center justify-center text-sm">
                     👤
                   </div>
                 )}
-                <span className="text-sm font-medium text-gray-700">
-                  {user?.displayName || 'Anonymous'}
+                <span className="text-sm font-medium" style={{ fontFamily: 'monospace' }}>
+                  {user?.displayName || 'Anonymo'}
                 </span>
               </div>
             </>
@@ -64,13 +64,14 @@ export default function NavBar({ variant, step }: NavBarProps) {
             <>
               {/* Back Button */}
               <motion.button
-                className="flex items-center gap-2 text-gray-600 hover:text-yellow-500 transition-colors"
+                className="flex items-center gap-1 text-black hover:text-yellow-500 transition-colors"
                 onClick={handleBack}
-                whileHover={{ x: -5 }}
+                whileHover={{ x: -3 }}
               >
-                <span className="text-xl">←</span>
-                <span className="text-sm font-medium">Back</span>
+                <span className="text-lg">←</span>
+                <span className="text-sm font-medium" style={{ fontFamily: 'monospace' }}>Back</span>
               </motion.button>
+              <div /> {/* Empty div for spacing */}
             </>
           )}
         </div>
