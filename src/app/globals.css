@@ -4,26 +4,39 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --background-rgb: 255, 255, 255;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+.pixel-button {
+  @apply relative overflow-hidden transition-transform;
+  image-rendering: pixelated;
+}
+
+.pixel-button::before {
+  content: '';
+  @apply absolute inset-0 border-2 border-black opacity-0 transition-opacity;
+}
+
+.pixel-button:hover::before {
+  @apply opacity-100;
+}
+
+.pixel-border {
+  box-shadow: 
+    2px 2px 0 rgba(0,0,0,0.1),
+    -2px -2px 0 rgba(255,255,255,0.1);
+}
+
+.game-title {
+  background: linear-gradient(90deg, #4ADE80 0%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 @layer utilities {
