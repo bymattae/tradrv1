@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '../lib/hooks/useAuth';
 import PageTransition from './components/PageTransition';
-import NavBar from './components/NavBar';
 
 export default function Home() {
   const router = useRouter();
@@ -13,7 +12,7 @@ export default function Home() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+      <main className="h-[100dvh] flex flex-col bg-white relative overflow-hidden">
         {/* Floating Game Elements */}
         <motion.div 
           className="absolute w-full h-full pointer-events-none"
@@ -41,18 +40,16 @@ export default function Home() {
             />
           ))}
         </motion.div>
-
-        <NavBar variant="home" />
         
-        <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 relative">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 relative">
           {/* Game Title */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-12"
+            className="text-center mb-8"
           >
-            <div className="flex items-center justify-center gap-4 text-6xl sm:text-7xl font-bold mb-4" style={{ fontFamily: 'monospace' }}>
+            <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold mb-3" style={{ fontFamily: 'monospace' }}>
               <motion.span 
                 className="text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.2)]"
                 whileHover={{ scale: 1.1 }}
@@ -76,7 +73,7 @@ export default function Home() {
               </motion.span>
             </div>
             <motion.p 
-              className="text-lg text-gray-600"
+              className="text-base text-gray-600"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -86,7 +83,7 @@ export default function Home() {
           </motion.div>
 
           {/* Game Buttons */}
-          <div className="flex flex-col gap-4 w-full max-w-md">
+          <div className="flex flex-col gap-3 w-full max-w-md">
             <motion.button
               onClick={() => router.push('/auth')}
               className="game-button bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600"
@@ -96,7 +93,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <span className="text-2xl">🎮 NEW GAME</span>
+              <span className="text-xl">🎮 NEW GAME</span>
             </motion.button>
 
             <motion.button
@@ -107,8 +104,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <span className="text-2xl">⚔️ 1-1 BATTLE</span>
-              <span className="absolute bottom-1 text-sm opacity-75">Coming soon</span>
+              <span className="text-xl">⚔️ 1-1 BATTLE</span>
+              <span className="absolute bottom-1 text-xs opacity-75">Coming soon</span>
             </motion.button>
 
             <motion.button
@@ -120,33 +117,33 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <span className="text-2xl">🏆 LEADERBOARD</span>
+              <span className="text-xl">🏆 LEADERBOARD</span>
             </motion.button>
           </div>
 
           {/* High Score Card */}
           <motion.div
-            className="mt-12 bg-gray-50 border border-gray-100 rounded-xl p-6 w-full max-w-md shadow-lg"
+            className="mt-6 bg-gray-50 border border-gray-100 rounded-xl p-4 w-full max-w-md shadow-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
           >
             <div className="text-center">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">HIGHEST SCORE</h3>
+              <h3 className="text-lg font-bold text-gray-800 mb-3">HIGHEST SCORE</h3>
               <div className="flex items-center justify-center gap-3">
-                <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
+                <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
                   {user?.photoURL ? (
-                    <Image src={user.photoURL} alt="Profile" width={48} height={48} />
+                    <Image src={user.photoURL} alt="Profile" width={40} height={40} />
                   ) : (
                     <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                      <span className="text-gray-600 text-2xl">?</span>
+                      <span className="text-gray-600 text-xl">?</span>
                     </div>
                   )}
                 </div>
                 <div className="text-left">
-                  <p className="text-gray-600">{user?.displayName || '@anonymous'}</p>
-                  <p className="text-2xl font-bold text-green-500">+10,250</p>
+                  <p className="text-sm text-gray-600">{user?.displayName || '@anonymous'}</p>
+                  <p className="text-xl font-bold text-green-500">+10,250</p>
                 </div>
               </div>
             </div>
@@ -156,15 +153,15 @@ export default function Home() {
 
       <style>{`
         .game-button {
-          padding: 1rem;
-          border-radius: 1rem;
+          padding: 0.875rem;
+          border-radius: 0.75rem;
           color: white;
           font-weight: bold;
           text-align: center;
           position: relative;
           overflow: hidden;
           box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
-          min-height: 80px;
+          min-height: 64px;
           display: flex;
           flex-direction: column;
           align-items: center;
