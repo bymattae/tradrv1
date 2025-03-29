@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuth } from '../lib/hooks/useAuth';
 import PageTransition from './components/PageTransition';
 import NavBar from './components/NavBar';
 
