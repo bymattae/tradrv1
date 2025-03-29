@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import PageTransition from '../../../../components/PageTransition';
+import PageTransition from '@/app/components/PageTransition';
 
 export default function OnboardingPage() {
   const router = useRouter();
