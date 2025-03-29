@@ -11,254 +11,186 @@ export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const handleNewGame = () => {
-    router.push('/auth');
-  };
-
-  // Animation variants for the title
-  const titleVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const buyVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 10
-      }
-    }
-  };
-
-  const orVariants = {
-    hidden: { opacity: 0, scale: 1.5 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 15
-      }
-    }
-  };
-
-  const sellVariants = {
-    hidden: { opacity: 0, y: -20, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 10
-      }
-    }
-  };
-
   return (
     <PageTransition>
-      <main className="min-h-screen flex flex-col bg-white relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-white to-green-50 opacity-50" />
-        <div className="absolute inset-0" style={{ 
-          backgroundImage: 'radial-gradient(circle at 1px 1px, #000 1px, transparent 0)',
-          backgroundSize: '40px 40px',
-          opacity: 0.05
-        }} />
-        
-        <NavBar variant="home" />
-        
-        {/* Content */}
-        <div className="flex-1 flex flex-col items-center px-4 pt-12 pb-4 gap-8 relative">
-          {/* Header */}
-          <div className="text-center">
+      <main className="min-h-screen flex flex-col bg-gradient-to-b from-indigo-900 via-purple-900 to-purple-800 relative overflow-hidden">
+        {/* Floating Game Elements */}
+        <motion.div 
+          className="absolute w-full h-full pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          {[...Array(10)].map((_, i) => (
             <motion.div
-              variants={titleVariants}
-              initial="hidden"
-              animate="visible"
-              className="mb-4 relative"
-            >
-              <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold relative" style={{ fontFamily: 'monospace' }}>
-                <motion.span 
-                  variants={buyVariants}
-                  className="text-yellow-500 hover:text-yellow-600 transition-colors cursor-default inline-block"
-                  whileHover={{ 
-                    scale: 1.1,
-                    transition: { type: "spring", stiffness: 400 }
-                  }}
-                >
-                  BUY
-                </motion.span>
+              key={i}
+              className="absolute w-4 h-4 bg-white/10 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.5, 1, 0.5],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </motion.div>
 
-                <motion.span 
-                  variants={orVariants}
-                  className="text-black hover:text-gray-700 transition-colors cursor-default"
-                  whileHover={{ 
-                    scale: 1.1, 
-                    rotate: [0, -5, 5, 0],
-                    transition: { duration: 0.3 }
-                  }}
-                >
-                  OR
-                </motion.span>
-
-                <motion.span 
-                  variants={sellVariants}
-                  className="text-green-500 hover:text-green-600 transition-colors cursor-default inline-block"
-                  whileHover={{ 
-                    scale: 1.1,
-                    transition: { type: "spring", stiffness: 400 }
-                  }}
-                >
-                  SELL
-                </motion.span>
-              </div>
-            </motion.div>
-
+        <NavBar />
+        
+        <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 relative">
+          {/* Game Title */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <div className="flex items-center justify-center gap-4 text-6xl sm:text-7xl font-bold mb-4" style={{ fontFamily: 'monospace' }}>
+              <motion.span 
+                className="text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                BUY
+              </motion.span>
+              <motion.span 
+                className="text-white"
+                whileHover={{ rotate: [0, -5, 5, 0] }}
+                transition={{ duration: 0.3 }}
+              >
+                OR
+              </motion.span>
+              <motion.span 
+                className="text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                SELL
+              </motion.span>
+            </div>
             <motion.p 
-              className="text-base text-gray-600"
+              className="text-lg text-gray-300"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              style={{ fontFamily: 'monospace' }}
+              transition={{ delay: 0.3 }}
             >
-              The game for traders.
+              The game for traders
             </motion.p>
-          </div>
+          </motion.div>
 
-          {/* Menu Buttons */}
-          <div className="w-full max-w-sm space-y-6">
+          {/* Game Buttons */}
+          <div className="flex flex-col gap-4 w-full max-w-md">
             <motion.button
-              className="w-full py-6 bg-gradient-to-r from-green-400 to-green-500 border-2 border-black text-black rounded-none flex items-center justify-center text-xl font-bold gap-3 transition-all duration-200 hover:from-green-500 hover:to-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group"
+              onClick={() => router.push('/game')}
+              className="game-button bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600"
               whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              onClick={handleNewGame}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-green-300 to-green-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                initial={false}
-                animate={{ scale: [1, 1.5], rotate: [0, 90] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-              <span className="relative">NEW GAME</span>
-              <motion.span
-                className="relative"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                🎮
-              </motion.span>
+              <span className="text-2xl">🎮 NEW GAME</span>
             </motion.button>
 
             <motion.button
-              className="w-full py-4 bg-gradient-to-r from-blue-400 to-blue-500 border-2 border-black text-black rounded-none flex flex-col items-center justify-center text-lg font-bold gap-1 transition-all duration-200 hover:from-blue-500 hover:to-blue-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group"
+              className="game-button bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 relative"
               whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                initial={false}
-                animate={{ scale: [1, 1.5], rotate: [0, 90] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-              <div className="relative flex items-center gap-2">
-                <span>1-1 BATTLE</span>
-                <motion.span
-                  animate={{ rotate: [0, 15, -15, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                >
-                  ⚔️
-                </motion.span>
-              </div>
-              <motion.span 
-                className="text-xs opacity-70 relative"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Coming soon. Battle your friends!
-              </motion.span>
+              <span className="text-2xl">⚔️ 1-1 BATTLE</span>
+              <span className="absolute bottom-1 text-sm opacity-75">Coming soon</span>
             </motion.button>
 
             <motion.button
-              className="w-full py-4 bg-gradient-to-r from-purple-400 to-purple-500 border-2 border-black text-black rounded-none flex items-center justify-center text-lg font-bold gap-2 transition-all duration-200 hover:from-purple-500 hover:to-purple-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group"
+              onClick={() => router.push('/leaderboard')}
+              className="game-button bg-gradient-to-r from-purple-400 to-purple-500 hover:from-purple-500 hover:to-purple-600"
               whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98, shadow: "0px 0px 0px 0px rgba(0,0,0,1)" }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-purple-300 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                initial={false}
-                animate={{ scale: [1, 1.5], rotate: [0, 90] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-              <span className="relative">LEADERBOARD</span>
-              <motion.span
-                className="relative"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                🏆
-              </motion.span>
+              <span className="text-2xl">🏆 LEADERBOARD</span>
             </motion.button>
           </div>
 
-          {/* High Score */}
-          <motion.div 
-            className="w-full max-w-sm bg-gradient-to-r from-yellow-100 to-yellow-200 border-2 border-black rounded-none p-4 text-center space-y-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden"
+          {/* High Score Card */}
+          <motion.div
+            className="mt-12 bg-white/10 backdrop-blur-sm rounded-xl p-6 w-full max-w-md"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
           >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-yellow-50 to-yellow-100"
-              initial={false}
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            <h3 className="font-bold relative">HIGHEST SCORE</h3>
-            <p className="text-3xl font-bold text-green-500 relative">+10,250</p>
-            <div className="flex items-center justify-center gap-2 relative">
-              {user?.photoURL ? (
-                <Image
-                  src={user.photoURL}
-                  alt={user.displayName || 'User avatar'}
-                  width={32}
-                  height={32}
-                  className="border-2 border-black"
-                />
-              ) : (
-                <div className="w-8 h-8 bg-gray-100 border-2 border-black flex items-center justify-center">
-                  👤
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-4">HIGHEST SCORE</h3>
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
+                  {user?.photoURL ? (
+                    <Image src={user.photoURL} alt="Profile" width={48} height={48} />
+                  ) : (
+                    <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                      <span className="text-gray-600 text-2xl">?</span>
+                    </div>
+                  )}
                 </div>
-              )}
-              <span className="text-sm font-bold">
-                @{user?.displayName || 'anonymous'}
-              </span>
+                <div className="text-left">
+                  <p className="text-gray-300">{user?.displayName || '@anonymous'}</p>
+                  <p className="text-2xl font-bold text-green-400">+10,250</p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
       </main>
+
+      <style jsx global>{`
+        .game-button {
+          padding: 1rem;
+          border-radius: 1rem;
+          color: white;
+          font-weight: bold;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          min-height: 80px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .game-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+          );
+          transition: 0.5s;
+        }
+
+        .game-button:hover::before {
+          left: 100%;
+        }
+      `}</style>
     </PageTransition>
   );
 }
