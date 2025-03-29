@@ -57,6 +57,24 @@ body {
   100% { background-position: -200% 0; }
 }
 
+/* Scrolling text animation */
+.scroll-text-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.scroll-text {
+  display: inline-block;
+  animation: scrollText 15s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-200%); }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
