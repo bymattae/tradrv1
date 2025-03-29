@@ -12,15 +12,28 @@ export default function Home() {
 
   return (
     <PageTransition>
-      <div className="min-h-[100dvh] bg-white px-4 py-6 flex flex-col items-center justify-center">
+      <div className="min-h-[100dvh] bg-gradient-to-b from-white via-gray-50 to-white px-4 py-6 flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-0 w-32 h-32 bg-yellow-200/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-32 h-32 bg-green-200/20 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-200/10 rounded-full blur-3xl" />
+        </div>
+
         {/* Game Title */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8"
+          className="text-center mb-8 relative"
         >
-          <div className="flex items-center justify-center gap-4 text-4xl sm:text-5xl font-bold mb-3" style={{ fontFamily: 'monospace' }}>
+          <motion.div 
+            className="absolute -inset-4 bg-white/50 backdrop-blur-sm rounded-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          />
+          <div className="flex items-center justify-center gap-4 text-4xl sm:text-5xl font-bold mb-3 relative" style={{ fontFamily: 'monospace' }}>
             <motion.span 
               className="text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.2)]"
               whileHover={{ scale: 1.1 }}
@@ -61,13 +74,14 @@ export default function Home() {
 
         {/* High Score Card */}
         <motion.div
-          className="bg-white border-2 border-black rounded-none p-4 w-full max-w-sm mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="bg-white/80 backdrop-blur-sm border-2 border-black rounded-none p-4 w-full max-w-sm mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.7 }}
           whileHover={{ scale: 1.02 }}
         >
-          <div className="text-center">
+          <div className="absolute -inset-1 bg-gradient-to-r from-yellow-200/20 to-green-200/20 blur-sm" />
+          <div className="relative">
             <h3 className="text-lg font-bold text-black mb-3 flex items-center justify-center gap-2">
               HIGHEST SCORE
               <motion.span
@@ -78,8 +92,8 @@ export default function Home() {
               </motion.span>
             </h3>
             <div className="flex items-center justify-center gap-3">
-              <div className="w-10 h-10 bg-gray-100 border-2 border-black rounded-none overflow-hidden">
-                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+              <div className="w-10 h-10 bg-white border-2 border-black rounded-none overflow-hidden shadow-inner">
+                <div className="w-full h-full flex items-center justify-center">
                   <span className="text-gray-600 text-xl">👤</span>
                 </div>
               </div>
@@ -100,7 +114,7 @@ export default function Home() {
         </motion.div>
 
         {/* Game Buttons */}
-        <div className="flex flex-col gap-4 w-full max-w-sm">
+        <div className="flex flex-col gap-4 w-full max-w-sm relative">
           <motion.button
             onClick={() => router.push('/auth')}
             className="game-btn bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600"
@@ -177,6 +191,7 @@ export default function Home() {
             transition: all 0.2s;
             transform-origin: center bottom;
             box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+            backdrop-filter: blur(4px);
           }
 
           .game-btn:hover {
