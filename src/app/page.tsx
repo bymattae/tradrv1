@@ -42,7 +42,7 @@ export default function Home() {
           ))}
         </motion.div>
 
-        <NavBar />
+        <NavBar variant="home" />
         
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 relative">
           {/* Game Title */}
@@ -154,7 +154,7 @@ export default function Home() {
         </div>
       </main>
 
-      <style jsx global>{`
+      <style>{`
         .game-button {
           padding: 1rem;
           border-radius: 1rem;
