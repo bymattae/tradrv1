@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '../lib/hooks/useAuth';
 import PageTransition from './components/PageTransition';
-import NavBar from './components/NavBar';
 
 export default function Home() {
   const router = useRouter();
@@ -77,8 +76,6 @@ export default function Home() {
           backgroundSize: '40px 40px',
           opacity: 0.05
         }} />
-        
-        <NavBar variant="home" />
         
         {/* Content */}
         <div className="flex-1 flex flex-col items-center px-4 pt-12 pb-4 gap-8 relative">
