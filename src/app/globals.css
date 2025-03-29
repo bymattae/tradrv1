@@ -31,7 +31,9 @@
 
 @layer base {
   html {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background: #FFFFFF;
     color: var(--color-text);
   }
@@ -41,45 +43,47 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Press Start 2P', cursive;
+    @apply font-sans font-bold tracking-tight;
   }
 }
 
 @layer components {
   .nav-link {
-    @apply px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors;
+    @apply p-2 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors md:px-4 md:py-2;
   }
 
   .nav-link.active {
-    @apply text-gray-900 font-medium;
+    @apply text-gray-900 font-medium bg-gray-50;
   }
 
   .mission-card {
-    @apply bg-white rounded-2xl p-4 flex items-center justify-between border border-gray-100 hover:border-gray-200 transition-colors;
+    @apply bg-white rounded-xl p-4 flex items-center justify-between border border-gray-100 hover:border-gray-200 transition-colors;
   }
 
   .tournament-card {
-    @apply bg-white rounded-2xl p-6 border border-gray-100 hover:border-gray-200 transition-all;
+    @apply bg-white rounded-xl p-4 border border-gray-100 hover:border-gray-200 transition-all md:p-6 md:rounded-2xl;
   }
 
   .stats-card {
-    @apply flex flex-col items-center p-6 bg-gray-50 rounded-2xl;
+    @apply flex flex-col items-center p-4 bg-white rounded-xl border border-gray-100 md:p-6 md:rounded-2xl;
   }
 
   .stats-value {
-    @apply text-3xl font-bold text-gray-900;
+    @apply text-2xl font-bold text-gray-900 md:text-3xl;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
   }
 
   .stats-label {
-    @apply text-sm text-gray-600 mt-1;
+    @apply text-xs text-gray-600 mt-1 md:text-sm;
   }
 
   .button-primary {
-    @apply px-4 py-2 bg-[#00C087] text-white font-medium rounded-lg hover:bg-[#00A877] transition-colors;
+    @apply px-3 py-2 bg-[#00C087] text-white font-medium rounded-lg hover:bg-[#00A877] transition-colors text-sm md:px-4 md:py-2;
   }
 
   .button-secondary {
-    @apply px-4 py-2 bg-gray-50 text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors;
+    @apply px-3 py-2 bg-gray-50 text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors text-sm md:px-4 md:py-2;
   }
 
   .badge {
@@ -95,7 +99,7 @@
   }
 
   .progress-bar {
-    @apply h-2 bg-gray-100 rounded-full overflow-hidden;
+    @apply h-1.5 bg-gray-100 rounded-full overflow-hidden md:h-2;
   }
 
   .progress-bar-fill {
@@ -133,44 +137,55 @@
   }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-200 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-300;
-}
-
 /* Mobile-first media queries */
-@media (max-width: 640px) {
-  .mario-card {
-    @apply p-4;
+@media (max-width: 768px) {
+  .sidebar {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-2 z-50;
   }
 
-  .button-primary, .button-secondary {
-    @apply px-4 py-3 text-sm;
+  .sidebar-nav {
+    @apply flex justify-around items-center;
   }
 
-  h1 {
-    @apply text-xl;
+  .sidebar-text {
+    @apply hidden;
   }
 
-  h2 {
-    @apply text-lg;
+  .main-content {
+    @apply pb-20;
   }
 
-  .stats-value {
-    @apply text-xl;
+  .nav-top {
+    @apply px-4;
+  }
+
+  .nav-top .nav-link {
+    @apply hidden;
+  }
+
+  .nav-top .button-primary,
+  .nav-top .user-button {
+    @apply block;
+  }
+}
+
+/* Custom Scrollbar - Only on desktop */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-300;
   }
 }
 
