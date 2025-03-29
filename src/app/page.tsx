@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const CandlestickIcon = () => (
   <motion.div
@@ -38,6 +39,8 @@ const ComingSoonText = () => (
 );
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 bg-white relative">
       {/* Language selector */}
@@ -69,7 +72,7 @@ export default function Home() {
             className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            animate={pulseAnimation}
+            onClick={() => router.push('/auth')}
           >
             <div className="flex items-center justify-center gap-3">
               <motion.span 
@@ -87,6 +90,7 @@ export default function Home() {
             className="w-full py-4 bg-purple-200 hover:bg-purple-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center"
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => router.push('/auth')}
           >
             <div className="flex items-center justify-center gap-3">
               <motion.span 
