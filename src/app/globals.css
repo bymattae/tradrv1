@@ -3,211 +3,156 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
   /* Brand Colors */
-  --color-neon-green: #00FF99;
-  --color-purple: #A66EFF;
-  --color-gold: #FEDA77;
+  --color-primary: #16C784;
+  --color-secondary: #FF4B4B;
+  --color-accent: #FFB800;
   --color-black: #1A1A1A;
   
   /* Gradients */
-  --gradient-green: linear-gradient(135deg, #00FF99 0%, #00CC7A 100%);
-  --gradient-purple: linear-gradient(135deg, #A66EFF 0%, #7C3AED 100%);
-  --gradient-gold: linear-gradient(135deg, #FEDA77 0%, #F5B849 100%);
+  --gradient-success: linear-gradient(135deg, #16C784 0%, #0F9F6B 100%);
+  --gradient-danger: linear-gradient(135deg, #FF4B4B 0%, #E03131 100%);
+  --gradient-warning: linear-gradient(135deg, #FFB800 0%, #F59F00 100%);
+  --gradient-card: linear-gradient(135deg, #FFFFFF 0%, #F8F9FF 100%);
   
   /* Shadows */
-  --shadow-card: 0px 8px 24px rgba(0, 0, 0, 0.08);
-  --shadow-button: 0px 4px 12px rgba(0, 0, 0, 0.12);
-  --glow-green: 0px 0px 20px rgba(0, 255, 153, 0.2);
-  --glow-purple: 0px 0px 20px rgba(166, 110, 255, 0.2);
+  --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0px 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0px 8px 16px rgba(0, 0, 0, 0.12);
+  --shadow-mario: 4px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 @layer base {
   html {
     font-family: 'Inter', sans-serif;
-    background: #FAFAFA;
+    background: #FFFFFF;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
+    font-family: 'Press Start 2P', cursive;
   }
 }
 
 @layer components {
-  .card {
-    @apply bg-white rounded-2xl shadow-lg p-6;
-    box-shadow: var(--shadow-card);
+  .mario-card {
+    @apply bg-gradient-to-b from-white to-gray-50 rounded-xl p-4 relative;
+    box-shadow: var(--shadow-mario);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .mario-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px dashed rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+    margin: 4px;
+    pointer-events: none;
+  }
+
+  .stats-value {
+    @apply text-2xl font-bold;
+    font-family: 'Press Start 2P', cursive;
+    color: var(--color-primary);
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
   }
 
   .button-primary {
-    @apply px-6 py-4 rounded-xl font-bold text-black transition-all duration-200;
-    background: var(--gradient-green);
-    box-shadow: var(--shadow-button);
+    @apply px-6 py-4 rounded-xl font-bold text-white transition-all duration-200 relative overflow-hidden;
+    background: var(--gradient-success);
+    box-shadow: var(--shadow-mario);
+    border: 2px solid rgba(255, 255, 255, 0.1);
   }
 
-  .button-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--glow-green);
+  .button-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .button-primary:hover::after {
+    transform: translateX(100%);
   }
 
   .button-secondary {
-    @apply px-6 py-4 rounded-xl font-bold text-black transition-all duration-200;
-    background: var(--gradient-purple);
-    box-shadow: var(--shadow-button);
+    @apply px-6 py-4 rounded-xl font-bold transition-all duration-200 relative overflow-hidden;
+    background: white;
+    color: var(--color-black);
+    box-shadow: var(--shadow-mario);
+    border: 2px solid rgba(0, 0, 0, 0.1);
   }
 
   .button-secondary:hover {
     transform: translateY(-2px);
-    box-shadow: var(--glow-purple);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-green);
+  .live-badge {
+    @apply px-3 py-1 rounded-full text-xs font-bold;
+    background: var(--gradient-success);
+    color: white;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .prize-badge {
+    @apply px-3 py-1 rounded-full text-xs font-bold;
+    background: var(--gradient-warning);
+    color: white;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
   }
 }
 
 /* Mobile-first media queries */
 @media (max-width: 640px) {
-  .card {
-    @apply p-4 rounded-xl;
+  .mario-card {
+    @apply p-4;
   }
 
   .button-primary, .button-secondary {
     @apply px-4 py-3 text-sm;
   }
+
+  h1 {
+    @apply text-xl;
+  }
+
+  h2 {
+    @apply text-lg;
+  }
+
+  .stats-value {
+    @apply text-xl;
+  }
 }
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+/* Mario Kart style animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+.bounce-animation {
+  animation: bounce 2s infinite ease-in-out;
 }
 
-.game-title {
-  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-  letter-spacing: -0.5px;
+@keyframes shine {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
 }
 
-.pixel-button {
-  @apply relative overflow-hidden transition-all duration-200;
-  image-rendering: pixelated;
-  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
-  transition: all 200ms;
-}
-
-.pixel-button::before {
-  content: '';
-  @apply absolute inset-0 border-2 border-black opacity-0 transition-opacity;
-}
-
-.pixel-button:hover::before {
-  @apply opacity-10;
-}
-
-.pixel-button:hover {
-  transform: translateY(-2px);
-}
-
-.pixel-border {
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 200ms;
-}
-
-.pixel-border:hover {
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
-}
-
-.pixel-border-bottom {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.05);
-}
-
-/* Add shimmer effect to the high score section */
-.high-score-shimmer {
+.shine-effect {
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.5) 50%,
-    rgba(255,255,255,0) 100%
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
   );
   background-size: 200% 100%;
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Scrolling text animation */
-.scroll-text {
-  display: inline-block;
-  padding-right: 2rem;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.scroll-text-content {
-  display: inline-flex;
-  animation: scrollText 20s linear infinite;
-  padding: 0 1rem;
-}
-
-@keyframes scrollText {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-/* Profile Builder Styles */
-.profile-preview {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-              0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.stats-card {
-  background: white;
-  border: 2px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
-  transition: all 200ms;
-}
-
-.stats-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
-}
-
-.pixel-input {
-  font-family: monospace;
-  letter-spacing: 0.5px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.05);
-}
-
-.pixel-input:focus {
-  outline: none;
-  border-color: #22C55E;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2),
-              inset 2px 2px 0px rgba(0, 0, 0, 0.05);
+  animation: shine 3s infinite linear;
 }
