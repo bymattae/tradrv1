@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen flex flex-col bg-gradient-to-b from-indigo-900 via-purple-900 to-purple-800 relative overflow-hidden">
+      <main className="min-h-screen flex flex-col bg-white relative overflow-hidden">
         {/* Floating Game Elements */}
         <motion.div 
           className="absolute w-full h-full pointer-events-none"
@@ -24,14 +24,14 @@ export default function Home() {
           {[...Array(10)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-4 h-4 bg-white/10 rounded-full"
+              className="absolute w-4 h-4 bg-black/5 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
               }}
               animate={{
                 y: [0, -20, 0],
-                opacity: [0.5, 1, 0.5],
+                opacity: [0.3, 0.6, 0.3],
               }}
               transition={{
                 duration: 3,
@@ -54,21 +54,21 @@ export default function Home() {
           >
             <div className="flex items-center justify-center gap-4 text-6xl sm:text-7xl font-bold mb-4" style={{ fontFamily: 'monospace' }}>
               <motion.span 
-                className="text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]"
+                className="text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.2)]"
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
                 BUY
               </motion.span>
               <motion.span 
-                className="text-white"
+                className="text-black"
                 whileHover={{ rotate: [0, -5, 5, 0] }}
                 transition={{ duration: 0.3 }}
               >
                 OR
               </motion.span>
               <motion.span 
-                className="text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]"
+                className="text-green-500 drop-shadow-[0_0_15px_rgba(74,222,128,0.2)]"
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
@@ -76,7 +76,7 @@ export default function Home() {
               </motion.span>
             </div>
             <motion.p 
-              className="text-lg text-gray-300"
+              className="text-lg text-gray-600"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -88,7 +88,7 @@ export default function Home() {
           {/* Game Buttons */}
           <div className="flex flex-col gap-4 w-full max-w-md">
             <motion.button
-              onClick={() => router.push('/game')}
+              onClick={() => router.push('/auth')}
               className="game-button bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -126,14 +126,14 @@ export default function Home() {
 
           {/* High Score Card */}
           <motion.div
-            className="mt-12 bg-white/10 backdrop-blur-sm rounded-xl p-6 w-full max-w-md"
+            className="mt-12 bg-gray-50 border border-gray-100 rounded-xl p-6 w-full max-w-md shadow-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
           >
             <div className="text-center">
-              <h3 className="text-xl font-bold text-white mb-4">HIGHEST SCORE</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">HIGHEST SCORE</h3>
               <div className="flex items-center justify-center gap-3">
                 <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
                   {user?.photoURL ? (
@@ -145,8 +145,8 @@ export default function Home() {
                   )}
                 </div>
                 <div className="text-left">
-                  <p className="text-gray-300">{user?.displayName || '@anonymous'}</p>
-                  <p className="text-2xl font-bold text-green-400">+10,250</p>
+                  <p className="text-gray-600">{user?.displayName || '@anonymous'}</p>
+                  <p className="text-2xl font-bold text-green-500">+10,250</p>
                 </div>
               </div>
             </div>
@@ -163,12 +163,13 @@ export default function Home() {
           text-align: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
           min-height: 80px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .game-button::before {
@@ -181,7 +182,7 @@ export default function Home() {
           background: linear-gradient(
             90deg,
             transparent,
-            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.3),
             transparent
           );
           transition: 0.5s;
