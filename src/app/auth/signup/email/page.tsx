@@ -133,7 +133,7 @@ export default function EmailSignUpPage() {
           className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg pixel-button pixel-border flex items-center justify-center mt-4"
           whileHover={{ scale: 1.02, y: -1 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => router.push('/auth/signup')}
+          onClick={() => router.push('/auth')}
         >
           <div className="flex items-center justify-center gap-3">
             <span>←</span>

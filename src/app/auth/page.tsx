@@ -42,7 +42,7 @@ export default function AuthPage() {
             className="w-full py-5 bg-green-200 hover:bg-green-300 text-black rounded-lg pixel-button pixel-border flex items-center justify-center text-lg relative shadow-lg"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => router.push('/auth/signup')}
+            onClick={() => router.push('/auth/signup/email')}
           >
             <div className="flex items-center justify-center gap-3">
               <motion.span 
