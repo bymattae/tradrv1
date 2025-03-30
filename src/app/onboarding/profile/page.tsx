@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, AlertCircle, Copy, Lock, Shield } from 'lucide-react';
 import Link from 'next/link';
@@ -49,13 +49,13 @@ export default function ProfileBuilder() {
     coverImage: null,
   });
 
-  const checklist: ChecklistItem[] = [
+  const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3 },
     { id: 'avatar', label: 'Upload avatar', isComplete: !!profileData.avatar },
     { id: 'bio', label: 'Add bio', isComplete: profileData.bio.length > 0 },
     { id: 'tags', label: 'Add tags', isComplete: profileData.tags.length > 0 },
     { id: 'theme', label: 'Pick theme', isComplete: !!profileData.theme },
-  ];
+  ], [profileData.username.length, profileData.avatar, profileData.bio.length, profileData.tags.length, profileData.theme]);
 
   const isValid = checklist.every(item => item.isComplete);
 
@@ -491,7 +491,7 @@ export default function ProfileBuilder() {
                 <span className="font-medium">Your tradr page is almost ready</span>
               </div>
               <p className="text-sm text-gray-500">
-                You'll be able to share this link with followers and post your verified trades.
+                You&apos;ll be able to share this link with followers and post your verified trades.
               </p>
             </motion.div>
 
