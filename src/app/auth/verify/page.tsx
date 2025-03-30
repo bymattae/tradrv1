@@ -2,52 +2,74 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function Verify() {
   const [code, setCode] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [canResend, setCanResend] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
-    if (timer > 0) {
-      const interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    } else {
-      setCanResend(true);
-    }
-  }, [timer]);
+    // Get email from localStorage
+    const email = localStorage.getItem('userEmail');
+    if (email) setUserEmail(email);
+
+    // Start countdown
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setCanResend(true);
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleCodeChange = (index: number, value: string) => {
-    if (value.length > 1) return; // Only allow single digits
-    
+    if (value.length > 1) value = value[0];
+    if (!/^\d*$/.test(value)) return;
+
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
 
     // Auto-focus next input
     if (value && index < 3) {
-      const nextInput = document.querySelector(`input[name="code-${index + 1}"]`) as HTMLInputElement;
-      if (nextInput) nextInput.focus();
+      const nextInput = document.getElementById(`code-${index + 1}`);
+      nextInput?.focus();
+    }
+
+    // If all digits are filled, proceed
+    if (newCode.every(digit => digit) && newCode.join('').length === 4) {
+      handleVerify();
     }
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === 'Backspace' && !code[index] && index > 0) {
-      const prevInput = document.querySelector(`input[name="code-${index - 1}"]`) as HTMLInputElement;
-      if (prevInput) prevInput.focus();
+      const prevInput = document.getElementById(`code-${index - 1}`);
+      prevInput?.focus();
     }
   };
 
+  const handleVerify = () => {
+    // For now, just proceed to profile setup
+    router.push('/onboarding/profile');
+  };
+
   const handleResend = () => {
-    if (canResend) {
-      setTimer(30);
-      setCanResend(false);
-      // Handle resend logic here
-    }
+    if (!canResend) return;
+    setTimeLeft(30);
+    setCanResend(false);
+    // Resend verification code logic here
   };
 
   return (
@@ -66,40 +88,34 @@ export default function Verify() {
           className="w-full max-w-sm space-y-8"
         >
           <div className="text-center space-y-2">
-            <div className="w-16 h-16 mx-auto bg-purple-600 rounded-2xl flex items-center justify-center mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
             <h1 className="text-2xl font-bold text-gray-900">
               Verify your email
             </h1>
             <p className="text-gray-600">
-              We&apos;ve sent a verification code to your email
+              We&apos;ve sent a verification code to {userEmail}
             </p>
           </div>
 
           <div className="space-y-6">
+            {/* Code input */}
             <div className="flex justify-center gap-3">
               {code.map((digit, index) => (
                 <input
                   key={index}
+                  id={`code-${index}`}
                   type="text"
-                  name={`code-${index}`}
+                  maxLength={1}
                   value={digit}
                   onChange={(e) => handleCodeChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-14 h-14 text-center text-2xl font-medium rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                  maxLength={1}
-                  pattern="[0-9]*"
-                  inputMode="numeric"
+                  className="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none"
                 />
               ))}
             </div>
 
             <button 
               className="w-full bg-purple-600 text-white py-3 rounded-xl font-medium hover:bg-purple-700 transition-colors"
-              onClick={() => {/* Handle verification */}}
+              onClick={handleVerify}
             >
               Verify Email
             </button>
@@ -112,10 +128,12 @@ export default function Verify() {
                 onClick={handleResend}
                 disabled={!canResend}
                 className={`text-sm font-medium ${
-                  canResend ? 'text-purple-600 hover:text-purple-700' : 'text-gray-400'
+                  canResend 
+                    ? 'text-purple-600 hover:text-purple-700' 
+                    : 'text-gray-400'
                 }`}
               >
-                {canResend ? 'Resend Code' : `Resend in ${timer}s`}
+                {canResend ? 'Resend Code' : `Resend in ${timeLeft}s`}
               </button>
             </div>
           </div>

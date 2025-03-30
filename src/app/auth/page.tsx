@@ -4,9 +4,35 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
+  const router = useRouter();
+
+  const handleEmailLogin = () => {
+    if (!email) {
+      alert('Please enter your email address');
+      return;
+    }
+    // Store email in localStorage for verification page
+    localStorage.setItem('userEmail', email);
+    router.push('/auth/verify');
+  };
+
+  const handleGoogleLogin = () => {
+    // For now, just navigate to verify page
+    router.push('/auth/verify');
+  };
+
+  const handleAppleLogin = () => {
+    // For now, just navigate to verify page
+    router.push('/auth/verify');
+  };
+
+  const handleSkip = () => {
+    router.push('/onboarding/profile');
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -16,7 +42,10 @@ export default function Auth() {
           <ArrowLeft className="w-6 h-6" />
         </Link>
         <div className="flex-1" />
-        <button className="text-sm text-purple-600 font-medium">
+        <button 
+          className="text-sm text-purple-600 font-medium"
+          onClick={handleSkip}
+        >
           Skip
         </button>
       </nav>
@@ -49,7 +78,7 @@ export default function Auth() {
 
             <button 
               className="w-full bg-purple-600 text-white py-3 rounded-xl font-medium hover:bg-purple-700 transition-colors"
-              onClick={() => {/* Handle email login */}}
+              onClick={handleEmailLogin}
             >
               Continue with Email
             </button>
@@ -65,7 +94,7 @@ export default function Auth() {
 
             <button 
               className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
-              onClick={() => {/* Handle Google login */}}
+              onClick={handleGoogleLogin}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -90,7 +119,7 @@ export default function Auth() {
 
             <button 
               className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
-              onClick={() => {/* Handle Apple login */}}
+              onClick={handleAppleLogin}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
