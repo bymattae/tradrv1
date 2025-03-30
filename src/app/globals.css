@@ -33,12 +33,10 @@
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: var(--color-background);
-    color: var(--color-text);
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased bg-white text-gray-900;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -48,10 +46,6 @@
 
   * {
     @apply border-gray-200;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
   }
 }
 
