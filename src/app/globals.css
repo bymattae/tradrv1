@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
 
 @layer base {
-  :root {
+:root {
     /* Light Theme Colors */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
