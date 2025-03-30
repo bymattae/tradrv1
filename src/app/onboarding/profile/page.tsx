@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Edit2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Edit2, AlertCircle, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -74,7 +74,7 @@ export default function ProfileBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       {/* Top Navigation */}
       <nav className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-lg border-b border-gray-100">
         <Link href="/auth/verify" className="text-gray-600 hover:text-gray-900">
@@ -83,14 +83,29 @@ export default function ProfileBuilder() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-sm font-medium text-gray-600"
+          className="flex items-center gap-2 text-sm font-medium text-gray-600"
         >
-          Building your profile
+          <Sparkles className="w-4 h-4 text-purple-500" />
+          <span>Building your profile</span>
         </motion.div>
-        <div className="w-6" /> {/* Spacer for alignment */}
+        <div className="w-6" />
       </nav>
 
-      <main className="max-w-xl mx-auto p-6 space-y-8">
+      <main className="max-w-xl mx-auto p-6">
+        {/* Guidance Text */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-6"
+        >
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Your trading profile
+          </h1>
+          <p className="text-gray-600">
+            This is how other traders will see you on tradr.co/{profileData.username || 'username'}
+          </p>
+        </motion.div>
+
         {/* Live Profile Card Editor */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -98,7 +113,14 @@ export default function ProfileBuilder() {
           className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100"
         >
           {/* Cover Image */}
-          <div className="h-32 bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-500" />
+          <div className="h-32 bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-500 relative overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, scale: 1.2 }}
+              animate={{ opacity: 0.1, scale: 1 }}
+              transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
+              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2),_rgba(255,255,255,0))]"
+            />
+          </div>
           
           {/* Profile Content */}
           <div className="relative px-6 pb-6">
@@ -111,15 +133,22 @@ export default function ProfileBuilder() {
                 className="relative w-32 h-32 rounded-2xl bg-gray-50 border-4 border-white shadow-lg overflow-hidden group"
               >
                 {profileData.avatar ? (
-                  <Image
-                    src={profileData.avatar}
-                    alt="Profile"
-                    fill
-                    className="object-cover"
-                  />
+                  <motion.div
+                    initial={{ scale: 1.2, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="w-full h-full"
+                  >
+                    <Image
+                      src={profileData.avatar}
+                      alt="Profile"
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Camera className="w-8 h-8 text-gray-400" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-gray-400">
+                    <Camera className="w-8 h-8" />
+                    <span className="text-xs font-medium">Add photo</span>
                   </div>
                 )}
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -137,30 +166,43 @@ export default function ProfileBuilder() {
 
             {/* Username & Bio */}
             <div className="pt-20 space-y-4">
-              {/* Username */}
+              {/* Username with @ symbol */}
               <div className="relative group">
                 {isEditing === 'username' ? (
-                  <motion.input
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    autoFocus
-                    value={profileData.username}
-                    onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
-                    onBlur={() => setIsEditing(null)}
-                    placeholder="Your username"
-                    className="text-2xl font-bold w-full bg-transparent outline-none border-b-2 border-purple-500"
-                  />
+                    className="flex items-center"
+                  >
+                    <span className="text-2xl font-bold text-gray-400">@</span>
+                    <input
+                      autoFocus
+                      value={profileData.username}
+                      onChange={(e) => setProfileData({ ...profileData, username: e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '') })}
+                      onBlur={() => setIsEditing(null)}
+                      placeholder="username"
+                      className="text-2xl font-bold w-full bg-transparent outline-none border-b-2 border-purple-500 ml-1"
+                    />
+                  </motion.div>
                 ) : (
                   <motion.div
                     onClick={() => setIsEditing('username')}
-                    className="flex items-center gap-2 cursor-text"
+                    className="flex items-center gap-2 cursor-text group"
                   >
-                    <span className="text-2xl font-bold">
-                      {profileData.username || 'Add username'}
+                    <span className="text-2xl font-bold text-gray-400">@</span>
+                    <span className="text-2xl font-bold text-gray-900">
+                      {profileData.username || 'username'}
                     </span>
                     <Edit2 className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </motion.div>
                 )}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: profileData.username ? 1 : 0 }}
+                  className="absolute -top-6 left-0 text-xs font-medium text-gray-500"
+                >
+                  Your unique username
+                </motion.div>
               </div>
 
               {/* Bio */}
@@ -173,14 +215,14 @@ export default function ProfileBuilder() {
                     value={profileData.bio}
                     onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
                     onBlur={() => setIsEditing(null)}
-                    placeholder="Write a short bio..."
-                    className="w-full bg-transparent outline-none resize-none text-gray-600"
+                    placeholder="Describe your trading style in a few words..."
+                    className="w-full bg-transparent outline-none resize-none text-gray-600 border-b-2 border-purple-500"
                     rows={2}
                   />
                 ) : (
                   <motion.div
                     onClick={() => setIsEditing('bio')}
-                    className="flex items-start gap-2 cursor-text"
+                    className="flex items-start gap-2 cursor-text min-h-[3rem]"
                   >
                     <span className="text-gray-600">
                       {profileData.bio || 'Add a short bio'}
@@ -188,10 +230,28 @@ export default function ProfileBuilder() {
                     <Edit2 className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </motion.div>
                 )}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: profileData.bio ? 1 : 0 }}
+                  className="absolute -top-6 left-0 text-xs font-medium text-gray-500"
+                >
+                  Your trading bio
+                </motion.div>
               </div>
 
               {/* Tags */}
-              <div className="space-y-3">
+              <div className="space-y-3 pt-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-xs font-medium text-gray-500"
+                >
+                  {profileData.tags.length === 5 ? 
+                    'Maximum tags selected' : 
+                    `Select up to ${5 - profileData.tags.length} more tags`
+                  }
+                </motion.div>
+                
                 <div className="flex flex-wrap gap-2">
                   <AnimatePresence>
                     {profileData.tags.map((tag) => (
@@ -203,7 +263,7 @@ export default function ProfileBuilder() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleTagToggle(tag)}
-                        className="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium flex items-center gap-1 group"
+                        className="px-3 py-1.5 rounded-full bg-purple-50 text-purple-700 text-sm font-medium flex items-center gap-1.5 group hover:bg-purple-100 transition-colors"
                       >
                         {tag}
                         <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -222,7 +282,7 @@ export default function ProfileBuilder() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleTagToggle(tag)}
-                          className="px-3 py-1 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+                          className="px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
                         >
                           {tag}
                         </motion.button>
@@ -235,7 +295,12 @@ export default function ProfileBuilder() {
         </motion.div>
 
         {/* Continue Button */}
-        <motion.div className="space-y-4">
+        <motion.div 
+          className="mt-8 space-y-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
           <button
             onClick={handleContinue}
             disabled={!isValid}
