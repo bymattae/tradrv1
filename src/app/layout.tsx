@@ -2,11 +2,14 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-  title: 'Tradr - The Game for Traders',
-  description: 'A fun trading game where you can battle friends and climb the leaderboard',
+  title: 'TRADR - The Trading Game',
+  description: 'Trade, compete, and earn rewards in the most exciting trading game',
 };
 
 export default function RootLayout({
@@ -15,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="h-full">
+      <body className={`${inter.variable} font-sans h-full bg-gray-50`}>
         <main className="min-h-[100dvh] bg-white">
           {children}
         </main>
