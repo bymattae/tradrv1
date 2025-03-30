@@ -74,8 +74,8 @@ export default function Verify() {
             <h1 className="text-2xl font-bold text-gray-900">
               Verify your email
             </h1>
-            <p className="text-sm text-gray-600">
-              We've sent a code to trader@email.com
+            <p className="text-gray-600">
+              We&apos;ve sent a verification code to your email
             </p>
           </div>
 
@@ -105,8 +105,8 @@ export default function Verify() {
             </button>
 
             <div className="text-center space-y-2">
-              <p className="text-sm text-gray-600">
-                Didn't receive the code?
+              <p className="text-gray-600">
+                Didn&apos;t receive the code?
               </p>
               <button
                 onClick={handleResend}

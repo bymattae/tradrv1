@@ -62,7 +62,7 @@ export default function Success() {
               Welcome to tradr! 🎉
             </h1>
             <p className="text-gray-600">
-              Your profile is set up and ready to go. Let's start your trading journey!
+              Your profile is set up and ready to go. Let&apos;s start your trading journey!
             </p>
           </div>
 

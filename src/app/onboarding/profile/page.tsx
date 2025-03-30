@@ -82,7 +82,7 @@ export default function ProfileBuilder() {
               Build your profile
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              Let's create your public trading profile
+              Let&apos;s create your public trading profile
             </p>
           </div>
 
