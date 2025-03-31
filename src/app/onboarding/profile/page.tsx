@@ -10,6 +10,7 @@ import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Space_Grotesk } from 'next/font/google';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Theme {
   id: string;
@@ -222,6 +223,7 @@ export default function ProfileBuilder() {
   const [tagSearch, setTagSearch] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState<TagSuggestion[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
+  const { toast } = useToast();
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -490,7 +492,7 @@ export default function ProfileBuilder() {
               <div className="relative">
                 <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)]" />
                 <div className="relative bg-white/5 rounded-2xl p-3 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                  <div className="flex flex-wrap justify-start gap-2">
+                  <div className="flex flex-wrap justify-center gap-2">
                     {profileData.tags.map((tag, index) => (
                       <motion.div
                         key={index}
@@ -518,7 +520,7 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className="px-3 py-2 rounded-xl bg-white/5 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/10 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk min-h-[44px]"
+                        className="px-3 py-2 rounded-xl bg-white/5 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/10 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk min-h-[44px] text-center"
                         placeholder="#addhashtag"
                       />
                     )}
@@ -595,9 +597,28 @@ export default function ProfileBuilder() {
 
             {/* Footer */}
             <div className="mt-6 sm:mt-8 text-center">
-              <div className="text-sm text-black/50 font-normal font-space-grotesk">
-                Made with <span className="text-[#00E396]">#Tradr</span>
-              </div>
+              <button
+                onClick={() => {
+                  const shareLink = `tradr.co/${profileData.username.replace(/[^a-z0-9]/g, '')}`;
+                  navigator.clipboard.writeText(shareLink);
+                  toast({
+                    title: "Link copied!",
+                    description: "Your profile link has been copied to clipboard.",
+                    duration: 2000,
+                  });
+                }}
+                className="group relative inline-flex items-center gap-1.5"
+              >
+                <div className={`text-base sm:text-lg font-bold tracking-wide ${
+                  currentTheme.name === 'Dark' ? 'text-white' : 'text-black'
+                } font-space-grotesk drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`}>
+                  Made with{' '}
+                  <span className={`${currentTheme.gradient} drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`}>
+                    #Tradr
+                  </span>
+                  <span className="ml-1 opacity-75 group-hover:opacity-100 transition-opacity">✨</span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
