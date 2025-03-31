@@ -69,59 +69,59 @@ const spaceGrotesk = Space_Grotesk({
 
 const THEMES: Theme[] = [
   { 
-    id: 'vaporwave',
-    name: 'Vaporwave',
-    gradient: 'from-[#a86efc] via-[#3a7bd5] to-[#3a7bd5]',
-    textColor: 'text-white',
-    tagBg: 'bg-white/10',
-    tagText: 'text-white',
-    linkColor: 'text-white/90 hover:text-white',
-    statColor: 'text-white',
-    accentColor: 'text-[#d9bfff]',
+    id: 'vapor',
+    name: 'Vapor',
+    gradient: 'from-[#A18CD1] via-[#FBC2EB] to-[#FBC2EB]',
+    textColor: 'text-[#2a2a2a]',
+    tagBg: 'bg-white/20',
+    tagText: 'text-[#2a2a2a]',
+    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
+    statColor: 'text-[#2a2a2a]',
+    accentColor: 'text-[#A18CD1]',
   },
   { 
-    id: 'mist',
-    name: 'Mist',
-    gradient: 'from-[#e0e8f9] via-[#c1d4f5] to-[#c1d4f5]',
-    textColor: 'text-[#1a1a1a]',
-    tagBg: 'bg-[#1a1a1a]/10',
-    tagText: 'text-[#1a1a1a]',
-    linkColor: 'text-[#1a1a1a]/90 hover:text-[#1a1a1a]',
-    statColor: 'text-[#1a1a1a]',
-    accentColor: 'text-[#3a7bd5]',
+    id: 'daylight',
+    name: 'Daylight',
+    gradient: 'from-[#FDEB71] via-[#F8D800] to-[#F8D800]',
+    textColor: 'text-[#2a2a2a]',
+    tagBg: 'bg-white/20',
+    tagText: 'text-[#2a2a2a]',
+    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
+    statColor: 'text-[#2a2a2a]',
+    accentColor: 'text-[#F8D800]',
   },
   { 
-    id: 'cotton',
-    name: 'Cotton',
-    gradient: 'from-[#ffdde1] via-[#ee9ca7] to-[#ee9ca7]',
-    textColor: 'text-[#1a1a1a]',
-    tagBg: 'bg-[#1a1a1a]/10',
-    tagText: 'text-[#1a1a1a]',
-    linkColor: 'text-[#1a1a1a]/90 hover:text-[#1a1a1a]',
-    statColor: 'text-[#1a1a1a]',
-    accentColor: 'text-[#ff7a9f]',
+    id: 'dusk',
+    name: 'Dusk',
+    gradient: 'from-[#A1C4FD] via-[#C2E9FB] to-[#C2E9FB]',
+    textColor: 'text-[#2a2a2a]',
+    tagBg: 'bg-white/20',
+    tagText: 'text-[#2a2a2a]',
+    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
+    statColor: 'text-[#2a2a2a]',
+    accentColor: 'text-[#A1C4FD]',
   },
   { 
-    id: 'midnight',
-    name: 'Midnight',
-    gradient: 'from-[#1f1c2c] via-[#928dab] to-[#928dab]',
-    textColor: 'text-white',
-    tagBg: 'bg-white/10',
-    tagText: 'text-white',
-    linkColor: 'text-white/90 hover:text-white',
-    statColor: 'text-white',
-    accentColor: 'text-[#ae97ff]',
+    id: 'rose',
+    name: 'Rose',
+    gradient: 'from-[#FDCBCA] via-[#D4A5A5] to-[#D4A5A5]',
+    textColor: 'text-[#2a2a2a]',
+    tagBg: 'bg-white/20',
+    tagText: 'text-[#2a2a2a]',
+    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
+    statColor: 'text-[#2a2a2a]',
+    accentColor: 'text-[#D4A5A5]',
   },
   { 
-    id: 'sunburst',
-    name: 'Sunburst',
-    gradient: 'from-[#f6d365] via-[#fda085] to-[#fda085]',
-    textColor: 'text-[#1a1a1a]',
-    tagBg: 'bg-[#1a1a1a]/10',
-    tagText: 'text-[#1a1a1a]',
-    linkColor: 'text-[#1a1a1a]/90 hover:text-[#1a1a1a]',
-    statColor: 'text-[#1a1a1a]',
-    accentColor: 'text-[#ff9138]',
+    id: 'phantom',
+    name: 'Phantom',
+    gradient: 'from-[#8E9EAB] via-[#EEF2F3] to-[#EEF2F3]',
+    textColor: 'text-[#2a2a2a]',
+    tagBg: 'bg-white/20',
+    tagText: 'text-[#2a2a2a]',
+    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
+    statColor: 'text-[#2a2a2a]',
+    accentColor: 'text-[#8E9EAB]',
   },
 ];
 
@@ -440,7 +440,7 @@ export default function ProfileBuilder() {
                 )}
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <div className="text-white text-sm font-medium">Click to upload photo</div>
+                <div className="text-white text-sm font-medium">Tap to upload photo</div>
               </div>
             </motion.button>
 
@@ -520,22 +520,19 @@ export default function ProfileBuilder() {
           <div className="mt-8">
             <div className="flex items-center justify-center gap-8">
               <div className="text-center">
-                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                  <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                  <span className={currentTheme.accentColor}>+{profileData.stats.performance}%</span>
+                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
+                  +{profileData.stats.performance}%
                 </div>
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Gain</div>
               </div>
               <div className="text-center">
-                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                  <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
                   {profileData.stats.winRate}%
                 </div>
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Win Rate</div>
               </div>
               <div className="text-center">
-                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                  <LineChart className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
                   {profileData.stats.maxDD}
                 </div>
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Avg R:R</div>
