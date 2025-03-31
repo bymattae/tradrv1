@@ -447,16 +447,18 @@ export default function ProfileBuilder() {
             <div className="text-center w-full max-w-[280px]">
               <div className="relative group">
                 <div className="relative flex items-center justify-center">
-                  <span className={`absolute left-0 text-4xl font-bold tracking-tight ${currentTheme.textColor} font-space-grotesk`}>@</span>
-                  <input
-                    type="text"
-                    value={profileData.username}
-                    onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
-                    className={`w-full text-center text-4xl font-bold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors pl-6 pr-12 py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
-                    placeholder="username"
-                  />
+                  <div className="flex items-center gap-1">
+                    <span className={`text-4xl font-bold tracking-tight ${currentTheme.textColor} font-space-grotesk`}>@</span>
+                    <input
+                      type="text"
+                      value={profileData.username}
+                      onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
+                      className={`text-4xl font-bold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
+                      placeholder="username"
+                    />
+                  </div>
                   {profileData.username.length >= 3 && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/10 rounded-full p-1">
+                    <div className="absolute right-[-40px] top-1/2 -translate-y-1/2 bg-white/10 rounded-full p-1">
                       {usernameAvailable ? (
                         <Check className="w-5 h-5 text-[#16c784]" />
                       ) : (
@@ -481,7 +483,7 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Bio */}
-            <div className="relative group w-full max-w-[280px] mt-2">
+            <div className="relative group w-full max-w-[280px] mt-4">
               <div
                 className={`text-center ${currentTheme.textColor} text-lg cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium font-space-grotesk`}
                 onClick={() => setEditingField('bio')}
@@ -507,7 +509,7 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Stats Section */}
-          <div className="mt-8 px-6">
+          <div className="mt-6 px-6">
             <div className="relative">
               <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
               <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
@@ -540,7 +542,7 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Tags Section */}
-          <div className="mt-4 px-6">
+          <div className="mt-6 px-6">
             <div className="relative">
               <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
               <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
