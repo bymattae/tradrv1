@@ -404,6 +404,16 @@ export default function ProfileBuilder() {
         <div className="relative w-full max-w-[420px] mx-auto px-4">
           <div className="absolute inset-0 bg-white/5 rounded-3xl backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.05)]" />
           <div className={`relative bg-white/5 rounded-3xl p-4 sm:p-6 border border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.05)] ${currentTheme.bgGradient}`}>
+            {/* Title Section */}
+            <div className="text-center mb-6 sm:mb-8">
+              <h1 className="text-lg sm:text-xl font-bold text-black font-space-grotesk">
+                Build your profile
+              </h1>
+              <p className="text-base sm:text-lg text-black/60 font-space-grotesk mt-1">
+                Make it stand out
+              </p>
+            </div>
+
             {/* Avatar Section */}
             <div className="relative group">
               <div className={`w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full border-2 ${currentTheme.borderColor}/20 transition-all duration-300 group-hover:border-white/30 overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.05)]`}>
@@ -596,7 +606,7 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Footer */}
-            <div className="mt-6 sm:mt-8 text-center">
+            <div className="mt-8 sm:mt-10 text-center pb-2 sm:pb-4">
               <button
                 onClick={() => {
                   const shareLink = `tradr.co/${profileData.username.replace(/[^a-z0-9]/g, '')}`;
@@ -611,9 +621,9 @@ export default function ProfileBuilder() {
               >
                 <div className={`text-base sm:text-lg font-bold tracking-wide ${
                   currentTheme.name === 'Dark' ? 'text-white' : 'text-black'
-                } font-space-grotesk drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`}>
+                } font-space-grotesk drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}>
                   Made with{' '}
-                  <span className={`${currentTheme.gradient} drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`}>
+                  <span className={`${currentTheme.gradient} drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}>
                     #Tradr
                   </span>
                   <span className="ml-1 opacity-75 group-hover:opacity-100 transition-opacity">✨</span>
