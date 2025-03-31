@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface ProfileData {
   username: string;
@@ -17,6 +18,10 @@ interface ProfileData {
   theme: string;
   coverImage: string | null;
   xp: number;
+  level: number;
+  followers: number;
+  following: number;
+  trades: number;
 }
 
 interface ChecklistItem {
@@ -67,6 +72,13 @@ const TAG_ICONS: Record<string, LucideIcon> = {
   // Add more tag icons as needed
 };
 
+const SUGGESTED_TAGS = [
+  '🎯 Trader',
+  '⚡ Funded',
+  '✨ Crypto',
+  '🔥 Forex',
+];
+
 export default function ProfileBuilder() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -84,8 +96,13 @@ export default function ProfileBuilder() {
     tags: [],
     theme: THEMES[0].id,
     coverImage: null,
-    xp: 0
+    xp: 0,
+    level: 1,
+    followers: 0,
+    following: 0,
+    trades: 0
   });
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -175,6 +192,49 @@ export default function ProfileBuilder() {
     setTimeout(() => setShowCopied(false), 2000);
   };
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileData(prev => ({
+          ...prev,
+          avatar: reader.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleFieldEdit = (field: string, value: string) => {
+    setProfileData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleTagToggle = (tag: string) => {
+    setProfileData(prev => {
+      const tags = prev.tags.includes(tag)
+        ? prev.tags.filter(t => t !== tag)
+        : [...prev.tags, tag].slice(0, 3);
+      return { ...prev, tags };
+    });
+  };
+
+  const handlePreviewShare = () => {
+    setIsPreviewOpen(true);
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  };
+
   const currentTheme = THEMES.find(t => t.id === profileData.theme) || THEMES[0];
 
   return (
@@ -232,7 +292,7 @@ export default function ProfileBuilder() {
               {/* Level Badge */}
               <div className="flex items-center gap-2 mb-3">
                 <Shield className="w-4 h-4 text-[#A259FF]" />
-                <span className="text-sm font-medium">Level 1 Trader</span>
+                <span className="text-sm font-medium">Level {Math.floor(profileData.xp / 100) + 1}</span>
               </div>
 
               {/* Progress Bar */}
@@ -333,7 +393,7 @@ export default function ProfileBuilder() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={handleAvatarClick}
                       className="relative w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 shadow-lg overflow-hidden group backdrop-blur-sm"
                     >
                       {profileData.avatar ? (
@@ -431,10 +491,7 @@ export default function ProfileBuilder() {
                               exit={{ opacity: 0, scale: 0.8 }}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              onClick={() => setProfileData({
-                                ...profileData,
-                                tags: profileData.tags.filter(t => t !== tag)
-                              })}
+                              onClick={() => handleTagToggle(tag)}
                               className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium flex items-center gap-1.5 group hover:bg-white/20 transition-all border border-white/10"
                             >
                               <TagIcon className="w-3.5 h-3.5" />
@@ -507,19 +564,11 @@ export default function ProfileBuilder() {
 
             {/* Preview Share Card Button */}
             <motion.button
-              onClick={() => {
-                // Add share preview logic here
-                confetti({
-                  particleCount: 50,
-                  spread: 60,
-                  origin: { y: 0.8 },
-                  colors: ['#A259FF', '#6B4EFF', '#241654']
-                });
-              }}
+              onClick={handlePreviewShare}
               className="mt-4 w-full py-3 rounded-2xl bg-white border border-gray-200 shadow-sm hover:border-[#A259FF]/20 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group"
             >
               <div className="w-5 h-5 rounded-lg bg-[#A259FF]/10 flex items-center justify-center group-hover:bg-[#A259FF]/20 transition-colors">
-                <Share className="w-3 h-3 text-[#A259FF]" />
+                <Share2 className="w-3 h-3 text-[#A259FF]" />
               </div>
               <span className="font-medium text-gray-900">Preview Share Card</span>
             </motion.button>
@@ -547,6 +596,72 @@ export default function ProfileBuilder() {
           </motion.div>
         </div>
       </main>
+
+      {/* Preview Modal */}
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="sm:max-w-md">
+          <div className="aspect-[1.4/1] relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-background to-secondary/20 p-6">
+            {/* Card Preview Content */}
+            <div className="flex items-center gap-4 mb-4">
+              <div className="relative">
+                <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-primary/20">
+                  {profileData.avatar && (
+                    <Image
+                      src={profileData.avatar}
+                      alt="Profile"
+                      width={64}
+                      height={64}
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-primary text-white text-xs font-medium px-1.5 rounded-full">
+                  {Math.floor(profileData.xp / 100) + 1}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-semibold">{profileData.username}</span>
+                  <BadgeCheck className="w-5 h-5 text-primary" />
+                </div>
+                <div className="text-sm text-muted-foreground mt-1">{profileData.bio}</div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl mb-4">
+              <div className="text-center">
+                <div className="text-sm font-medium">{profileData.followers}</div>
+                <div className="text-xs text-muted-foreground">Followers</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-medium">{profileData.following}</div>
+                <div className="text-xs text-muted-foreground">Following</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-medium">{profileData.trades}</div>
+                <div className="text-xs text-muted-foreground">Trades</div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {profileData.tags.map((tag) => {
+                const tagText = tag.split(' ')[1];
+                const TagIcon = (TAG_ICONS[tagText.toLowerCase()] as LucideIcon) || Target;
+                return (
+                  <div
+                    key={tag}
+                    className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full text-sm"
+                  >
+                    <TagIcon className="w-4 h-4 text-primary" />
+                    <span>{tagText}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 } 
