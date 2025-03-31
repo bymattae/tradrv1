@@ -390,7 +390,7 @@ export default function ProfileBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] p-4 font-sans">
+    <div className="min-h-screen bg-[#fafafa] p-4 font-space-grotesk">
       {/* Top Navigation */}
       <nav className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white/70 backdrop-blur-xl border-b border-gray-100 mb-8">
         <Link href="/auth/verify" className="text-gray-600 hover:text-gray-900">
@@ -438,7 +438,7 @@ export default function ProfileBuilder() {
                       type="text"
                       value={profileData.username}
                       onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase().slice(0, 18))}
-                      className="w-full text-center text-xl sm:text-2xl font-semibold tracking-tight text-black bg-white/5 border border-white/5 rounded-2xl py-2.5 px-10 focus:outline-none focus:border-white/10 focus:bg-white/10 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.05)] font-space-grotesk"
+                      className="w-full text-center text-xl sm:text-2xl font-semibold tracking-tight text-black bg-white/5 border border-white/5 rounded-2xl py-2.5 px-10 focus:outline-none focus:border-white/10 focus:bg-white/10 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.05)] font-space-grotesk placeholder:text-black/30"
                       placeholder="username"
                     />
                     {profileData.username.length >= 3 && (
@@ -481,7 +481,7 @@ export default function ProfileBuilder() {
                         type="text"
                         value={profileData.bio}
                         onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                        className="w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk text-base sm:text-lg"
+                        className="w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk text-base sm:text-lg placeholder:text-black/30"
                         placeholder="Add a short trader bio..."
                         onBlur={() => setEditingField(null)}
                         autoFocus
@@ -530,7 +530,7 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className="px-3 py-2 rounded-xl bg-white/5 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/10 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk min-h-[44px] text-center"
+                        className="px-3 py-2 rounded-xl bg-white/5 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/10 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk min-h-[44px] text-center placeholder:text-black/30"
                         placeholder="#addhashtag"
                       />
                     )}
