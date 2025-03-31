@@ -485,7 +485,7 @@ export default function ProfileBuilder() {
               <div className="relative">
                 <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
                 <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
-                  <div className="flex flex-wrap justify-center gap-2">
+                  <div className="flex flex-wrap justify-start gap-2">
                     {profileData.tags.map((tag, index) => (
                       <motion.div
                         key={index}
