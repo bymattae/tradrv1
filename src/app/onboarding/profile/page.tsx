@@ -65,57 +65,57 @@ const THEMES: Theme[] = [
   { 
     id: 'vapor',
     name: 'Vapor',
-    gradient: 'from-[#FC67FA] via-[#6A82FB] to-[#4B6CB7]',
+    gradient: 'from-[#a86efc] via-[#3a7bd5] to-[#3a7bd5]',
     textColor: 'text-white',
     tagBg: 'bg-white/10',
     tagText: 'text-white',
-    linkColor: 'text-white/80 hover:text-white',
+    linkColor: 'text-white/90 hover:text-white',
     statColor: 'text-white',
-    accentColor: 'text-green-400',
+    accentColor: 'text-[#d9bfff]',
   },
   { 
-    id: 'aurora',
-    name: 'Aurora',
-    gradient: 'from-[#00C4CC] via-[#4B6CB7] to-[#182848]',
+    id: 'mist',
+    name: 'Mist',
+    gradient: 'from-[#e0e8f9] via-[#c1d4f5] to-[#c1d4f5]',
+    textColor: 'text-[#212121]',
+    tagBg: 'bg-[#212121]/10',
+    tagText: 'text-[#212121]',
+    linkColor: 'text-[#212121]/90 hover:text-[#212121]',
+    statColor: 'text-[#212121]',
+    accentColor: 'text-[#3a7bd5]',
+  },
+  { 
+    id: 'cotton',
+    name: 'Cotton',
+    gradient: 'from-[#ffdde1] via-[#ee9ca7] to-[#ee9ca7]',
+    textColor: 'text-[#222222]',
+    tagBg: 'bg-[#222222]/10',
+    tagText: 'text-[#222222]',
+    linkColor: 'text-[#222222]/90 hover:text-[#222222]',
+    statColor: 'text-[#222222]',
+    accentColor: 'text-[#ff7a9f]',
+  },
+  { 
+    id: 'midnight',
+    name: 'Midnight',
+    gradient: 'from-[#1f1c2c] via-[#928dab] to-[#928dab]',
     textColor: 'text-white',
     tagBg: 'bg-white/10',
     tagText: 'text-white',
-    linkColor: 'text-white/80 hover:text-white',
+    linkColor: 'text-white/90 hover:text-white',
     statColor: 'text-white',
-    accentColor: 'text-green-400',
+    accentColor: 'text-[#ae97ff]',
   },
   { 
-    id: 'ultraviolet',
-    name: 'Ultraviolet',
-    gradient: 'from-[#A259FF] via-[#6B4EFF] to-[#241654]',
-    textColor: 'text-white',
-    tagBg: 'bg-white/10',
-    tagText: 'text-white',
-    linkColor: 'text-white/80 hover:text-white',
-    statColor: 'text-white',
-    accentColor: 'text-green-400',
-  },
-  { 
-    id: 'neon-fade',
-    name: 'Neon Fade',
-    gradient: 'from-[#FF3CAC] via-[#784BA0] to-[#2B86C5]',
-    textColor: 'text-white',
-    tagBg: 'bg-white/10',
-    tagText: 'text-white',
-    linkColor: 'text-white/80 hover:text-white',
-    statColor: 'text-white',
-    accentColor: 'text-green-400',
-  },
-  { 
-    id: 'yellow-flame',
-    name: 'Yellow Flame',
-    gradient: 'from-[#F7971E] via-[#FFD200] to-[#FF6B6B]',
-    textColor: 'text-black',
-    tagBg: 'bg-black/10',
-    tagText: 'text-black',
-    linkColor: 'text-black/80 hover:text-black',
-    statColor: 'text-black',
-    accentColor: 'text-green-600',
+    id: 'sunburst',
+    name: 'Sunburst',
+    gradient: 'from-[#f6d365] via-[#fda085] to-[#fda085]',
+    textColor: 'text-[#222222]',
+    tagBg: 'bg-[#222222]/10',
+    tagText: 'text-[#222222]',
+    linkColor: 'text-[#222222]/90 hover:text-[#222222]',
+    statColor: 'text-[#222222]',
+    accentColor: 'text-[#ff9138]',
   }
 ];
 
@@ -462,7 +462,7 @@ export default function ProfileBuilder() {
             {/* Bio */}
             <div className="relative group w-full max-w-[280px]">
               <div
-                className={`text-center ${currentTheme.textColor}/80 text-sm cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors`}
+                className={`text-center ${currentTheme.textColor} text-sm cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium`}
                 onClick={() => setEditingField('bio')}
               >
                 {editingField === 'bio' ? (
@@ -491,24 +491,24 @@ export default function ProfileBuilder() {
               <div className="flex items-center justify-center gap-8">
                 <div className="text-center">
                   <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                    <TrendingUp className="w-4 h-4" />
+                    <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
                     <span className={currentTheme.accentColor}>+{profileData.stats.performance}%</span>
                   </div>
-                  <div className={`text-xs ${currentTheme.textColor}/60`}>Gain</div>
+                  <div className={`text-xs ${currentTheme.textColor} font-medium`}>Gain</div>
                 </div>
                 <div className="text-center">
                   <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                    <Percent className="w-4 h-4" />
+                    <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
                     {profileData.stats.winRate}%
                   </div>
-                  <div className={`text-xs ${currentTheme.textColor}/60`}>Win Rate</div>
+                  <div className={`text-xs ${currentTheme.textColor} font-medium`}>Win Rate</div>
                 </div>
                 <div className="text-center">
                   <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                    <Wallet className="w-4 h-4" />
+                    <Wallet className={`w-4 h-4 ${currentTheme.accentColor}`} />
                     {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
                   </div>
-                  <div className={`text-xs ${currentTheme.textColor}/60`}>Verified</div>
+                  <div className={`text-xs ${currentTheme.textColor} font-medium`}>Verified</div>
                 </div>
               </div>
             ) : (
@@ -516,27 +516,27 @@ export default function ProfileBuilder() {
                 <div className="flex items-center justify-center gap-8">
                   <div className="text-center">
                     <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                      <TrendingUp className="w-4 h-4" />
+                      <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
                       <span className={currentTheme.accentColor}>+14.5%</span>
                     </div>
-                    <div className={`text-xs ${currentTheme.textColor}/60`}>Gain</div>
+                    <div className={`text-xs ${currentTheme.textColor} font-medium`}>Gain</div>
                   </div>
                   <div className="text-center">
                     <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                      <Percent className="w-4 h-4" />
+                      <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
                       72%
                     </div>
-                    <div className={`text-xs ${currentTheme.textColor}/60`}>Win Rate</div>
+                    <div className={`text-xs ${currentTheme.textColor} font-medium`}>Win Rate</div>
                   </div>
                   <div className="text-center">
                     <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                      <LineChart className="w-4 h-4" />
+                      <LineChart className={`w-4 h-4 ${currentTheme.accentColor}`} />
                       2.1
                     </div>
-                    <div className={`text-xs ${currentTheme.textColor}/60`}>Avg R:R</div>
+                    <div className={`text-xs ${currentTheme.textColor} font-medium`}>Avg R:R</div>
                   </div>
                 </div>
-                <div className={`mt-2 text-center text-sm ${currentTheme.textColor}/60`}>
+                <div className={`mt-2 text-center text-sm ${currentTheme.textColor} font-medium`}>
                   Connect your account to verify your stats. You can do this in the next step.
                 </div>
               </div>
@@ -551,7 +551,7 @@ export default function ProfileBuilder() {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm flex items-center gap-1.5`}
+                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5`}
                 >
                   <span>{tag}</span>
                   <button
@@ -566,7 +566,7 @@ export default function ProfileBuilder() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm transition-colors flex items-center gap-1.5`}
+                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm font-medium transition-colors flex items-center gap-1.5`}
                   onClick={() => setShowTagInput(true)}
                 >
                   <Plus className="w-4 h-4" />
@@ -589,7 +589,7 @@ export default function ProfileBuilder() {
                       type="text"
                       value={tagSearch}
                       onChange={(e) => handleTagSearch(e.target.value)}
-                      className={`w-full px-3 py-2 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm focus:outline-none focus:ring-2 focus:ring-white/20`}
+                      className={`w-full px-3 py-2 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20`}
                       placeholder="Add trading style, asset or nickname"
                     />
                     <Search className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40`} />
@@ -600,9 +600,9 @@ export default function ProfileBuilder() {
                         <button
                           key={index}
                           onClick={() => handleAddTagFromSuggestion(suggestion)}
-                          className={`px-3 py-1 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm transition-colors flex items-center gap-1.5`}
+                          className={`px-3 py-1 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm font-medium transition-colors flex items-center gap-1.5`}
                         >
-                          <suggestion.icon className="w-4 h-4" />
+                          <suggestion.icon className={`w-4 h-4 ${currentTheme.accentColor}`} />
                           {suggestion.text}
                         </button>
                       ))}
@@ -620,9 +620,9 @@ export default function ProfileBuilder() {
                 href={profileData.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1 ${currentTheme.linkColor} transition-colors text-sm group`}
+                className={`inline-flex items-center gap-1 ${currentTheme.linkColor} transition-colors text-sm font-medium group`}
               >
-                <LinkIcon className="w-4 h-4" />
+                <LinkIcon className={`w-4 h-4 ${currentTheme.accentColor}`} />
                 {profileData.link}
                 <Pencil className={`w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity`} />
               </a>
@@ -731,24 +731,24 @@ export default function ProfileBuilder() {
                     <>
                       <div className="text-center">
                         <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                          <TrendingUp className="w-4 h-4" />
+                          <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
                           <span className={currentTheme.accentColor}>+{profileData.stats.performance}%</span>
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor}/60`}>Gain</div>
+                        <div className={`text-xs ${currentTheme.textColor} font-medium`}>Gain</div>
                       </div>
                       <div className="text-center">
                         <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                          <Percent className="w-4 h-4" />
+                          <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
                           {profileData.stats.winRate}%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor}/60`}>Win Rate</div>
+                        <div className={`text-xs ${currentTheme.textColor} font-medium`}>Win Rate</div>
                       </div>
                       <div className="text-center">
                         <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                          <Wallet className="w-4 h-4" />
+                          <Wallet className={`w-4 h-4 ${currentTheme.accentColor}`} />
                           {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor}/60`}>Verified</div>
+                        <div className={`text-xs ${currentTheme.textColor} font-medium`}>Verified</div>
                       </div>
                     </>
                   ) : (
