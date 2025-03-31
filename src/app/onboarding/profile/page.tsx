@@ -71,57 +71,57 @@ const THEMES: Theme[] = [
   { 
     id: 'vaporwave',
     name: 'Vaporwave',
-    gradient: 'from-[#d299c2] via-[#fef9d7] to-[#fef9d7]',
-    textColor: 'text-[#4d4d4d]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#4d4d4d]',
-    linkColor: 'text-[#4d4d4d]/90 hover:text-[#4d4d4d]',
-    statColor: 'text-[#4d4d4d]',
-    accentColor: 'text-[#d299c2]',
-  },
-  { 
-    id: 'phantom',
-    name: 'Phantom Blue',
-    gradient: 'from-[#a18cd1] via-[#fbc2eb] to-[#fbc2eb]',
-    textColor: 'text-[#2a2a2a]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#2a2a2a]',
-    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
-    statColor: 'text-[#2a2a2a]',
-    accentColor: 'text-[#a18cd1]',
-  },
-  { 
-    id: 'tech',
-    name: 'Tech Glow',
-    gradient: 'from-[#a6c1ee] via-[#fbc2eb] to-[#fbc2eb]',
-    textColor: 'text-[#222222]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#222222]',
-    linkColor: 'text-[#222222]/90 hover:text-[#222222]',
-    statColor: 'text-[#222222]',
-    accentColor: 'text-[#a6c1ee]',
-  },
-  { 
-    id: 'cotton',
-    name: 'Cotton',
-    gradient: 'from-[#fbc2eb] via-[#a6c1ee] to-[#a6c1ee]',
-    textColor: 'text-[#222222]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#222222]',
-    linkColor: 'text-[#222222]/90 hover:text-[#222222]',
-    statColor: 'text-[#222222]',
-    accentColor: 'text-[#fbc2eb]',
+    gradient: 'from-[#a86efc] via-[#3a7bd5] to-[#3a7bd5]',
+    textColor: 'text-white',
+    tagBg: 'bg-white/10',
+    tagText: 'text-white',
+    linkColor: 'text-white/90 hover:text-white',
+    statColor: 'text-white',
+    accentColor: 'text-[#d9bfff]',
   },
   { 
     id: 'mist',
     name: 'Mist',
-    gradient: 'from-[#d3cce3] via-[#e9e4f0] to-[#e9e4f0]',
-    textColor: 'text-[#222222]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#222222]',
-    linkColor: 'text-[#222222]/90 hover:text-[#222222]',
-    statColor: 'text-[#222222]',
-    accentColor: 'text-[#d3cce3]',
+    gradient: 'from-[#e0e8f9] via-[#c1d4f5] to-[#c1d4f5]',
+    textColor: 'text-[#1a1a1a]',
+    tagBg: 'bg-[#1a1a1a]/10',
+    tagText: 'text-[#1a1a1a]',
+    linkColor: 'text-[#1a1a1a]/90 hover:text-[#1a1a1a]',
+    statColor: 'text-[#1a1a1a]',
+    accentColor: 'text-[#3a7bd5]',
+  },
+  { 
+    id: 'cotton',
+    name: 'Cotton',
+    gradient: 'from-[#ffdde1] via-[#ee9ca7] to-[#ee9ca7]',
+    textColor: 'text-[#1a1a1a]',
+    tagBg: 'bg-[#1a1a1a]/10',
+    tagText: 'text-[#1a1a1a]',
+    linkColor: 'text-[#1a1a1a]/90 hover:text-[#1a1a1a]',
+    statColor: 'text-[#1a1a1a]',
+    accentColor: 'text-[#ff7a9f]',
+  },
+  { 
+    id: 'midnight',
+    name: 'Midnight',
+    gradient: 'from-[#1f1c2c] via-[#928dab] to-[#928dab]',
+    textColor: 'text-white',
+    tagBg: 'bg-white/10',
+    tagText: 'text-white',
+    linkColor: 'text-white/90 hover:text-white',
+    statColor: 'text-white',
+    accentColor: 'text-[#ae97ff]',
+  },
+  { 
+    id: 'sunburst',
+    name: 'Sunburst',
+    gradient: 'from-[#f6d365] via-[#fda085] to-[#fda085]',
+    textColor: 'text-[#1a1a1a]',
+    tagBg: 'bg-[#1a1a1a]/10',
+    tagText: 'text-[#1a1a1a]',
+    linkColor: 'text-[#1a1a1a]/90 hover:text-[#1a1a1a]',
+    statColor: 'text-[#1a1a1a]',
+    accentColor: 'text-[#ff9138]',
   },
 ];
 
@@ -424,7 +424,7 @@ export default function ProfileBuilder() {
               className="relative group"
               onClick={handleAvatarClick}
             >
-              <div className={`w-28 h-28 rounded-full overflow-hidden ring-2 ring-dashed ${currentTheme.textColor}/20 group-hover:ring-${currentTheme.textColor}/40 transition-all`}>
+              <div className={`w-28 h-28 rounded-full overflow-hidden ring-2 ring-${currentTheme.accentColor}/20 group-hover:ring-${currentTheme.accentColor}/40 transition-all`}>
                 {profileData.avatar ? (
                   <Image
                     src={profileData.avatar}
@@ -435,44 +435,57 @@ export default function ProfileBuilder() {
                   />
                 ) : (
                   <div className="w-full h-full bg-white/10 flex items-center justify-center">
-                    <Camera className={`w-10 h-10 ${currentTheme.textColor}/40`} />
+                    <Sparkles className={`w-10 h-10 ${currentTheme.accentColor}/40`} />
                   </div>
                 )}
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <Camera className="w-6 h-6 text-white" />
+                <div className="text-white text-sm font-medium">Click to upload photo</div>
               </div>
             </motion.button>
 
             {/* Username & Verification */}
             <div className="text-center">
               <div className="relative group">
-                <input
-                  type="text"
-                  value={profileData.username}
-                  onChange={(e) => handleFieldEdit('username', e.target.value)}
-                  className={`w-full text-center text-4xl font-extrabold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
-                  placeholder="Choose your @handle"
-                />
-                <Pencil className={`absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40 opacity-0 group-hover:opacity-100 transition-opacity`} />
-                {usernameAvailable && (
+                <div className="relative">
+                  <span className={`absolute left-3 top-1/2 -translate-y-1/2 text-lg ${currentTheme.textColor}/60`}>@</span>
+                  <input
+                    type="text"
+                    value={profileData.username}
+                    onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
+                    className={`w-full text-center text-4xl font-extrabold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors pl-8 pr-12 py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
+                    placeholder="username"
+                  />
+                  {profileData.username.length >= 3 && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      {usernameAvailable ? (
+                        <Check className={`w-5 h-5 ${currentTheme.accentColor}`} />
+                      ) : (
+                        <X className={`w-5 h-5 text-red-400`} />
+                      )}
+                    </div>
+                  )}
+                </div>
+                {profileData.username.length >= 3 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap"
                   >
-                    <div className="bg-green-500/10 text-green-500 text-sm font-medium px-3 py-1 rounded-full flex items-center gap-1">
-                      <Check className="w-4 h-4" />
-                      Username is available! Rock on.
+                    <div className={`text-sm ${currentTheme.textColor}/60 font-medium`}>
+                      tradr.co/{profileData.username}
                     </div>
                   </motion.div>
                 )}
               </div>
               {profileData.isVerified && (
-                <div className={`mt-2 px-3 py-1 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium inline-flex items-center gap-1`}>
-                  <BadgeCheck className="w-4 h-4" />
-                  Verified Trader
+                <div className="mt-2 inline-flex items-center gap-1 group">
+                  <BadgeCheck className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                  <span className={`text-xs ${currentTheme.textColor}/60 font-medium`}>Verified</span>
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/90 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    Verified account
+                  </div>
                 </div>
               )}
             </div>
@@ -480,7 +493,7 @@ export default function ProfileBuilder() {
             {/* Bio */}
             <div className="relative group w-full max-w-[280px]">
               <div
-                className={`text-center ${currentTheme.textColor} text-sm cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium`}
+                className={`text-center ${currentTheme.textColor} text-base cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium`}
                 onClick={() => setEditingField('bio')}
               >
                 {editingField === 'bio' ? (
@@ -489,13 +502,13 @@ export default function ProfileBuilder() {
                     value={profileData.bio}
                     onChange={(e) => handleFieldEdit('bio', e.target.value)}
                     className="w-full text-center bg-transparent border-none focus:outline-none"
-                    placeholder="Click to add a short trader bio..."
+                    placeholder="Add a short trader bio..."
                     onBlur={() => setEditingField(null)}
                     autoFocus
                   />
                 ) : (
                   <>
-                    {profileData.bio || "Click to add a short trader bio..."}
+                    {profileData.bio || "Add a short trader bio..."}
                     <Pencil className={`absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40 opacity-0 group-hover:opacity-100 transition-opacity`} />
                   </>
                 )}
@@ -505,165 +518,91 @@ export default function ProfileBuilder() {
 
           {/* Stats Section */}
           <div className="mt-8">
-            {profileData.hasConnectedStrategy ? (
-              <div className="flex items-center justify-center gap-8">
-                <div className="text-center">
-                  <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                    <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                    <span className={currentTheme.accentColor}>+{profileData.stats.performance}%</span>
-                  </div>
-                  <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Gain</div>
+            <div className="flex items-center justify-center gap-8">
+              <div className="text-center">
+                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
+                  <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                  <span className={currentTheme.accentColor}>+{profileData.stats.performance}%</span>
                 </div>
-                <div className="text-center">
-                  <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                    <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                    {profileData.stats.winRate}%
-                  </div>
-                  <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Win Rate</div>
-                </div>
-                <div className="text-center">
-                  <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                    <Wallet className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                    {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
-                  </div>
-                  <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Verified</div>
-                </div>
+                <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Gain</div>
               </div>
-            ) : (
-              <div className="relative group">
-                <div className="flex items-center justify-center gap-8 blur-[2px]">
-                  <div className="text-center">
-                    <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                      <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                      <span className={currentTheme.accentColor}>+14.5%</span>
-                    </div>
-                    <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Gain</div>
-                  </div>
-                  <div className="text-center">
-                    <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                      <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                      72%
-                    </div>
-                    <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Win Rate</div>
-                  </div>
-                  <div className="text-center">
-                    <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
-                      <LineChart className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                      2.1
-                    </div>
-                    <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Avg R:R</div>
-                  </div>
+              <div className="text-center">
+                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
+                  <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                  {profileData.stats.winRate}%
                 </div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Lock className={`w-8 h-8 ${currentTheme.textColor}/60`} />
-                  </motion.div>
-                  <div className={`mt-2 text-center text-sm ${currentTheme.textColor} font-medium`}>
-                    Connect your account in the next step to unlock your real stats
-                  </div>
-                  <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className={`text-sm font-medium ${currentTheme.accentColor} flex items-center gap-1`}>
-                      Verify account <ArrowLeft className="w-4 h-4 rotate-180" />
-                    </button>
-                  </div>
-                </div>
+                <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Win Rate</div>
               </div>
-            )}
+              <div className="text-center">
+                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
+                  <LineChart className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                  {profileData.stats.maxDD}
+                </div>
+                <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Avg R:R</div>
+              </div>
+            </div>
+            <div className={`mt-2 text-center text-xs ${currentTheme.textColor}/60 font-medium`}>
+              You can sync your accounts in the next step
+            </div>
           </div>
 
           {/* Tags Section */}
           <div className="mt-8">
             <div className="flex flex-wrap justify-center gap-2">
-              {profileData.tags.length > 0 ? (
-                profileData.tags.map((tag, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors`}
-                  >
-                    <span>{tag}</span>
-                    <button
-                      onClick={() => handleTagToggle(tag)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </motion.div>
-                ))
-              ) : (
-                <div className="text-center w-full">
-                  <div className={`text-sm ${currentTheme.textColor}/60 font-medium`}>
-                    + Add your style
-                  </div>
-                  <div className="mt-2 flex flex-wrap justify-center gap-2">
-                    {PLACEHOLDER_TAGS.map((tag, index) => (
-                      <motion.button
-                        key={index}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`px-3 py-1 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm font-medium transition-colors flex items-center gap-1.5`}
-                        onClick={() => handleAddTagFromSuggestion(tag)}
-                      >
-                        <tag.icon className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                        {tag.text}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {profileData.tags.length > 0 && profileData.tags.length < 5 && (
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm font-medium transition-colors flex items-center gap-1.5`}
-                  onClick={() => setShowTagInput(true)}
+              {profileData.tags.map((tag, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors`}
                 >
-                  <Plus className="w-4 h-4" />
-                  Add Tag
-                </motion.button>
+                  <span>{tag}</span>
+                  <button
+                    onClick={() => handleTagToggle(tag)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </motion.div>
+              ))}
+              {profileData.tags.length < 3 && (
+                <input
+                  type="text"
+                  value={newTag}
+                  onChange={(e) => setNewTag(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && newTag.trim()) {
+                      handleAddTag();
+                      setNewTag('');
+                    }
+                  }}
+                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32`}
+                  placeholder={`${3 - profileData.tags.length} tags left`}
+                />
               )}
             </div>
+          </div>
 
-            {/* Tag Input & Suggestions */}
-            <AnimatePresence>
-              {showTagInput && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="mt-3"
-                >
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={tagSearch}
-                      onChange={(e) => handleTagSearch(e.target.value)}
-                      className={`w-full px-3 py-2 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20`}
-                      placeholder="Add trading style, asset or nickname"
-                    />
-                    <Search className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40`} />
-                  </div>
-                  {filteredSuggestions.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {filteredSuggestions.map((suggestion, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleAddTagFromSuggestion(suggestion)}
-                          className={`px-3 py-1 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm font-medium transition-colors flex items-center gap-1.5`}
-                        >
-                          <suggestion.icon className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                          {suggestion.text}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+          {/* Theme Selection & Signature */}
+          <div className="mt-8 space-y-4">
+            <div className="flex justify-center gap-2">
+              {THEMES.map((theme) => (
+                <motion.button
+                  key={theme.id}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
+                    theme.id === currentTheme.id ? 'ring-2 ring-white scale-110 shadow-lg shadow-white/20' : ''
+                  }`}
+                  onClick={() => handleFieldEdit('theme', theme.id)}
+                />
+              ))}
+            </div>
+            <div className="text-center">
+              <span className={`text-sm ${currentTheme.textColor}/40 font-space-grotesk italic`}>
+                Made with #Tradr
+              </span>
+            </div>
           </div>
 
           {/* Link Section */}
@@ -682,23 +621,6 @@ export default function ProfileBuilder() {
             </div>
           )}
         </motion.div>
-
-        {/* Theme Selection (Outside Card) */}
-        <div className="mt-8">
-          <div className="flex justify-center gap-2">
-            {THEMES.map((theme) => (
-              <motion.button
-                key={theme.id}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
-                  theme.id === currentTheme.id ? 'ring-2 ring-white scale-110 shadow-lg shadow-white/20' : ''
-                }`}
-                onClick={() => handleFieldEdit('theme', theme.id)}
-              />
-            ))}
-          </div>
-        </div>
 
         {/* Preview Modal */}
         <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
