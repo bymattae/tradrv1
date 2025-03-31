@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -300,240 +300,202 @@ export default function ProfileBuilder() {
             className="flex-1 max-w-md"
           >
             {/* Card Container */}
-            <div className="relative rounded-[2rem] shadow-xl overflow-hidden bg-white border border-gray-100">
+            <div className="relative aspect-[1.4/1] rounded-3xl shadow-xl overflow-hidden bg-white border border-gray-100">
               {/* Gradient Background with Animated Overlay */}
-              <div className={`h-full absolute inset-0 bg-gradient-to-br ${currentTheme.gradient} opacity-[0.98]`}>
+              <div className={`absolute inset-0 bg-gradient-to-br ${currentTheme.gradient} opacity-[0.98]`}>
                 <motion.div
                   initial={{ opacity: 0, scale: 1.2 }}
                   animate={{ opacity: 0.1, scale: 1 }}
                   transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
                   className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2),_rgba(255,255,255,0))]"
                 />
-                {profileData.coverImage && (
-                  <Image
-                    src={profileData.coverImage}
-                    alt="Cover"
-                    fill
-                    className="object-cover opacity-40 mix-blend-overlay"
-                  />
-                )}
               </div>
 
               {/* Content Container */}
-              <div className="relative px-8 py-10">
-                {/* Avatar */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="relative w-32 h-32 mx-auto mb-6 rounded-[2rem] bg-white/10 border-4 border-white/20 shadow-lg overflow-hidden group backdrop-blur-sm"
-                >
-                  {profileData.avatar ? (
-                    <motion.div
-                      initial={{ scale: 1.2, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="w-full h-full"
-                    >
-                      <Image
-                        src={profileData.avatar}
-                        alt="Profile"
-                        fill
-                        className="object-cover"
-                      />
-                    </motion.div>
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/60">
-                      <Camera className="w-8 h-8" />
-                      <span className="text-xs font-medium">Add photo</span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                    <Camera className="w-8 h-8 text-white" />
-                  </div>
-                </motion.button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'avatar')}
-                  className="hidden"
-                />
-
-                {/* Profile Info */}
-                <div className="space-y-4 text-center">
-                  {/* Username */}
-                  <div className="relative inline-block">
-                    {editingField === 'username' ? (
+              <div className="relative p-6">
+                <div className="flex items-start gap-5">
+                  {/* Avatar */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="relative w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 shadow-lg overflow-hidden group backdrop-blur-sm"
+                  >
+                    {profileData.avatar ? (
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex items-center"
+                        initial={{ scale: 1.2, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="w-full h-full"
                       >
-                        <span className="text-3xl font-bold text-white/60">@</span>
-                        <input
-                          autoFocus
-                          value={profileData.username}
-                          onChange={(e) => setProfileData({ ...profileData, username: e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '') })}
-                          onBlur={() => setEditingField(null)}
-                          onKeyDown={(e) => e.key === 'Enter' && setEditingField(null)}
-                          placeholder="username"
-                          className="text-3xl font-bold w-full bg-transparent outline-none border-b-2 border-white/20 ml-1 text-center font-display text-white placeholder-white/40"
+                        <Image
+                          src={profileData.avatar}
+                          alt="Profile"
+                          fill
+                          className="object-cover"
                         />
                       </motion.div>
                     ) : (
-                      <motion.button
-                        onClick={() => setEditingField('username')}
-                        className="group"
-                      >
-                        <span className="text-3xl font-bold text-white/60">@</span>
-                        <span className="text-3xl font-bold text-white font-display">
-                          {profileData.username || 'username'}
-                        </span>
-                      </motion.button>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/60">
+                        <Camera className="w-6 h-6" />
+                      </div>
                     )}
-                    {profileData.username && (
-                      <AnimatePresence>
-                        {usernameAvailable === true && (
-                          <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className="absolute -right-6 top-1/2 -translate-y-1/2"
-                          >
-                            <div className="flex items-center gap-1 text-white/80 text-sm">
-                              <Check className="w-4 h-4" />
-                            </div>
-                          </motion.div>
-                        )}
-                        {usernameAvailable === false && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className="absolute -bottom-6 left-0 right-0 text-red-300 text-sm"
-                          >
-                            Username taken
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    )}
-                  </div>
-
-                  {/* Bio */}
-                  <div className="relative max-w-sm mx-auto">
-                    {editingField === 'bio' ? (
-                      <motion.textarea
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        autoFocus
-                        value={profileData.bio}
-                        onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-                        onBlur={() => setEditingField(null)}
-                        placeholder="ex: ICT trader | funded | London"
-                        className="w-full bg-transparent outline-none resize-none text-white/80 text-center border-b-2 border-white/20 font-medium placeholder-white/40"
-                        rows={2}
-                      />
-                    ) : (
-                      <motion.button
-                        onClick={() => setEditingField('bio')}
-                        className="text-white/80 hover:text-white transition-colors font-medium"
-                      >
-                        {profileData.bio || 'Add a short bio'}
-                      </motion.button>
-                    )}
-                  </div>
-
-                  {/* Stats Row */}
-                  <div className="flex justify-center gap-6 py-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold font-display text-white">{profileData.xp}</div>
-                      <div className="text-sm text-white/60">XP</div>
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                      <Camera className="w-6 h-6 text-white" />
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold font-display text-white">1</div>
-                      <div className="text-sm text-white/60">Level</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold font-display text-white">{profileData.tags.length}</div>
-                      <div className="text-sm text-white/60">Tags</div>
-                    </div>
-                  </div>
+                  </motion.button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, 'avatar')}
+                    className="hidden"
+                  />
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap justify-center gap-2 pt-2">
-                    <AnimatePresence>
-                      {profileData.tags.map((tag) => (
+                  {/* Profile Info */}
+                  <div className="flex-1 min-w-0">
+                    {/* Username */}
+                    <div className="flex items-center gap-2 mb-2">
+                      {editingField === 'username' ? (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex items-center"
+                        >
+                          <span className="text-2xl font-bold text-white/60">@</span>
+                          <input
+                            autoFocus
+                            value={profileData.username}
+                            onChange={(e) => setProfileData({ ...profileData, username: e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '') })}
+                            onBlur={() => setEditingField(null)}
+                            onKeyDown={(e) => e.key === 'Enter' && setEditingField(null)}
+                            placeholder="username"
+                            className="text-2xl font-bold w-full bg-transparent outline-none border-b-2 border-white/20 ml-1 font-display text-white placeholder-white/40"
+                          />
+                        </motion.div>
+                      ) : (
                         <motion.button
-                          key={tag}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.8 }}
+                          onClick={() => setEditingField('username')}
+                          className="flex items-center gap-1 group"
+                        >
+                          <span className="text-2xl font-bold text-white/60">@</span>
+                          <span className="text-2xl font-bold text-white font-display truncate">
+                            {profileData.username || 'username'}
+                          </span>
+                          {usernameAvailable && (
+                            <div className="flex items-center">
+                              <Check className="w-5 h-5 text-white/80" />
+                            </div>
+                          )}
+                        </motion.button>
+                      )}
+                    </div>
+
+                    {/* Bio */}
+                    <div className="mb-3">
+                      {editingField === 'bio' ? (
+                        <motion.textarea
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          autoFocus
+                          value={profileData.bio}
+                          onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
+                          onBlur={() => setEditingField(null)}
+                          placeholder="ex: ICT trader | funded | London"
+                          className="w-full bg-transparent outline-none resize-none text-white/80 border-b-2 border-white/20 font-medium placeholder-white/40"
+                          rows={2}
+                        />
+                      ) : (
+                        <motion.button
+                          onClick={() => setEditingField('bio')}
+                          className="text-white/80 hover:text-white transition-colors font-medium text-left block w-full"
+                        >
+                          {profileData.bio || 'Add a short bio'}
+                        </motion.button>
+                      )}
+                    </div>
+
+                    {/* Stats Row */}
+                    <div className="flex items-center gap-3 text-sm font-medium text-white/80 mb-4">
+                      <div className="flex items-center gap-1.5">
+                        <Trophy className="w-4 h-4" />
+                        <span>Level {Math.floor(profileData.xp / 100) + 1}</span>
+                      </div>
+                      <div className="w-1 h-1 rounded-full bg-white/40" />
+                      <div className="flex items-center gap-1.5">
+                        <Star className="w-4 h-4" />
+                        <span>{profileData.xp} XP</span>
+                      </div>
+                      <div className="w-1 h-1 rounded-full bg-white/40" />
+                      <div className="flex items-center gap-1.5">
+                        <Tags className="w-4 h-4" />
+                        <span>{profileData.tags.length} Tags</span>
+                      </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      <AnimatePresence>
+                        {profileData.tags.slice(0, 3).map((tag) => (
+                          <motion.button
+                            key={tag}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setProfileData({
+                              ...profileData,
+                              tags: profileData.tags.filter(t => t !== tag)
+                            })}
+                            className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium flex items-center gap-1.5 group hover:bg-white/20 transition-all border border-white/10"
+                          >
+                            {tag}
+                            <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </motion.button>
+                        ))}
+                      </AnimatePresence>
+                      
+                      {profileData.tags.length < 3 && editingField !== 'tag' && (
+                        <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => setProfileData({
-                            ...profileData,
-                            tags: profileData.tags.filter(t => t !== tag)
-                          })}
-                          className="px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium flex items-center gap-1.5 group hover:bg-white/20 transition-all border border-white/10"
+                          onClick={() => setEditingField('tag')}
+                          className="px-3 py-1.5 rounded-xl border border-dashed border-white/20 text-white/60 text-sm font-medium hover:border-white/40 hover:text-white/80 transition-colors backdrop-blur-sm"
                         >
-                          {tag}
-                          <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          + Add tag
                         </motion.button>
-                      ))}
-                    </AnimatePresence>
-                    
-                    {profileData.tags.length < 5 && editingField !== 'tag' && (
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setEditingField('tag')}
-                        className="px-4 py-2 rounded-2xl border border-dashed border-white/20 text-white/60 text-sm font-medium hover:border-white/40 hover:text-white/80 transition-colors backdrop-blur-sm"
-                      >
-                        + Add tag
-                      </motion.button>
-                    )}
+                      )}
 
-                    {editingField === 'tag' && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex items-center gap-2"
-                      >
-                        <input
-                          autoFocus
-                          value={newTag}
-                          onChange={(e) => setNewTag(e.target.value)}
-                          onBlur={handleAddTag}
-                          onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
-                          placeholder="Enter tag..."
-                          className="px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium border border-white/20 focus:outline-none focus:border-white/40 placeholder-white/40"
-                        />
-                      </motion.div>
-                    )}
+                      {editingField === 'tag' && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="flex items-center gap-2"
+                        >
+                          <input
+                            autoFocus
+                            value={newTag}
+                            onChange={(e) => setNewTag(e.target.value)}
+                            onBlur={handleAddTag}
+                            onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
+                            placeholder="Enter tag..."
+                            className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium border border-white/20 focus:outline-none focus:border-white/40 placeholder-white/40"
+                          />
+                        </motion.div>
+                      )}
+                    </div>
                   </div>
-
-                  {/* Link Preview */}
-                  <motion.button
-                    onClick={handleCopyLink}
-                    className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-sm text-white/80 hover:text-white transition-colors group mx-auto mt-6 border border-white/10"
-                  >
-                    <LinkIcon className="w-4 h-4" />
-                    <span className="font-mono text-sm">tradr.co/{profileData.username || 'username'}</span>
-                    <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.button>
-                  <AnimatePresence>
-                    {showCopied && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="text-xs text-white/60"
-                      >
-                        Copied to clipboard!
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
+
+                {/* Link Preview */}
+                <motion.button
+                  onClick={handleCopyLink}
+                  className="absolute bottom-6 right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white/80 hover:text-white transition-colors group border border-white/10"
+                >
+                  <LinkIcon className="w-4 h-4" />
+                  <span className="font-mono text-sm">tradr.co/{profileData.username || 'username'}</span>
+                  <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.button>
               </div>
             </div>
 
