@@ -505,30 +505,33 @@ export default function ProfileBuilder() {
 
           {/* Stats Section */}
           <div className="mt-6 px-6">
-            <div className="backdrop-blur-md bg-white/5 rounded-xl p-4">
-              <div className="flex items-center justify-center gap-8">
-                <div className="text-center">
-                  <div className="text-xl font-semibold tracking-wide text-[#16c784]">
-                    +0.0%
+            <div className="relative">
+              <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
+              <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                <div className="flex items-center justify-center gap-8">
+                  <div className="text-center">
+                    <div className="text-xl font-semibold tracking-wide text-[#16c784]">
+                      +0.0%
+                    </div>
+                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Gain</div>
                   </div>
-                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Gain</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-semibold tracking-wide text-[#6366f1]">
-                    0%
+                  <div className="text-center">
+                    <div className="text-xl font-semibold tracking-wide text-[#6366f1]">
+                      0%
+                    </div>
+                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Win Rate</div>
                   </div>
-                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Win Rate</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-semibold tracking-wide text-[#f59e0b]">
-                    0.0
+                  <div className="text-center">
+                    <div className="text-xl font-semibold tracking-wide text-[#f59e0b]">
+                      0.0
+                    </div>
+                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg R:R</div>
                   </div>
-                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg R:R</div>
                 </div>
-              </div>
-              <div className="mt-2 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1">
-                You can sync your accounts in the next step to unlock your real stats
-                <Info className="w-3 h-3" />
+                <div className="mt-2 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1">
+                  You can sync your accounts in the next step to unlock your real stats
+                  <Info className="w-3 h-3" />
+                </div>
               </div>
             </div>
           </div>
