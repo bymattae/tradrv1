@@ -410,8 +410,8 @@ export default function ProfileBuilder() {
       {/* Main Content */}
       <div className="max-w-md mx-auto">
         {/* Profile Card Container */}
-        <div className={`relative w-full max-w-[400px] mx-auto rounded-2xl overflow-hidden backdrop-blur-sm bg-gradient-to-br ${currentTheme.gradient} shadow-xl`}>
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px]" />
+        <div className={`relative w-full max-w-[400px] mx-auto rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} shadow-xl`}>
+          <div className="absolute inset-0 bg-white/5" />
           
           {/* Avatar Section */}
           <div className="flex flex-col items-center gap-4 pt-8">
@@ -470,7 +470,7 @@ export default function ProfileBuilder() {
                   exit={{ opacity: 0, y: 10 }}
                   className="mt-1"
                 >
-                  <div className={`text-xs ${currentTheme.textColor}/60 font-normal`}>
+                  <div className={`text-xs ${currentTheme.textColor}/60 font-normal font-space-grotesk`}>
                     tradr.co/{profileData.username}
                   </div>
                 </motion.div>
@@ -480,7 +480,7 @@ export default function ProfileBuilder() {
             {/* Bio */}
             <div className="relative group w-full max-w-[280px]">
               <div
-                className={`text-center ${currentTheme.textColor} text-base cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium`}
+                className={`text-center ${currentTheme.textColor} text-base cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium font-space-grotesk`}
                 onClick={() => setEditingField('bio')}
               >
                 {editingField === 'bio' ? (
@@ -488,7 +488,7 @@ export default function ProfileBuilder() {
                     type="text"
                     value={profileData.bio}
                     onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                    className="w-full text-center bg-transparent border-none focus:outline-none"
+                    className="w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk"
                     placeholder="Add a short trader bio..."
                     onBlur={() => setEditingField(null)}
                     autoFocus
@@ -504,31 +504,31 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Stats Section */}
-          <div className="mt-6 px-6">
+          <div className="mt-8 px-6">
             <div className="relative">
               <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
               <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
                 <div className="flex items-center justify-center gap-8">
                   <div className="text-center">
-                    <div className="text-xl font-semibold tracking-wide text-[#16c784]">
+                    <div className="text-xl font-semibold tracking-wide text-[#16c784] font-space-grotesk">
                       +0.0%
                     </div>
-                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Gain</div>
+                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider font-space-grotesk">Gain</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl font-semibold tracking-wide text-[#6366f1]">
+                    <div className="text-xl font-semibold tracking-wide text-[#6366f1] font-space-grotesk">
                       0%
                     </div>
-                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Win Rate</div>
+                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider font-space-grotesk">Win Rate</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl font-semibold tracking-wide text-[#f59e0b]">
+                    <div className="text-xl font-semibold tracking-wide text-[#f59e0b] font-space-grotesk">
                       0.0
                     </div>
-                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg R:R</div>
+                    <div className="text-xs text-gray-400 font-medium uppercase tracking-wider font-space-grotesk">Avg R:R</div>
                   </div>
                 </div>
-                <div className="mt-2 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1">
+                <div className="mt-2 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1 font-space-grotesk">
                   You can sync your accounts in the next step to unlock your real stats
                   <Info className="w-3 h-3" />
                 </div>
@@ -537,45 +537,50 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Tags Section */}
-          <div className="mt-6 px-6">
-            <div className="flex flex-wrap justify-center gap-2">
-              {profileData.tags.map((tag, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors shadow-sm`}
-                >
-                  <span className="lowercase">{tag}</span>
-                  <button
-                    onClick={() => handleTagToggle(tag)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </motion.div>
-              ))}
-              {profileData.tags.length < 3 && (
-                <input
-                  type="text"
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value.toLowerCase())}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && newTag.trim()) {
-                      handleAddTag();
-                      setNewTag('');
-                    }
-                  }}
-                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32 shadow-sm`}
-                  placeholder="#addhashtag"
-                />
-              )}
-              {profileData.tags.length >= 3 && (
-                <div className={`text-xs ${currentTheme.textColor}/60 font-normal flex items-center gap-1`}>
-                  <AlertCircle className="w-3 h-3" />
-                  You can only add up to 3 hashtags
+          <div className="mt-8 px-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
+              <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                <div className="flex flex-wrap justify-center gap-2">
+                  {profileData.tags.map((tag, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors shadow-sm font-space-grotesk`}
+                    >
+                      <span className="lowercase">{tag}</span>
+                      <button
+                        onClick={() => handleTagToggle(tag)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </motion.div>
+                  ))}
+                  {profileData.tags.length < 3 && (
+                    <input
+                      type="text"
+                      value={newTag}
+                      onChange={(e) => setNewTag(e.target.value.toLowerCase())}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && newTag.trim()) {
+                          handleAddTag();
+                          setNewTag('');
+                        }
+                      }}
+                      className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32 shadow-sm font-space-grotesk`}
+                      placeholder="#addhashtag"
+                    />
+                  )}
+                  {profileData.tags.length >= 3 && (
+                    <div className={`text-xs ${currentTheme.textColor}/60 font-normal flex items-center gap-1 font-space-grotesk`}>
+                      <AlertCircle className="w-3 h-3" />
+                      You can only add up to 3 hashtags
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
