@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -50,6 +50,12 @@ interface ChecklistItem {
   label: string;
   isComplete: boolean;
   xpReward: number;
+}
+
+interface TagSuggestion {
+  text: string;
+  icon: LucideIcon;
+  category: string;
 }
 
 const THEMES = [
@@ -119,6 +125,17 @@ const STAT_HIGHLIGHTS = [
   { name: 'Red', value: 'from-red-400 to-red-600' },
 ];
 
+const TAG_SUGGESTIONS: TagSuggestion[] = [
+  { text: 'Day Trader', icon: Target, category: 'Style' },
+  { text: 'Swing Trader', icon: Zap, category: 'Style' },
+  { text: 'Crypto', icon: Sparkle, category: 'Market' },
+  { text: 'Forex', icon: Flame, category: 'Market' },
+  { text: 'Funded', icon: Shield, category: 'Status' },
+  { text: 'Pro', icon: Star, category: 'Status' },
+  { text: 'Technical', icon: LineChart, category: 'Strategy' },
+  { text: 'Fundamental', icon: Info, category: 'Strategy' },
+];
+
 // Add new utility function for contrast calculation
 const getContrastColor = (hexcolor: string) => {
   const r = parseInt(hexcolor.slice(1, 3), 16);
@@ -173,6 +190,10 @@ export default function ProfileBuilder() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [showHolo, setShowHolo] = useState(false);
   const [previewBackground, setPreviewBackground] = useState<'dark' | 'light'>('dark');
+  const [showTagInput, setShowTagInput] = useState(false);
+  const [tagSearch, setTagSearch] = useState('');
+  const [filteredSuggestions, setFilteredSuggestions] = useState<TagSuggestion[]>([]);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -202,15 +223,17 @@ export default function ProfileBuilder() {
     setProfileData(prev => ({ ...prev, xp: totalXP }));
 
     // Trigger confetti when all items are complete
-    if (strength === 100 && !isValid) {
+    if (strength === 100 && !showConfetti) {
+      setShowConfetti(true);
       confetti({
         particleCount: 150,
         spread: 80,
         origin: { y: 0.6 },
         colors: ['#A259FF', '#6B4EFF', '#241654']
       });
+      setTimeout(() => setShowConfetti(false), 2000);
     }
-  }, [profileData, checklist, isValid]);
+  }, [profileData, checklist, showConfetti]);
 
   useEffect(() => {
     // Simulate username availability check
@@ -321,6 +344,31 @@ export default function ProfileBuilder() {
     // Implementation of handleDownload function
   };
 
+  const handleTagSearch = (value: string) => {
+    setTagSearch(value);
+    if (value.length > 0) {
+      const filtered = TAG_SUGGESTIONS.filter(tag => 
+        tag.text.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+    } else {
+      setFilteredSuggestions([]);
+    }
+  };
+
+  const handleAddTagFromSuggestion = (suggestion: TagSuggestion) => {
+    if (profileData.tags.length < 5) {
+      const formattedTag = `📈 ${suggestion.text}`;
+      setProfileData(prev => ({
+        ...prev,
+        tags: [...prev.tags, formattedTag]
+      }));
+      setShowTagInput(false);
+      setTagSearch('');
+      setFilteredSuggestions([]);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#fafafa] p-4 font-sans">
       {/* Top Navigation */}
@@ -357,67 +405,27 @@ export default function ProfileBuilder() {
       <div className="max-w-md mx-auto">
         {/* Profile Card */}
         <motion.div
-          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-[${profileData.themeCustomization.gradientStart}] to-[${profileData.themeCustomization.gradientEnd}] p-4 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${showHolo ? 'animate-holo' : ''}`}
+          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-[${profileData.themeCustomization.gradientStart}] to-[${profileData.themeCustomization.gradientEnd}] p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${showHolo ? 'animate-holo' : ''}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          {/* Status Badges */}
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="bg-gradient-to-r from-yellow-400/90 to-yellow-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg"
-            >
-              Level {profileData.level} Trader
-            </motion.div>
-            {profileData.isVerified && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="bg-gradient-to-r from-blue-400/90 to-blue-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg flex items-center gap-1"
-              >
-                <BadgeCheck className="w-4 h-4" />
-                Verified by Broker
-              </motion.div>
-            )}
-            {profileData.streak > 0 && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="bg-gradient-to-r from-red-400/90 to-red-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg flex items-center gap-1"
-              >
-                <Flame className="w-4 h-4" />
-                {profileData.streak} Day Streak
-              </motion.div>
-            )}
-            {profileData.isVerified && profileData.lastSynced && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full text-white/80 text-xs"
-              >
-                Last synced: {profileData.lastSynced.toLocaleTimeString()}
-              </motion.div>
-            )}
-          </div>
-
-          {/* Avatar & Username Section */}
-          <div className="flex flex-col items-center gap-2 mt-8">
+          {/* Avatar Section */}
+          <div className="flex flex-col items-center gap-4">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="relative group"
               onClick={handleAvatarClick}
             >
-              <div className={`w-20 h-20 rounded-full overflow-hidden ring-2 ${profileData.themeCustomization.avatarBorder} group-hover:ring-white/40 transition-all`}>
+              <div className={`w-24 h-24 rounded-full overflow-hidden ring-2 ${profileData.themeCustomization.avatarBorder} group-hover:ring-white/40 transition-all`}>
                 {profileData.avatar ? (
                   <Image
                     src={profileData.avatar}
                     alt="Profile"
-                    width={80}
-                    height={80}
-                    className="object-cover"
+                    width={96}
+                    height={96}
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full bg-white/10 flex items-center justify-center">
@@ -425,17 +433,22 @@ export default function ProfileBuilder() {
                   </div>
                 )}
               </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                <Camera className="w-6 h-6 text-white" />
+              </div>
             </motion.button>
 
-            <div className="w-full max-w-[200px] text-center">
-              <div className="relative">
+            {/* Username & Verification */}
+            <div className="text-center">
+              <div className="relative group">
                 <input
                   type="text"
                   value={profileData.username}
                   onChange={(e) => handleFieldEdit('username', e.target.value)}
-                  className={`w-full text-center text-2xl font-bold ${profileData.themeCustomization.usernameColor} bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-inter`}
+                  className={`w-full text-center text-3xl font-bold ${profileData.themeCustomization.usernameColor} bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-inter group-hover:bg-white/10 rounded-lg`}
                   placeholder="Username"
                 />
+                <Pencil className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 opacity-0 group-hover:opacity-100 transition-opacity" />
                 {usernameAvailable && (
                   <motion.div
                     initial={{ scale: 0 }}
@@ -446,8 +459,18 @@ export default function ProfileBuilder() {
                   </motion.div>
                 )}
               </div>
+              {profileData.isVerified && (
+                <div className="mt-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium inline-flex items-center gap-1">
+                  <BadgeCheck className="w-4 h-4" />
+                  Verified Trader
+                </div>
+              )}
+            </div>
+
+            {/* Bio */}
+            <div className="relative group w-full max-w-[280px]">
               <div
-                className="mt-1 text-sm text-white/60 cursor-pointer hover:text-white transition-colors"
+                className="text-center text-white/80 text-sm cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors"
                 onClick={() => setEditingField('bio')}
               >
                 {editingField === 'bio' ? (
@@ -461,179 +484,253 @@ export default function ProfileBuilder() {
                     autoFocus
                   />
                 ) : (
-                  profileData.bio || "Click to add a bio..."
+                  <>
+                    {profileData.bio || "Click to add a bio..."}
+                    <Pencil className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Clean Stats Row */}
-          <div className="flex items-center justify-center gap-6 mt-4">
+          {/* Stats Section */}
+          <div className="mt-6">
             {profileData.hasConnectedStrategy ? (
-              <>
+              <div className="flex items-center justify-center gap-8">
                 <div className="text-center">
-                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                  <div className="text-xl font-semibold text-white flex items-center gap-1">
                     <TrendingUp className="w-4 h-4" />
                     <span className="text-green-400">+{profileData.stats.performance}%</span>
                   </div>
                   <div className="text-xs text-white/60">Gain</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                  <div className="text-xl font-semibold text-white flex items-center gap-1">
                     <Percent className="w-4 h-4" />
                     {profileData.stats.winRate}%
                   </div>
                   <div className="text-xs text-white/60">Win Rate</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                  <div className="text-xl font-semibold text-white flex items-center gap-1">
                     <Wallet className="w-4 h-4" />
                     {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
                   </div>
                   <div className="text-xs text-white/60">Verified</div>
                 </div>
-              </>
+              </div>
             ) : (
-              <div className="text-center group relative">
-                <div className="text-lg font-semibold text-white/40 flex items-center gap-1">
-                  <Lock className="w-4 h-4" />
-                  Stats Hidden
+              <div className="relative">
+                <div className="flex items-center justify-center gap-8 blur-sm">
+                  <div className="text-center">
+                    <div className="text-xl font-semibold text-white flex items-center gap-1">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-green-400">+12.5%</span>
+                    </div>
+                    <div className="text-xs text-white/60">Gain</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl font-semibold text-white flex items-center gap-1">
+                      <Percent className="w-4 h-4" />
+                      63%
+                    </div>
+                    <div className="text-xs text-white/60">Win Rate</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl font-semibold text-white flex items-center gap-1">
+                      <LineChart className="w-4 h-4" />
+                      ↗️
+                    </div>
+                    <div className="text-xs text-white/60">Equity</div>
+                  </div>
                 </div>
-                <div className="text-xs text-white/40">Connect account to unlock stats</div>
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/90 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  Connect your trading account to display performance stats
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
+                  <Lock className="w-8 h-8 text-white/60 mb-2" />
+                  <div className="text-white/80 text-sm text-center">
+                    Connect your account next<br />to show real stats
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
           {/* Tags Section */}
-          <div className="flex flex-wrap gap-2 justify-center mt-4">
-            <AnimatePresence>
-              {profileData.tags.map((tag) => {
-                const tagText = tag.split(' ')[1];
-                const TagIcon = (TAG_ICONS[tagText.toLowerCase()] as LucideIcon) || Target;
-                return (
-                  <motion.button
-                    key={tag}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="group flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-sm text-white transition-colors"
-                    onClick={() => handleTagToggle(tag)}
-                  >
-                    <TagIcon className="w-4 h-4" />
-                    <span>{tagText}</span>
-                    <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.button>
-                );
-              })}
-            </AnimatePresence>
-            {profileData.tags.length < 5 && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-sm text-white transition-colors"
-                onClick={() => setEditingField('tag')}
-              >
-                + Add Tag
-              </motion.button>
-            )}
-          </div>
-
-          {/* Theme Picker & Customizer */}
-          <div className="flex flex-col items-center gap-3 mt-4">
-            <div className="flex justify-center gap-2">
-              {THEMES.map((theme) => (
-                <motion.button
-                  key={theme.id}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
-                    theme.id === currentTheme.id ? 'ring-2 ring-white scale-110 shadow-lg shadow-white/20' : ''
-                  }`}
-                  onClick={() => handleFieldEdit('theme', theme.id)}
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="text-sm text-white/60">
-                {currentTheme.name}
-              </div>
-              <button
-                onClick={() => setShowThemeCustomizer(!showThemeCustomizer)}
-                className="px-3 py-1 rounded-full text-sm bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors flex items-center gap-1"
-              >
-                <Palette className="w-4 h-4" />
-                Customize
-                <ChevronDown className={`w-4 h-4 transition-transform ${showThemeCustomizer ? 'rotate-180' : ''}`} />
-              </button>
-            </div>
-
-            {/* Theme Customizer Panel */}
-            <AnimatePresence>
-              {showThemeCustomizer && (
+          <div className="mt-6">
+            <div className="flex flex-wrap justify-center gap-2">
+              {profileData.tags.map((tag, index) => (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="w-full bg-white/10 backdrop-blur-sm rounded-xl p-4 mt-2"
+                  key={index}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="group relative px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm flex items-center gap-1.5"
                 >
-                  <div className="space-y-4">
-                    {/* Username Color */}
-                    <div>
-                      <label className="text-xs text-white/60 mb-2 block">Username Color</label>
-                      <div className="flex gap-2">
-                        {USERNAME_COLORS.map((color) => (
-                          <button
-                            key={color.value}
-                            onClick={() => handleThemeCustomization('usernameColor', color.value)}
-                            className={`w-8 h-8 rounded-full ${color.value} ${
-                              profileData.themeCustomization.usernameColor === color.value ? 'ring-2 ring-white' : ''
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                  <span>{tag}</span>
+                  <button
+                    onClick={() => handleTagToggle(tag)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </motion.div>
+              ))}
+              {profileData.tags.length < 5 && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm transition-colors flex items-center gap-1.5"
+                  onClick={() => setShowTagInput(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Tag
+                </motion.button>
+              )}
+            </div>
 
-                    {/* Stat Highlight */}
-                    <div>
-                      <label className="text-xs text-white/60 mb-2 block">Stat Highlight</label>
-                      <div className="flex gap-2">
-                        {STAT_HIGHLIGHTS.map((highlight) => (
-                          <button
-                            key={highlight.value}
-                            onClick={() => handleThemeCustomization('statHighlight', highlight.value)}
-                            className={`w-8 h-8 rounded-full bg-gradient-to-br ${highlight.value} ${
-                              profileData.themeCustomization.statHighlight === highlight.value ? 'ring-2 ring-white' : ''
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Holo Toggle */}
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs text-white/60">Holo Effect</label>
-                      <button
-                        onClick={() => setShowHolo(!showHolo)}
-                        className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                          showHolo 
-                            ? 'bg-white/20 text-white' 
-                            : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
-                        }`}
-                      >
-                        {showHolo ? '✨ On' : '✨ Off'}
-                      </button>
-                    </div>
+            {/* Tag Input & Suggestions */}
+            <AnimatePresence>
+              {showTagInput && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="mt-3"
+                >
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={tagSearch}
+                      onChange={(e) => handleTagSearch(e.target.value)}
+                      className="w-full px-3 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/20"
+                      placeholder="Search tags..."
+                    />
+                    <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                   </div>
+                  {filteredSuggestions.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {filteredSuggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleAddTagFromSuggestion(suggestion)}
+                          className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm transition-colors flex items-center gap-1.5"
+                        >
+                          <suggestion.icon className="w-4 h-4" />
+                          {suggestion.text}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+
+          {/* Link Section */}
+          {profileData.link && (
+            <div className="mt-6 text-center">
+              <a
+                href={profileData.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-white/80 hover:text-white transition-colors text-sm group"
+              >
+                <LinkIcon className="w-4 h-4" />
+                {profileData.link}
+                <Pencil className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+            </div>
+          )}
         </motion.div>
+
+        {/* Theme Controls (Outside Card) */}
+        <div className="mt-6 space-y-4">
+          <div className="flex justify-center gap-2">
+            {THEMES.map((theme) => (
+              <motion.button
+                key={theme.id}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
+                  theme.id === currentTheme.id ? 'ring-2 ring-white scale-110 shadow-lg shadow-white/20' : ''
+                }`}
+                onClick={() => handleFieldEdit('theme', theme.id)}
+              />
+            ))}
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <div className="text-sm text-gray-600">
+              {currentTheme.name}
+            </div>
+            <button
+              onClick={() => setShowThemeCustomizer(!showThemeCustomizer)}
+              className="px-3 py-1 rounded-full text-sm bg-white hover:bg-gray-50 text-gray-600 transition-colors flex items-center gap-1"
+            >
+              <Palette className="w-4 h-4" />
+              Customize
+              <ChevronDown className={`w-4 h-4 transition-transform ${showThemeCustomizer ? 'rotate-180' : ''}`} />
+            </button>
+          </div>
+
+          {/* Theme Customizer Panel */}
+          <AnimatePresence>
+            {showThemeCustomizer && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="w-full bg-white rounded-xl p-4 shadow-lg"
+              >
+                <div className="space-y-4">
+                  {/* Username Color */}
+                  <div>
+                    <label className="text-xs text-gray-600 mb-2 block">Username Color</label>
+                    <div className="flex gap-2">
+                      {USERNAME_COLORS.map((color) => (
+                        <button
+                          key={color.value}
+                          onClick={() => handleThemeCustomization('usernameColor', color.value)}
+                          className={`w-8 h-8 rounded-full ${color.value} ${
+                            profileData.themeCustomization.usernameColor === color.value ? 'ring-2 ring-primary' : ''
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Stat Highlight */}
+                  <div>
+                    <label className="text-xs text-gray-600 mb-2 block">Stat Highlight</label>
+                    <div className="flex gap-2">
+                      {STAT_HIGHLIGHTS.map((highlight) => (
+                        <button
+                          key={highlight.value}
+                          onClick={() => handleThemeCustomization('statHighlight', highlight.value)}
+                          className={`w-8 h-8 rounded-full bg-gradient-to-br ${highlight.value} ${
+                            profileData.themeCustomization.statHighlight === highlight.value ? 'ring-2 ring-primary' : ''
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Holo Toggle */}
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs text-gray-600">Holo Effect</label>
+                    <button
+                      onClick={() => setShowHolo(!showHolo)}
+                      className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                        showHolo 
+                          ? 'bg-primary text-white' 
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {showHolo ? '✨ On' : '✨ Off'}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Preview Modal */}
         <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
