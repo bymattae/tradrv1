@@ -417,7 +417,7 @@ export default function ProfileBuilder() {
           transition={{ duration: 0.4 }}
         >
           {/* Avatar Section */}
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-4">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -440,53 +440,41 @@ export default function ProfileBuilder() {
                 )}
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <div className="text-white text-sm font-medium">Click to upload profile photo</div>
+                <div className="text-white text-sm font-medium">Upload your profile photo</div>
               </div>
             </motion.button>
 
             {/* Username & Verification */}
-            <div className="text-center">
-              <div className="relative group">
-                <div className="relative">
-                  <span className={`absolute left-3 top-1/2 -translate-y-1/2 text-lg ${currentTheme.textColor}/60`}>@</span>
-                  <input
-                    type="text"
-                    value={profileData.username}
-                    onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
-                    className={`w-full text-center text-4xl font-extrabold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors pl-8 pr-12 py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
-                    placeholder="username"
-                  />
-                  {profileData.username.length >= 3 && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                      {usernameAvailable ? (
-                        <Check className={`w-5 h-5 ${currentTheme.accentColor}`} />
-                      ) : (
-                        <X className={`w-5 h-5 text-red-400`} />
-                      )}
-                    </div>
-                  )}
-                </div>
+            <div className="text-center w-full max-w-[280px]">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={profileData.username}
+                  onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
+                  className={`w-full text-center text-4xl font-bold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors px-3 py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
+                  placeholder="@username"
+                />
                 {profileData.username.length >= 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap"
-                  >
-                    <div className={`text-sm ${currentTheme.textColor}/60 font-medium`}>
-                      tradr.co/{profileData.username}
-                    </div>
-                  </motion.div>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    {usernameAvailable ? (
+                      <Check className={`w-5 h-5 ${currentTheme.accentColor}`} />
+                    ) : (
+                      <X className={`w-5 h-5 text-red-400`} />
+                    )}
+                  </div>
                 )}
               </div>
-              {profileData.isVerified && (
-                <div className="mt-2 inline-flex items-center gap-1 group">
-                  <BadgeCheck className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                  <span className={`text-xs ${currentTheme.textColor}/60 font-medium`}>Verified</span>
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/90 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                    Verified account
+              {profileData.username.length >= 3 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="mt-1"
+                >
+                  <div className={`text-sm ${currentTheme.textColor}/60 font-normal`}>
+                    tradr.co/{profileData.username}
                   </div>
-                </div>
+                </motion.div>
               )}
             </div>
 
@@ -520,25 +508,25 @@ export default function ProfileBuilder() {
           <div className="mt-6">
             <div className="flex items-center justify-center gap-8">
               <div className="text-center">
-                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
-                  +{profileData.stats.performance}%
+                <div className={`text-xl font-bold tracking-wide ${currentTheme.textColor}`}>
+                  +0.0%
                 </div>
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Gain</div>
               </div>
               <div className="text-center">
-                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
-                  {profileData.stats.winRate}%
+                <div className={`text-xl font-bold tracking-wide ${currentTheme.textColor}`}>
+                  0%
                 </div>
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Win Rate</div>
               </div>
               <div className="text-center">
-                <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
-                  {profileData.stats.maxDD}
+                <div className={`text-xl font-bold tracking-wide ${currentTheme.textColor}`}>
+                  0.0
                 </div>
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Avg R:R</div>
               </div>
             </div>
-            <div className={`mt-2 text-center text-xs ${currentTheme.textColor}/60 font-medium flex items-center justify-center gap-1`}>
+            <div className={`mt-2 text-center text-xs ${currentTheme.textColor}/60 font-normal flex items-center justify-center gap-1`}>
               You can sync your accounts in the next step to unlock your real stats
               <Info className="w-3 h-3" />
             </div>
@@ -554,7 +542,7 @@ export default function ProfileBuilder() {
                   animate={{ scale: 1 }}
                   className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors`}
                 >
-                  <span>{tag}</span>
+                  <span className="lowercase">{tag}</span>
                   <button
                     onClick={() => handleTagToggle(tag)}
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
@@ -567,7 +555,7 @@ export default function ProfileBuilder() {
                 <input
                   type="text"
                   value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
+                  onChange={(e) => setNewTag(e.target.value.toLowerCase())}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && newTag.trim()) {
                       handleAddTag();
@@ -579,7 +567,7 @@ export default function ProfileBuilder() {
                 />
               )}
               {profileData.tags.length >= 3 && (
-                <div className={`text-xs ${currentTheme.textColor}/60 font-medium`}>
+                <div className={`text-xs ${currentTheme.textColor}/60 font-normal`}>
                   You can only add up to 3 hashtags
                 </div>
               )}
