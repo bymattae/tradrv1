@@ -400,41 +400,41 @@ export default function ProfileBuilder() {
       <div className="max-w-md mx-auto">
         {/* Profile Card Container */}
         <div className="relative w-full max-w-[420px] mx-auto px-4">
-          <div className="absolute inset-0 bg-white/10 rounded-2xl backdrop-blur-md" />
-          <div className={`relative bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg ${currentTheme.bgGradient}`}>
+          <div className="absolute inset-0 bg-white/5 rounded-3xl backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.05)]" />
+          <div className={`relative bg-white/5 rounded-3xl p-5 sm:p-7 border border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.05)] ${currentTheme.bgGradient}`}>
             {/* Avatar Section */}
             <div className="relative group">
-              <div className={`w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full border-4 ${currentTheme.borderColor} transition-colors duration-300 group-hover:border-white/30 overflow-hidden`}>
+              <div className={`w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full border-2 ${currentTheme.borderColor}/30 transition-all duration-300 group-hover:border-white/40 overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.05)]`}>
                 <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                   <User className="w-14 h-14 sm:w-16 sm:h-16 text-gray-400" />
                 </div>
               </div>
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="bg-black/50 rounded-full p-2.5 sm:p-3">
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="bg-black/40 backdrop-blur-sm rounded-full p-2.5 sm:p-3 shadow-lg">
                   <Camera className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
               </div>
             </div>
 
             {/* Username & Verification */}
-            <div className="text-center w-full max-w-[280px] mx-auto mt-4 sm:mt-6">
+            <div className="text-center w-full max-w-[280px] mx-auto mt-6 sm:mt-8">
               <div className="relative group">
                 <div className="relative flex items-center justify-center">
                   <div className="relative w-full">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl font-bold text-black/40 font-space-grotesk">@</div>
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl font-semibold text-black/30 font-space-grotesk">@</div>
                     <input
                       type="text"
                       value={profileData.username}
                       onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
-                      className="w-full text-center text-2xl sm:text-3xl font-bold tracking-tight text-black bg-white/10 border border-white/10 rounded-xl py-2.5 px-12 focus:outline-none focus:border-white/20 transition-colors font-space-grotesk"
+                      className="w-full text-center text-2xl sm:text-3xl font-semibold tracking-tight text-black bg-white/5 border border-white/5 rounded-2xl py-3 px-12 focus:outline-none focus:border-white/10 focus:bg-white/10 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.05)] font-space-grotesk"
                       placeholder="username"
                     />
                     {profileData.username.length >= 3 && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/10 rounded-full p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
                         {usernameAvailable ? (
-                          <Check className="w-5 h-5 text-[#00E396]" />
+                          <Check className="w-4 h-4 text-[#00E396]" />
                         ) : (
-                          <X className="w-5 h-5 text-red-400" />
+                          <X className="w-4 h-4 text-red-400" />
                         )}
                       </div>
                     )}
@@ -446,9 +446,9 @@ export default function ProfileBuilder() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="mt-2"
+                  className="mt-3"
                 >
-                  <div className="text-sm text-black/60 font-medium tracking-wide hover:text-[#00E396] transition-colors cursor-pointer font-space-grotesk">
+                  <div className="text-sm text-black/50 font-medium tracking-wide hover:text-[#00E396] transition-colors cursor-pointer font-space-grotesk">
                     tradr.co/{profileData.username}
                   </div>
                 </motion.div>
@@ -456,12 +456,12 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Bio */}
-            <div className="relative group w-full max-w-[280px] mx-auto mt-4">
+            <div className="relative group w-full max-w-[280px] mx-auto mt-6 sm:mt-8">
               <div className="relative">
-                <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
-                <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)]" />
+                <div className="relative bg-white/5 rounded-2xl p-4 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                   <div
-                    className={`text-center text-black text-lg sm:text-xl cursor-pointer group-hover:bg-white/10 rounded-lg px-4 py-3 transition-colors font-medium font-space-grotesk`}
+                    className="text-center text-black text-lg sm:text-xl cursor-pointer group-hover:bg-white/5 rounded-xl px-4 py-3 transition-all duration-300 font-medium font-space-grotesk"
                     onClick={() => setEditingField('bio')}
                   >
                     {editingField === 'bio' ? (
@@ -477,7 +477,7 @@ export default function ProfileBuilder() {
                     ) : (
                       <>
                         {profileData.bio || "Add a short trader bio..."}
-                        <Pencil className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Pencil className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300" />
                       </>
                     )}
                   </div>
@@ -486,22 +486,22 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Tags Section */}
-            <div className="mt-4 sm:mt-6 px-4 sm:px-6">
+            <div className="mt-6 sm:mt-8 px-4 sm:px-6">
               <div className="relative">
-                <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
-                <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)]" />
+                <div className="relative bg-white/5 rounded-2xl p-4 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                   <div className="flex flex-wrap justify-start gap-2">
                     {profileData.tags.map((tag, index) => (
                       <motion.div
                         key={index}
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="group relative px-3 py-1.5 rounded-full bg-white/10 text-black text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors shadow-sm font-space-grotesk"
+                        className="group relative px-3 py-1.5 rounded-xl bg-white/5 text-black text-sm font-medium flex items-center gap-1.5 hover:bg-white/10 transition-all duration-300 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk"
                       >
                         <span className="lowercase">{tag}</span>
                         <button
                           onClick={() => handleTagToggle(tag)}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="opacity-0 group-hover:opacity-100 transition-all duration-300"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -518,12 +518,12 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className="px-3 py-1.5 rounded-full bg-white/10 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32 shadow-sm font-space-grotesk"
+                        className="px-3 py-1.5 rounded-xl bg-white/5 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/10 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk"
                         placeholder="#addhashtag"
                       />
                     )}
                     {profileData.tags.length >= 3 && (
-                      <div className="text-xs text-black/60 font-normal flex items-center gap-1 font-space-grotesk">
+                      <div className="text-xs text-black/50 font-normal flex items-center gap-1 font-space-grotesk">
                         <AlertCircle className="w-3 h-3" />
                         You can only add up to 3 hashtags
                       </div>
@@ -534,31 +534,31 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Stats Section */}
-            <div className="mt-4 sm:mt-6 px-4 sm:px-6">
+            <div className="mt-6 sm:mt-8 px-4 sm:px-6">
               <div className="relative">
-                <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
-                <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)]" />
+                <div className="relative bg-white/5 rounded-2xl p-4 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                   <div className="flex items-center justify-between gap-4 sm:gap-8">
                     <div className="text-center flex-1">
-                      <div className="text-xl font-bold tracking-wide text-black font-space-grotesk">
+                      <div className="text-xl font-semibold tracking-wide text-black font-space-grotesk">
                         +0.0%
                       </div>
                       <div className="text-xs text-black/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Gain</div>
                     </div>
                     <div className="text-center flex-1">
-                      <div className="text-xl font-bold tracking-wide text-black font-space-grotesk">
+                      <div className="text-xl font-semibold tracking-wide text-black font-space-grotesk">
                         0%
                       </div>
                       <div className="text-xs text-black/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Win Rate</div>
                     </div>
                     <div className="text-center flex-1">
-                      <div className="text-xl font-bold tracking-wide text-black font-space-grotesk">
+                      <div className="text-xl font-semibold tracking-wide text-black font-space-grotesk">
                         0.0
                       </div>
                       <div className="text-xs text-black/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Avg R:R</div>
                     </div>
                   </div>
-                  <div className="mt-4 text-center text-xs text-black/60 font-normal flex items-center justify-center gap-1 font-space-grotesk">
+                  <div className="mt-4 text-center text-xs text-black/50 font-normal flex items-center justify-center gap-1 font-space-grotesk">
                     You can sync your trading account once you&apos;ve completed your profile.
                     <Info className="w-3 h-3" />
                   </div>
@@ -567,10 +567,10 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Theme Selection */}
-            <div className="mt-6 sm:mt-8">
+            <div className="mt-8 sm:mt-10">
               <div className="relative">
-                <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
-                <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)]" />
+                <div className="relative bg-white/5 rounded-2xl p-4 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                   <div className="flex flex-wrap justify-center gap-3">
                     {THEMES.map((theme) => (
                       <button
@@ -578,14 +578,14 @@ export default function ProfileBuilder() {
                         onClick={() => handleFieldEdit('theme', theme.id)}
                         className={`relative group w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300 ${
                           currentTheme.name === theme.name
-                            ? 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/20'
-                            : 'hover:ring-2 hover:ring-white/50 hover:ring-offset-2 hover:ring-offset-black/20'
+                            ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-black/10'
+                            : 'hover:ring-2 hover:ring-white/30 hover:ring-offset-2 hover:ring-offset-black/10'
                         }`}
                       >
                         <div className={`absolute inset-0 rounded-full ${theme.bgGradient} transition-all duration-300 group-hover:scale-110`} />
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 to-transparent" />
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/10 to-transparent" />
-                        <div className="absolute inset-0 rounded-full border border-white/10" />
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-transparent" />
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/5 to-transparent" />
+                        <div className="absolute inset-0 rounded-full border border-white/5" />
                       </button>
                     ))}
                   </div>
@@ -594,8 +594,8 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Footer */}
-            <div className="mt-6 sm:mt-8 text-center">
-              <div className="text-sm text-black/60 font-normal font-space-grotesk">
+            <div className="mt-8 sm:mt-10 text-center">
+              <div className="text-sm text-black/50 font-normal font-space-grotesk">
                 Made with <span className="text-[#00E396]">#Tradr</span>
               </div>
             </div>
