@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -42,6 +42,7 @@ interface ProfileData {
     live: number;
     funded: number;
   };
+  link?: string;
 }
 
 interface ChecklistItem {
@@ -118,6 +119,15 @@ const STAT_HIGHLIGHTS = [
   { name: 'Red', value: 'from-red-400 to-red-600' },
 ];
 
+// Add new utility function for contrast calculation
+const getContrastColor = (hexcolor: string) => {
+  const r = parseInt(hexcolor.slice(1, 3), 16);
+  const g = parseInt(hexcolor.slice(3, 5), 16);
+  const b = parseInt(hexcolor.slice(5, 7), 16);
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  return yiq >= 128 ? 'text-black' : 'text-white';
+};
+
 export default function ProfileBuilder() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -162,6 +172,7 @@ export default function ProfileBuilder() {
   });
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [showHolo, setShowHolo] = useState(false);
+  const [previewBackground, setPreviewBackground] = useState<'dark' | 'light'>('dark');
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -305,6 +316,10 @@ export default function ProfileBuilder() {
   };
 
   const currentTheme = THEMES.find(t => t.id === profileData.theme) || THEMES[0];
+
+  const handleDownload = () => {
+    // Implementation of handleDownload function
+  };
 
   return (
     <div className="min-h-screen bg-[#fafafa] p-4 font-sans">
@@ -622,31 +637,149 @@ export default function ProfileBuilder() {
 
         {/* Preview Modal */}
         <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-          <DialogContent className="sm:max-w-md p-0 bg-transparent border-none">
-            <div className="aspect-[4/5] w-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 shadow-2xl">
-              {/* Preview content */}
-              <div className="flex flex-col items-center gap-4">
-                <h2 className="text-2xl font-bold text-white mb-4">Your Shareable Card</h2>
-                <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center gap-2">
-                    <Download className="w-4 h-4" />
-                    Download Image
-                  </button>
-                  <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center gap-2">
-                    <Copy className="w-4 h-4" />
-                    Copy Link
-                  </button>
-                  <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center gap-2">
-                    <Share2 className="w-4 h-4" />
-                    Share to X
-                  </button>
-                </div>
-                <div className="mt-4 p-4 bg-white/5 rounded-xl">
-                  <div className="text-center text-white/60 text-sm">
-                    Scan to view profile
+          <DialogContent className="max-w-2xl p-0 bg-transparent border-none">
+            <div className="relative">
+              {/* Preview Controls */}
+              <div className="absolute -top-12 left-0 right-0 flex justify-center gap-4">
+                <button
+                  onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
+                  className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex items-center gap-2"
+                >
+                  {previewBackground === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {previewBackground === 'dark' ? 'Light Preview' : 'Dark Preview'}
+                </button>
+                <button
+                  onClick={handleDownload}
+                  className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download
+                </button>
+                <button
+                  onClick={handleCopyLink}
+                  className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex items-center gap-2"
+                >
+                  <Copy className="w-4 h-4" />
+                  Copy Link
+                </button>
+              </div>
+
+              {/* Preview Card */}
+              <div className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-[${profileData.themeCustomization.gradientStart}] to-[${profileData.themeCustomization.gradientEnd}] p-6 shadow-xl ${showHolo ? 'animate-holo' : ''}`}>
+                {/* Status Badges */}
+                <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs font-medium flex items-center gap-1">
+                      <Trophy className="w-3 h-3" />
+                      Level {profileData.level}
+                    </div>
+                    {profileData.isVerified && (
+                      <div className="px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs font-medium flex items-center gap-1">
+                        <BadgeCheck className="w-3 h-3" />
+                        Verified
+                      </div>
+                    )}
                   </div>
-                  {/* QR Code would go here */}
+                  <div className="text-white/60 text-xs">
+                    {new Date().toLocaleDateString()}
+                  </div>
                 </div>
+
+                {/* Avatar & Username Section */}
+                <div className="flex flex-col items-center gap-3 mt-12">
+                  <div className={`w-24 h-24 rounded-full overflow-hidden ring-2 ${profileData.themeCustomization.avatarBorder}`}>
+                    {profileData.avatar ? (
+                      <Image
+                        src={profileData.avatar}
+                        alt="Profile"
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-white/10 flex items-center justify-center">
+                        <Camera className="w-8 h-8 text-white/40" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="text-center">
+                    <div className={`text-3xl font-bold ${profileData.themeCustomization.usernameColor} mb-2`}>
+                      {profileData.username || 'Username'}
+                    </div>
+                    <div className="text-white/80 text-sm max-w-[280px] mx-auto">
+                      {profileData.bio || 'Add a bio to tell your story'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Clean Stats Row */}
+                <div className="flex items-center justify-center gap-8 mt-6">
+                  {profileData.hasConnectedStrategy ? (
+                    <>
+                      <div className="text-center">
+                        <div className="text-xl font-semibold text-white flex items-center gap-1">
+                          <TrendingUp className="w-4 h-4" />
+                          <span className="text-green-400">+{profileData.stats.performance}%</span>
+                        </div>
+                        <div className="text-xs text-white/60">Gain</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xl font-semibold text-white flex items-center gap-1">
+                          <Percent className="w-4 h-4" />
+                          {profileData.stats.winRate}%
+                        </div>
+                        <div className="text-xs text-white/60">Win Rate</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xl font-semibold text-white flex items-center gap-1">
+                          <Wallet className="w-4 h-4" />
+                          {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
+                        </div>
+                        <div className="text-xs text-white/60">Verified</div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-center group relative">
+                      <div className="text-xl font-semibold text-white/40 flex items-center gap-1">
+                        <Lock className="w-4 h-4" />
+                        Stats Hidden
+                      </div>
+                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/90 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        Connect your trading account to display performance stats
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Tags Section */}
+                <div className="mt-8">
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {profileData.tags.map((tag, index) => (
+                      <div
+                        key={index}
+                        className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm"
+                      >
+                        {tag}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Link Section */}
+                {profileData.link && (
+                  <div className="mt-6 text-center">
+                    <a
+                      href={profileData.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-white/80 hover:text-white transition-colors text-sm"
+                    >
+                      <LinkIcon className="w-4 h-4" />
+                      {profileData.link}
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </DialogContent>
