@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -57,6 +57,14 @@ const THEMES = [
     previewGradient: 'from-[#F7971E]/90 to-[#FFD200]/90'
   }
 ];
+
+const TAG_ICONS = {
+  'trader': Target,
+  'funded': Zap,
+  'crypto': Sparkle,
+  'forex': Flame,
+  // Add more tag icons as needed
+};
 
 export default function ProfileBuilder() {
   const router = useRouter();
@@ -300,9 +308,9 @@ export default function ProfileBuilder() {
             className="flex-1 max-w-md"
           >
             {/* Card Container */}
-            <div className="relative aspect-[1.4/1] rounded-3xl shadow-xl overflow-hidden bg-white border border-gray-100">
+            <div className="relative aspect-[1.4/1] rounded-3xl shadow-xl overflow-hidden bg-white border border-gray-100 group">
               {/* Gradient Background with Animated Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${currentTheme.gradient} opacity-[0.98]`}>
+              <div className={`absolute inset-0 bg-gradient-to-br ${currentTheme.gradient} opacity-[0.98] transition-all duration-500`}>
                 <motion.div
                   initial={{ opacity: 0, scale: 1.2 }}
                   animate={{ opacity: 0.1, scale: 1 }}
@@ -314,118 +322,94 @@ export default function ProfileBuilder() {
               {/* Content Container */}
               <div className="relative p-6">
                 <div className="flex items-start gap-5">
-                  {/* Avatar */}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => fileInputRef.current?.click()}
-                    className="relative w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 shadow-lg overflow-hidden group backdrop-blur-sm"
-                  >
-                    {profileData.avatar ? (
-                      <motion.div
-                        initial={{ scale: 1.2, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="w-full h-full"
-                      >
-                        <Image
-                          src={profileData.avatar}
-                          alt="Profile"
-                          fill
-                          className="object-cover"
-                        />
-                      </motion.div>
-                    ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/60">
-                        <Camera className="w-6 h-6" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                      <Camera className="w-6 h-6 text-white" />
-                    </div>
-                  </motion.button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, 'avatar')}
-                    className="hidden"
-                  />
-
-                  {/* Profile Info */}
-                  <div className="flex-1 min-w-0">
-                    {/* Username */}
-                    <div className="flex items-center gap-2 mb-2">
-                      {editingField === 'username' ? (
+                  {/* Avatar with Level Ring */}
+                  <div className="relative">
+                    <motion.div
+                      className="absolute -inset-1 bg-gradient-to-r from-white/50 to-white/20 rounded-full blur-sm"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="relative w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 shadow-lg overflow-hidden group backdrop-blur-sm"
+                    >
+                      {profileData.avatar ? (
                         <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center"
+                          initial={{ scale: 1.2, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="w-full h-full"
                         >
-                          <span className="text-2xl font-bold text-white/60">@</span>
-                          <input
-                            autoFocus
-                            value={profileData.username}
-                            onChange={(e) => setProfileData({ ...profileData, username: e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '') })}
-                            onBlur={() => setEditingField(null)}
-                            onKeyDown={(e) => e.key === 'Enter' && setEditingField(null)}
-                            placeholder="username"
-                            className="text-2xl font-bold w-full bg-transparent outline-none border-b-2 border-white/20 ml-1 font-display text-white placeholder-white/40"
+                          <Image
+                            src={profileData.avatar}
+                            alt="Profile"
+                            fill
+                            className="object-cover"
                           />
                         </motion.div>
                       ) : (
-                        <motion.button
-                          onClick={() => setEditingField('username')}
-                          className="flex items-center gap-1 group"
-                        >
-                          <span className="text-2xl font-bold text-white/60">@</span>
-                          <span className="text-2xl font-bold text-white font-display truncate">
-                            {profileData.username || 'username'}
-                          </span>
-                          {usernameAvailable && (
-                            <div className="flex items-center">
-                              <Check className="w-5 h-5 text-white/80" />
-                            </div>
-                          )}
-                        </motion.button>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/60">
+                          <Camera className="w-6 h-6" />
+                        </div>
                       )}
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                        <Camera className="w-6 h-6 text-white" />
+                      </div>
+                    </motion.button>
+                    <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-lg">
+                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#A259FF] to-[#6B4EFF] flex items-center justify-center text-[10px] font-bold text-white">
+                        {Math.floor(profileData.xp / 100) + 1}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Profile Info */}
+                  <div className="flex-1 min-w-0">
+                    {/* Username with Verified Badge */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <motion.button
+                        onClick={() => setEditingField('username')}
+                        className="flex items-center gap-2 group"
+                      >
+                        <span className="text-2xl font-bold text-white/60">@</span>
+                        <span className="text-2xl font-bold text-white font-display truncate">
+                          {profileData.username || 'username'}
+                        </span>
+                        {usernameAvailable && (
+                          <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="flex items-center"
+                          >
+                            <BadgeCheck className="w-5 h-5 text-white" />
+                          </motion.div>
+                        )}
+                      </motion.button>
                     </div>
 
                     {/* Bio */}
                     <div className="mb-3">
-                      {editingField === 'bio' ? (
-                        <motion.textarea
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          autoFocus
-                          value={profileData.bio}
-                          onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-                          onBlur={() => setEditingField(null)}
-                          placeholder="ex: ICT trader | funded | London"
-                          className="w-full bg-transparent outline-none resize-none text-white/80 border-b-2 border-white/20 font-medium placeholder-white/40"
-                          rows={2}
-                        />
-                      ) : (
-                        <motion.button
-                          onClick={() => setEditingField('bio')}
-                          className="text-white/80 hover:text-white transition-colors font-medium text-left block w-full"
-                        >
-                          {profileData.bio || 'Add a short bio'}
-                        </motion.button>
-                      )}
+                      <motion.button
+                        onClick={() => setEditingField('bio')}
+                        className="text-white/80 hover:text-white transition-colors font-medium text-left block w-full"
+                      >
+                        {profileData.bio || 'Add a short bio'}
+                      </motion.button>
                     </div>
 
                     {/* Stats Row */}
-                    <div className="flex items-center gap-3 text-sm font-medium text-white/80 mb-4">
+                    <div className="flex items-center gap-3 text-sm font-medium text-white/90 mb-4 bg-white/5 rounded-2xl px-4 py-2 backdrop-blur-sm border border-white/10">
                       <div className="flex items-center gap-1.5">
                         <Trophy className="w-4 h-4" />
                         <span>Level {Math.floor(profileData.xp / 100) + 1}</span>
                       </div>
-                      <div className="w-1 h-1 rounded-full bg-white/40" />
+                      <div className="w-1 h-1 rounded-full bg-white/20" />
                       <div className="flex items-center gap-1.5">
                         <Star className="w-4 h-4" />
                         <span>{profileData.xp} XP</span>
                       </div>
-                      <div className="w-1 h-1 rounded-full bg-white/40" />
+                      <div className="w-1 h-1 rounded-full bg-white/20" />
                       <div className="flex items-center gap-1.5">
                         <Tags className="w-4 h-4" />
                         <span>{profileData.tags.length} Tags</span>
@@ -435,54 +419,30 @@ export default function ProfileBuilder() {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2">
                       <AnimatePresence>
-                        {profileData.tags.slice(0, 3).map((tag) => (
-                          <motion.button
-                            key={tag}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setProfileData({
-                              ...profileData,
-                              tags: profileData.tags.filter(t => t !== tag)
-                            })}
-                            className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium flex items-center gap-1.5 group hover:bg-white/20 transition-all border border-white/10"
-                          >
-                            {tag}
-                            <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </motion.button>
-                        ))}
+                        {profileData.tags.slice(0, 3).map((tag) => {
+                          const tagText = tag.split(' ')[1];
+                          const TagIcon = TAG_ICONS[tagText.toLowerCase()] || Target;
+                          return (
+                            <motion.button
+                              key={tag}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.8 }}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => setProfileData({
+                                ...profileData,
+                                tags: profileData.tags.filter(t => t !== tag)
+                              })}
+                              className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium flex items-center gap-1.5 group hover:bg-white/20 transition-all border border-white/10"
+                            >
+                              <TagIcon className="w-3.5 h-3.5" />
+                              {tagText}
+                              <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </motion.button>
+                          );
+                        })}
                       </AnimatePresence>
-                      
-                      {profileData.tags.length < 3 && editingField !== 'tag' && (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setEditingField('tag')}
-                          className="px-3 py-1.5 rounded-xl border border-dashed border-white/20 text-white/60 text-sm font-medium hover:border-white/40 hover:text-white/80 transition-colors backdrop-blur-sm"
-                        >
-                          + Add tag
-                        </motion.button>
-                      )}
-
-                      {editingField === 'tag' && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          className="flex items-center gap-2"
-                        >
-                          <input
-                            autoFocus
-                            value={newTag}
-                            onChange={(e) => setNewTag(e.target.value)}
-                            onBlur={handleAddTag}
-                            onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
-                            placeholder="Enter tag..."
-                            className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium border border-white/20 focus:outline-none focus:border-white/40 placeholder-white/40"
-                          />
-                        </motion.div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -543,6 +503,25 @@ export default function ProfileBuilder() {
                 You&apos;ll be able to share this link with followers and post your verified trades.
               </p>
             </motion.div>
+
+            {/* Preview Share Card Button */}
+            <motion.button
+              onClick={() => {
+                // Add share preview logic here
+                confetti({
+                  particleCount: 50,
+                  spread: 60,
+                  origin: { y: 0.8 },
+                  colors: ['#A259FF', '#6B4EFF', '#241654']
+                });
+              }}
+              className="mt-4 w-full py-3 rounded-2xl bg-white border border-gray-200 shadow-sm hover:border-[#A259FF]/20 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group"
+            >
+              <div className="w-5 h-5 rounded-lg bg-[#A259FF]/10 flex items-center justify-center group-hover:bg-[#A259FF]/20 transition-colors">
+                <Share className="w-3 h-3 text-[#A259FF]" />
+              </div>
+              <span className="font-medium text-gray-900">Preview Share Card</span>
+            </motion.button>
 
             {/* Continue Button */}
             <motion.div 
