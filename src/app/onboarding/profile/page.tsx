@@ -17,11 +17,17 @@ interface ProfileData {
   tags: string[];
   theme: string;
   coverImage: string | null;
-  xp: number;
+  isVerified: boolean;
+  showStats: boolean;
   level: number;
-  followers: number;
-  following: number;
-  trades: number;
+  xp: number;
+  streak: number;
+  lastSynced: Date | null;
+  stats: {
+    performance: number;
+    winRate: number;
+    maxDD: number;
+  };
 }
 
 interface ChecklistItem {
@@ -33,34 +39,39 @@ interface ChecklistItem {
 
 const THEMES = [
   { 
-    id: 'cyber-purple',
-    name: 'Cyber Purple',
+    id: 'vapor',
+    name: 'Vapor',
+    gradient: 'from-[#FC67FA] via-[#6A82FB] to-[#4B6CB7]',
+    previewGradient: 'from-[#FC67FA]/90 via-[#6A82FB]/90 to-[#4B6CB7]/90',
+    animation: 'animate-shimmer'
+  },
+  { 
+    id: 'aurora',
+    name: 'Aurora',
+    gradient: 'from-[#00C4CC] via-[#4B6CB7] to-[#182848]',
+    previewGradient: 'from-[#00C4CC]/90 via-[#4B6CB7]/90 to-[#182848]/90',
+    animation: 'animate-float'
+  },
+  { 
+    id: 'ultraviolet',
+    name: 'Ultraviolet',
     gradient: 'from-[#A259FF] via-[#6B4EFF] to-[#241654]',
-    previewGradient: 'from-[#A259FF]/90 via-[#6B4EFF]/90 to-[#241654]/90'
+    previewGradient: 'from-[#A259FF]/90 via-[#6B4EFF]/90 to-[#241654]/90',
+    animation: 'animate-pulse'
   },
   { 
-    id: 'aqua-blue',
-    name: 'Aqua Blue',
-    gradient: 'from-[#00C4CC] to-[#4B6CB7]',
-    previewGradient: 'from-[#00C4CC]/90 to-[#4B6CB7]/90'
-  },
-  { 
-    id: 'vapor-pink',
-    name: 'Vapor Pink',
-    gradient: 'from-[#FC67FA] to-[#6A82FB]',
-    previewGradient: 'from-[#FC67FA]/90 to-[#6A82FB]/90'
-  },
-  { 
-    id: 'neon-future',
-    name: 'Neon Future',
+    id: 'neon-fade',
+    name: 'Neon Fade',
     gradient: 'from-[#FF3CAC] via-[#784BA0] to-[#2B86C5]',
-    previewGradient: 'from-[#FF3CAC]/90 via-[#784BA0]/90 to-[#2B86C5]/90'
+    previewGradient: 'from-[#FF3CAC]/90 via-[#784BA0]/90 to-[#2B86C5]/90',
+    animation: 'animate-glow'
   },
   { 
-    id: 'sunset-gold',
-    name: 'Sunset Gold',
-    gradient: 'from-[#F7971E] to-[#FFD200]',
-    previewGradient: 'from-[#F7971E]/90 to-[#FFD200]/90'
+    id: 'yellow-flame',
+    name: 'Yellow Flame',
+    gradient: 'from-[#F7971E] via-[#FFD200] to-[#FF6B6B]',
+    previewGradient: 'from-[#F7971E]/90 via-[#FFD200]/90 to-[#FF6B6B]/90',
+    animation: 'animate-flicker'
   }
 ];
 
@@ -96,13 +107,20 @@ export default function ProfileBuilder() {
     tags: [],
     theme: THEMES[0].id,
     coverImage: null,
-    xp: 0,
+    isVerified: false,
+    showStats: true,
     level: 1,
-    followers: 0,
-    following: 0,
-    trades: 0
+    xp: 0,
+    streak: 0,
+    lastSynced: null,
+    stats: {
+      performance: 42.8,
+      winRate: 68,
+      maxDD: 8
+    }
   });
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [showHolo, setShowHolo] = useState(false);
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -273,13 +291,53 @@ export default function ProfileBuilder() {
       <div className="max-w-md mx-auto">
         {/* Profile Card */}
         <motion.div
-          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-6 shadow-xl`}
+          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-4 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${showHolo ? 'animate-holo' : ''}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
+          {/* Status Badges */}
+          <div className="absolute top-4 left-4 flex flex-col gap-2">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="bg-gradient-to-r from-yellow-400/90 to-yellow-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg"
+            >
+              Level {profileData.level} Trader
+            </motion.div>
+            {profileData.isVerified && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="bg-gradient-to-r from-blue-400/90 to-blue-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg flex items-center gap-1"
+              >
+                <BadgeCheck className="w-4 h-4" />
+                Verified by Broker
+              </motion.div>
+            )}
+            {profileData.streak > 0 && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="bg-gradient-to-r from-red-400/90 to-red-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg flex items-center gap-1"
+              >
+                <Flame className="w-4 h-4" />
+                {profileData.streak} Day Streak
+              </motion.div>
+            )}
+            {profileData.isVerified && profileData.lastSynced && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full text-white/80 text-xs"
+              >
+                Last synced: {profileData.lastSynced.toLocaleTimeString()}
+              </motion.div>
+            )}
+          </div>
+
           {/* Avatar & Username Section */}
-          <div className="flex flex-col items-center gap-4 mb-6">
+          <div className="flex flex-col items-center gap-2 mt-8">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -301,65 +359,66 @@ export default function ProfileBuilder() {
                   </div>
                 )}
               </div>
-              <motion.div
-                className="absolute -bottom-1 -right-1 bg-primary text-white text-xs font-medium px-2 rounded-full"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-              >
-                {Math.floor(profileData.xp / 100) + 1}
-              </motion.div>
             </motion.button>
 
-            <div className="w-full max-w-[200px]">
+            <div className="w-full max-w-[200px] text-center">
               <div className="relative">
                 <input
                   type="text"
                   value={profileData.username}
                   onChange={(e) => handleFieldEdit('username', e.target.value)}
-                  className="w-full text-center text-xl font-semibold text-white bg-transparent border-b-2 border-white/20 focus:border-white/40 focus:outline-none transition-colors px-2 py-1"
+                  className="w-full text-center text-2xl font-bold text-white bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-inter"
                   placeholder="Username"
                 />
-                <AnimatePresence>
-                  {usernameAvailable && (
-                    <motion.div
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      className="absolute right-0 top-1/2 -translate-y-1/2"
-                    >
-                      <Check className="w-5 h-5 text-green-400" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {usernameAvailable && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                  >
+                    <Check className="w-5 h-5 text-green-400" />
+                  </motion.div>
+                )}
               </div>
-              <input
-                type="text"
-                value={profileData.bio}
-                onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                className="w-full text-center text-sm text-white/80 bg-transparent border-none focus:outline-none mt-2"
-                placeholder="Write a short bio..."
-              />
+              <div
+                className="mt-1 text-sm text-white/60 cursor-pointer hover:text-white transition-colors"
+                onClick={() => setEditingField('bio')}
+              >
+                {editingField === 'bio' ? (
+                  <input
+                    type="text"
+                    value={profileData.bio}
+                    onChange={(e) => handleFieldEdit('bio', e.target.value)}
+                    className="w-full text-center bg-transparent border-none focus:outline-none"
+                    placeholder="Write a short bio..."
+                    onBlur={() => setEditingField(null)}
+                    autoFocus
+                  />
+                ) : (
+                  profileData.bio || "Click to add a bio..."
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Stats Row */}
-          <div className="flex items-center justify-between px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl mb-6">
-            <div className="text-center group">
-              <div className="text-lg font-semibold text-white">{Math.floor(profileData.xp / 100) + 1}</div>
-              <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Level</div>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-3 gap-2 mt-4">
+            <div className="text-center p-2 bg-white/5 rounded-lg">
+              <div className="text-lg font-semibold text-white">{profileData.level}</div>
+              <div className="text-xs text-white/60">Level</div>
             </div>
-            <div className="text-center group">
+            <div className="text-center p-2 bg-white/5 rounded-lg">
               <div className="text-lg font-semibold text-white">{profileData.xp}</div>
-              <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">XP</div>
+              <div className="text-xs text-white/60">XP</div>
             </div>
-            <div className="text-center group">
+            <div className="text-center p-2 bg-white/5 rounded-lg">
               <div className="text-lg font-semibold text-white">{profileData.tags.length}/5</div>
-              <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Tags</div>
+              <div className="text-xs text-white/60">Tags</div>
             </div>
           </div>
 
           {/* Tags Section */}
-          <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <div className="flex flex-wrap gap-2 justify-center mt-4">
             <AnimatePresence>
               {profileData.tags.map((tag) => {
                 const tagText = tag.split(' ')[1];
@@ -394,34 +453,72 @@ export default function ProfileBuilder() {
             )}
           </div>
 
-          {/* Profile Link */}
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl text-white text-sm">
-              tradr.co/{profileData.username || 'username'}
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCopyLink}
-              className="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
-            >
-              <Copy className="w-4 h-4 text-white" />
-            </motion.button>
+          {/* Stats Row */}
+          <div className="flex items-center justify-center gap-4 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl mt-4">
+            {profileData.isVerified && profileData.showStats ? (
+              <>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                    <span className="text-green-400">+{profileData.stats.performance}%</span>
+                  </div>
+                  <div className="text-xs text-white/60">Performance</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                    <Trophy className="w-4 h-4 text-yellow-400" />
+                    {profileData.stats.winRate}%
+                  </div>
+                  <div className="text-xs text-white/60">Win Rate</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                    <Shield className="w-4 h-4 text-blue-400" />
+                    {profileData.stats.maxDD}%
+                  </div>
+                  <div className="text-xs text-white/60">Max DD</div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center">
+                <div className="text-lg font-semibold text-white flex items-center gap-1">
+                  <Lock className="w-4 h-4 text-white/60" />
+                  Stats Hidden
+                </div>
+                <div className="text-xs text-white/40">Sync to verify your performance</div>
+              </div>
+            )}
           </div>
 
-          {/* Theme Picker */}
-          <div className="flex justify-center gap-2">
-            {THEMES.map((theme) => (
-              <motion.button
-                key={theme.id}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
-                  theme.id === currentTheme.id ? 'ring-2 ring-white scale-110' : ''
+          {/* Theme Picker & Holo Toggle */}
+          <div className="flex flex-col items-center gap-3 mt-4">
+            <div className="flex justify-center gap-2">
+              {THEMES.map((theme) => (
+                <motion.button
+                  key={theme.id}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
+                    theme.id === currentTheme.id ? 'ring-2 ring-white scale-110 shadow-lg shadow-white/20' : ''
+                  }`}
+                  onClick={() => handleFieldEdit('theme', theme.id)}
+                />
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="text-sm text-white/60">
+                {currentTheme.name}
+              </div>
+              <button
+                onClick={() => setShowHolo(!showHolo)}
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  showHolo 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
                 }`}
-                onClick={() => handleFieldEdit('theme', theme.id)}
-              />
-            ))}
+              >
+                {showHolo ? '✨ Holo On' : '✨ Holo Off'}
+              </button>
+            </div>
           </div>
         </motion.div>
 
@@ -430,6 +527,29 @@ export default function ProfileBuilder() {
           <DialogContent className="sm:max-w-md p-0 bg-transparent border-none">
             <div className="aspect-[4/5] w-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 shadow-2xl">
               {/* Preview content */}
+              <div className="flex flex-col items-center gap-4">
+                <h2 className="text-2xl font-bold text-white mb-4">Your Shareable Card</h2>
+                <div className="flex gap-2">
+                  <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center gap-2">
+                    <Download className="w-4 h-4" />
+                    Download Image
+                  </button>
+                  <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center gap-2">
+                    <Copy className="w-4 h-4" />
+                    Copy Link
+                  </button>
+                  <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center gap-2">
+                    <Share2 className="w-4 h-4" />
+                    Share to X
+                  </button>
+                </div>
+                <div className="mt-4 p-4 bg-white/5 rounded-xl">
+                  <div className="text-center text-white/60 text-sm">
+                    Scan to view profile
+                  </div>
+                  {/* QR Code would go here */}
+                </div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
