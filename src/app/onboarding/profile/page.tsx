@@ -522,7 +522,7 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className="px-3 py-2 rounded-xl bg-white/5 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/10 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk min-h-[44px] text-center placeholder:text-black/30"
+                        className={`px-3 py-2 rounded-xl bg-white/5 text-black text-sm font-medium border-2 border-dashed ${currentTheme.borderColor}/20 hover:${currentTheme.borderColor}/30 focus:outline-none focus:${currentTheme.borderColor}/40 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.05)] font-space-grotesk min-h-[44px] text-center placeholder:text-black/30 transition-colors duration-300`}
                         placeholder="#addhashtag"
                       />
                     )}
