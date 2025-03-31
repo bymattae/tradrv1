@@ -392,34 +392,11 @@ export default function ProfileBuilder() {
       {/* Top Navigation */}
       <nav className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white/70 backdrop-blur-xl border-b border-gray-100 mb-8">
         <Link href="/auth/verify" className="text-gray-600 hover:text-gray-900">
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-5 h-5" />
         </Link>
-        <div className="flex items-center gap-4">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center gap-2"
-          >
-            <div className="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-primary"
-                initial={{ width: 0 }}
-                animate={{ width: `${profileStrength}%` }}
-                transition={{ duration: 0.5 }}
-              />
-            </div>
-            <span className="text-sm font-medium text-gray-600">{profileStrength}%</span>
-          </motion.div>
-          <button
-            onClick={handlePreviewShare}
-            className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-xl hover:bg-primary/90 transition-colors"
-          >
-            Preview
-          </button>
-        </div>
+        <div className="text-sm text-gray-500">Step 2 of 3</div>
       </nav>
 
-      {/* Main Content */}
       <div className="max-w-md mx-auto">
         {/* Profile Card Container */}
         <div className="relative w-full max-w-[400px] mx-auto">
@@ -619,89 +596,7 @@ export default function ProfileBuilder() {
             </div>
           </div>
         </div>
-
-        {/* Preview Modal */}
-        <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-          <DialogContent className="max-w-2xl p-0 bg-transparent border-none">
-            <div className="relative">
-              {/* Preview Controls */}
-              <div className="absolute -top-12 left-0 right-0 flex justify-center gap-4">
-                <button
-                  onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
-                  className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex items-center gap-2"
-                >
-                  {previewBackground === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                  {previewBackground === 'dark' ? 'Light Preview' : 'Dark Preview'}
-                </button>
-                <button
-                  onClick={handleDownload}
-                  className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  Download
-                </button>
-                <button
-                  onClick={handleCopyLink}
-                  className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex items-center gap-2"
-                >
-                  <Copy className="w-4 h-4" />
-                  Copy Link
-                </button>
-              </div>
-
-              {/* Preview Card */}
-              <div className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-6 shadow-xl`}>
-                {/* Status Badges */}
-                <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs font-medium flex items-center gap-1">
-                      <Trophy className="w-3 h-3" />
-                      Level {profileData.level}
-                    </div>
-                    {profileData.isVerified && (
-                      <div className="px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs font-medium flex items-center gap-1">
-                        <BadgeCheck className="w-3 h-3" />
-                        Verified
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-white/60 text-xs">
-                    {new Date().toLocaleDateString()}
-                  </div>
-                </div>
-
-                {/* Avatar & Username Section */}
-                <div className="flex flex-col items-center gap-3 mt-12">
-                  <div className={`w-24 h-24 rounded-full overflow-hidden ring-2 ${currentTheme.textColor}/20`}>
-                    {profileData.avatar ? (
-                      <Image
-                        src={profileData.avatar}
-                        alt="Profile"
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-white/10 flex items-center justify-center">
-                        <Camera className={`w-8 h-8 ${currentTheme.textColor}/40`} />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="text-center">
-                    <div className={`text-3xl font-bold ${currentTheme.textColor} mb-2`}>
-                      {profileData.username || 'Username'}
-                    </div>
-                    <div className="text-white/80 text-sm max-w-[280px] mx-auto">
-                      {profileData.bio || 'Add a bio to tell your story'}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Clean Stats Row */}
-                <div className="flex items-center justify-center gap-8 mt-6">
-                  {profileData.hasConnectedStrategy ? (
-                    <>
-                      <div className="text-center">
-                        <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
-                          <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`
+      </div>
+    </div>
+  );
+}
