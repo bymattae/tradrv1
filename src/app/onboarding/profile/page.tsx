@@ -554,7 +554,7 @@ export default function ProfileBuilder() {
                     </div>
                   </div>
                   <div className="mt-4 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1 font-space-grotesk">
-                    You can sync your trading account once you've completed your profile.
+                    You can sync your trading account once you&apos;ve completed your profile.
                     <Info className="w-3 h-3" />
                   </div>
                 </div>
