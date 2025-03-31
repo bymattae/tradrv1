@@ -54,9 +54,9 @@ export default function HomePage() {
             className="text-center"
           >
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
-              this isn't trading.
+              this isn&apos;t trading.
               <br />
-              it's performance.
+              it&apos;s performance.
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 mb-12">
               public trading profiles. verified by data.
@@ -180,7 +180,7 @@ export default function HomePage() {
             className="text-center"
           >
             <h2 className="text-4xl md:text-6xl font-bold mb-12">
-              ready to show what you're
+              ready to show what you&apos;re
               <br />
               really made of?
             </h2>
