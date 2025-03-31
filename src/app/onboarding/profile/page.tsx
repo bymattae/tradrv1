@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -409,15 +409,12 @@ export default function ProfileBuilder() {
 
       {/* Main Content */}
       <div className="max-w-md mx-auto">
-        {/* Profile Card */}
-        <motion.div
-          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${spaceGrotesk.variable}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
+        {/* Profile Card Container */}
+        <div className={`relative w-full max-w-[400px] mx-auto rounded-2xl overflow-hidden backdrop-blur-sm bg-gradient-to-br ${currentTheme.gradient} shadow-xl`}>
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px]" />
+          
           {/* Avatar Section */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 pt-8">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -435,18 +432,20 @@ export default function ProfileBuilder() {
                   />
                 ) : (
                   <div className="w-full h-full bg-white/10 flex items-center justify-center">
-                    <Camera className={`w-10 h-10 ${currentTheme.accentColor}/40`} />
+                    <div className="w-16 h-16 rounded-full border-2 border-dashed border-white/20 flex items-center justify-center">
+                      <Camera className={`w-8 h-8 ${currentTheme.accentColor}/40`} />
+                    </div>
                   </div>
                 )}
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <div className="text-white text-sm font-medium">Upload your profile photo</div>
+                <div className="text-white text-sm font-medium">Upload profile picture</div>
               </div>
             </motion.button>
 
             {/* Username & Verification */}
             <div className="text-center w-full max-w-[280px]">
-              <div className="relative">
+              <div className="relative group">
                 <input
                   type="text"
                   value={profileData.username}
@@ -457,9 +456,9 @@ export default function ProfileBuilder() {
                 {profileData.username.length >= 3 && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {usernameAvailable ? (
-                      <Check className={`w-5 h-5 ${currentTheme.accentColor}`} />
+                      <Check className="w-5 h-5 text-[#16c784]" />
                     ) : (
-                      <X className={`w-5 h-5 text-red-400`} />
+                      <X className="w-5 h-5 text-red-400" />
                     )}
                   </div>
                 )}
@@ -471,7 +470,7 @@ export default function ProfileBuilder() {
                   exit={{ opacity: 0, y: 10 }}
                   className="mt-1"
                 >
-                  <div className={`text-sm ${currentTheme.textColor}/60 font-normal`}>
+                  <div className={`text-xs ${currentTheme.textColor}/60 font-normal`}>
                     tradr.co/{profileData.username}
                   </div>
                 </motion.div>
@@ -505,42 +504,44 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Stats Section */}
-          <div className="mt-6">
-            <div className="flex items-center justify-center gap-8">
-              <div className="text-center">
-                <div className={`text-xl font-bold tracking-wide ${currentTheme.textColor}`}>
-                  +0.0%
+          <div className="mt-6 px-6">
+            <div className="backdrop-blur-md bg-white/5 rounded-xl p-4">
+              <div className="flex items-center justify-center gap-8">
+                <div className="text-center">
+                  <div className="text-xl font-semibold tracking-wide text-[#16c784]">
+                    +0.0%
+                  </div>
+                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Gain</div>
                 </div>
-                <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Gain</div>
-              </div>
-              <div className="text-center">
-                <div className={`text-xl font-bold tracking-wide ${currentTheme.textColor}`}>
-                  0%
+                <div className="text-center">
+                  <div className="text-xl font-semibold tracking-wide text-[#6366f1]">
+                    0%
+                  </div>
+                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Win Rate</div>
                 </div>
-                <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Win Rate</div>
-              </div>
-              <div className="text-center">
-                <div className={`text-xl font-bold tracking-wide ${currentTheme.textColor}`}>
-                  0.0
+                <div className="text-center">
+                  <div className="text-xl font-semibold tracking-wide text-[#f59e0b]">
+                    0.0
+                  </div>
+                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg R:R</div>
                 </div>
-                <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Avg R:R</div>
               </div>
-            </div>
-            <div className={`mt-2 text-center text-xs ${currentTheme.textColor}/60 font-normal flex items-center justify-center gap-1`}>
-              You can sync your accounts in the next step to unlock your real stats
-              <Info className="w-3 h-3" />
+              <div className="mt-2 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1">
+                You can sync your accounts in the next step to unlock your real stats
+                <Info className="w-3 h-3" />
+              </div>
             </div>
           </div>
 
           {/* Tags Section */}
-          <div className="mt-6">
+          <div className="mt-6 px-6">
             <div className="flex flex-wrap justify-center gap-2">
               {profileData.tags.map((tag, index) => (
                 <motion.div
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors`}
+                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors shadow-sm`}
                 >
                   <span className="lowercase">{tag}</span>
                   <button
@@ -562,12 +563,13 @@ export default function ProfileBuilder() {
                       setNewTag('');
                     }
                   }}
-                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32`}
+                  className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32 shadow-sm`}
                   placeholder="#addhashtag"
                 />
               )}
               {profileData.tags.length >= 3 && (
-                <div className={`text-xs ${currentTheme.textColor}/60 font-normal`}>
+                <div className={`text-xs ${currentTheme.textColor}/60 font-normal flex items-center gap-1`}>
+                  <AlertCircle className="w-3 h-3" />
                   You can only add up to 3 hashtags
                 </div>
               )}
@@ -575,7 +577,7 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Theme Selection & Signature */}
-          <div className="mt-6 space-y-4">
+          <div className="mt-8 space-y-4 pb-6">
             <div className="flex justify-center gap-2">
               {THEMES.map((theme) => (
                 <motion.button
@@ -590,28 +592,12 @@ export default function ProfileBuilder() {
               ))}
             </div>
             <div className="text-center">
-              <span className={`text-sm ${currentTheme.textColor}/40 font-space-grotesk italic`}>
+              <span className={`text-sm ${currentTheme.textColor}/40 font-space-grotesk italic font-bold`}>
                 Made with #Tradr
               </span>
             </div>
           </div>
-
-          {/* Link Section */}
-          {profileData.link && (
-            <div className="mt-8 text-center">
-              <a
-                href={profileData.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1 ${currentTheme.linkColor} transition-colors text-sm font-medium group`}
-              >
-                <LinkIcon className={`w-4 h-4 ${currentTheme.accentColor}`} />
-                {profileData.link}
-                <Pencil className={`w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity`} />
-              </a>
-            </div>
-          )}
-        </motion.div>
+        </div>
 
         {/* Preview Modal */}
         <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
