@@ -80,8 +80,8 @@ const THEMES: Theme[] = [
     accentColor: 'text-[#A18CD1]',
   },
   { 
-    id: 'daylight',
-    name: 'Daylight',
+    id: 'sunshine',
+    name: 'Sunshine',
     gradient: 'from-[#FDEB71] via-[#F8D800] to-[#F8D800]',
     textColor: 'text-[#2a2a2a]',
     tagBg: 'bg-white/20',
@@ -91,8 +91,8 @@ const THEMES: Theme[] = [
     accentColor: 'text-[#F8D800]',
   },
   { 
-    id: 'dusk',
-    name: 'Dusk',
+    id: 'cloud',
+    name: 'Cloud',
     gradient: 'from-[#A1C4FD] via-[#C2E9FB] to-[#C2E9FB]',
     textColor: 'text-[#2a2a2a]',
     tagBg: 'bg-white/20',
@@ -102,8 +102,8 @@ const THEMES: Theme[] = [
     accentColor: 'text-[#A1C4FD]',
   },
   { 
-    id: 'rose',
-    name: 'Rose',
+    id: 'blush',
+    name: 'Blush',
     gradient: 'from-[#FDCBCA] via-[#D4A5A5] to-[#D4A5A5]',
     textColor: 'text-[#2a2a2a]',
     tagBg: 'bg-white/20',
@@ -417,7 +417,7 @@ export default function ProfileBuilder() {
           transition={{ duration: 0.4 }}
         >
           {/* Avatar Section */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-3">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -435,12 +435,12 @@ export default function ProfileBuilder() {
                   />
                 ) : (
                   <div className="w-full h-full bg-white/10 flex items-center justify-center">
-                    <Sparkles className={`w-10 h-10 ${currentTheme.accentColor}/40`} />
+                    <Camera className={`w-10 h-10 ${currentTheme.accentColor}/40`} />
                   </div>
                 )}
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <div className="text-white text-sm font-medium">Tap to upload photo</div>
+                <div className="text-white text-sm font-medium">Click to upload profile photo</div>
               </div>
             </motion.button>
 
@@ -517,7 +517,7 @@ export default function ProfileBuilder() {
           </div>
 
           {/* Stats Section */}
-          <div className="mt-8">
+          <div className="mt-6">
             <div className="flex items-center justify-center gap-8">
               <div className="text-center">
                 <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor}`}>
@@ -538,13 +538,14 @@ export default function ProfileBuilder() {
                 <div className={`text-xs ${currentTheme.textColor}/60 font-medium uppercase tracking-wider`}>Avg R:R</div>
               </div>
             </div>
-            <div className={`mt-2 text-center text-xs ${currentTheme.textColor}/60 font-medium`}>
-              You can sync your accounts in the next step
+            <div className={`mt-2 text-center text-xs ${currentTheme.textColor}/60 font-medium flex items-center justify-center gap-1`}>
+              You can sync your accounts in the next step to unlock your real stats
+              <Info className="w-3 h-3" />
             </div>
           </div>
 
           {/* Tags Section */}
-          <div className="mt-8">
+          <div className="mt-6">
             <div className="flex flex-wrap justify-center gap-2">
               {profileData.tags.map((tag, index) => (
                 <motion.div
@@ -574,14 +575,19 @@ export default function ProfileBuilder() {
                     }
                   }}
                   className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32`}
-                  placeholder={`${3 - profileData.tags.length} tags left`}
+                  placeholder="#addhashtag"
                 />
+              )}
+              {profileData.tags.length >= 3 && (
+                <div className={`text-xs ${currentTheme.textColor}/60 font-medium`}>
+                  You can only add up to 3 hashtags
+                </div>
               )}
             </div>
           </div>
 
           {/* Theme Selection & Signature */}
-          <div className="mt-8 space-y-4">
+          <div className="mt-6 space-y-4">
             <div className="flex justify-center gap-2">
               {THEMES.map((theme) => (
                 <motion.button
