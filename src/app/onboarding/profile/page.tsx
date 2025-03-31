@@ -2,13 +2,14 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2 } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Tooltip } from '@/components/ui/tooltip';
 
 interface ProfileData {
   username: string;
@@ -238,430 +239,208 @@ export default function ProfileBuilder() {
   const currentTheme = THEMES.find(t => t.id === profileData.theme) || THEMES[0];
 
   return (
-    <div className="min-h-screen bg-[#fafafa] font-sans">
+    <div className="min-h-screen bg-[#fafafa] p-4 font-sans">
       {/* Top Navigation */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white/70 backdrop-blur-xl border-b border-gray-100">
+      <nav className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white/70 backdrop-blur-xl border-b border-gray-100 mb-8">
         <Link href="/auth/verify" className="text-gray-600 hover:text-gray-900">
           <ArrowLeft className="w-6 h-6" />
         </Link>
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex items-center gap-2 text-sm font-medium text-gray-600"
-        >
-          <Sparkles className="w-4 h-4 text-[#A259FF]" />
-          <span className="font-display">Building your profile</span>
-        </motion.div>
-        <div className="w-6" />
+        <div className="flex items-center gap-4">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-2"
+          >
+            <div className="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-primary"
+                initial={{ width: 0 }}
+                animate={{ width: `${profileStrength}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+            <span className="text-sm font-medium text-gray-600">{profileStrength}%</span>
+          </motion.div>
+          <button
+            onClick={handlePreviewShare}
+            className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-xl hover:bg-primary/90 transition-colors"
+          >
+            Preview
+          </button>
+        </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto p-6">
-        {/* Header */}
+      {/* Main Content */}
+      <div className="max-w-md mx-auto">
+        {/* Profile Card */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-6 shadow-xl`}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold font-display text-gray-900 mb-3">
-            Your trading profile
-          </h1>
-          <p className="text-gray-600 font-medium">
-            This is how other traders will see you on tradr.co/{profileData.username || 'username'}
-          </p>
-        </motion.div>
-
-        <div className="flex gap-12">
-          {/* Left Sidebar - Progress */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="w-64 space-y-8"
-          >
-            {/* XP Badge */}
-            <div className="relative bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#A259FF] to-[#6B4EFF] flex items-center justify-center">
-                  <Trophy className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-600">Total XP</div>
-                  <div className="text-2xl font-bold font-display text-gray-900">{profileData.xp}</div>
-                </div>
-              </div>
-
-              {/* Level Badge */}
-              <div className="flex items-center gap-2 mb-3">
-                <Shield className="w-4 h-4 text-[#A259FF]" />
-                <span className="text-sm font-medium">Level {Math.floor(profileData.xp / 100) + 1}</span>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${profileStrength}%` }}
-                  className={`h-full bg-gradient-to-r ${currentTheme.gradient}`}
-                />
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <div className="text-xs font-medium text-gray-500">
-                  Profile Strength
-                </div>
-                <div className="text-xs font-bold text-gray-700">
-                  {profileStrength}%
-                </div>
-              </div>
-
-              {/* XP Animation */}
-              <AnimatePresence>
-                {showXPAnimation.isVisible && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: -20 }}
-                    exit={{ opacity: 0, y: -40 }}
-                    className="absolute -top-2 left-1/2 -translate-x-1/2 flex items-center gap-1 text-[#A259FF] font-bold"
-                  >
-                    <Star className="w-4 h-4" />
-                    +{showXPAnimation.amount} XP
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Checklist */}
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 space-y-4">
-              <h3 className="font-display font-bold text-gray-900">Setup Checklist</h3>
-              <div className="space-y-3">
-                {checklist.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-3"
-                  >
-                    <div className={`w-6 h-6 rounded-xl flex items-center justify-center ${
-                      item.isComplete 
-                        ? 'bg-gradient-to-br from-[#A259FF] to-[#6B4EFF]' 
-                        : 'bg-gray-100'
-                    }`}>
-                      <Check className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className={`text-sm font-medium ${
-                        item.isComplete ? 'text-gray-900' : 'text-gray-500'
-                      }`}>
-                        {item.label}
-                      </div>
-                      <div className="text-xs text-gray-400">
-                        +{item.xpReward} XP
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Profile Card Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex-1 max-w-md"
-          >
-            {/* Card Container */}
-            <div className="relative aspect-[1.4/1] rounded-3xl shadow-xl overflow-hidden bg-white border border-gray-100 group">
-              {/* Gradient Background with Animated Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${currentTheme.gradient} opacity-[0.98] transition-all duration-500`}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 1.2 }}
-                  animate={{ opacity: 0.1, scale: 1 }}
-                  transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2),_rgba(255,255,255,0))]"
-                />
-              </div>
-
-              {/* Content Container */}
-              <div className="relative p-6">
-                <div className="flex items-start gap-5">
-                  {/* Avatar with Level Ring */}
-                  <div className="relative">
-                    <motion.div
-                      className="absolute -inset-1 bg-gradient-to-r from-white/50 to-white/20 rounded-full blur-sm"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    />
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleAvatarClick}
-                      className="relative w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 shadow-lg overflow-hidden group backdrop-blur-sm"
-                    >
-                      {profileData.avatar ? (
-                        <motion.div
-                          initial={{ scale: 1.2, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          className="w-full h-full"
-                        >
-                          <Image
-                            src={profileData.avatar}
-                            alt="Profile"
-                            fill
-                            className="object-cover"
-                          />
-                        </motion.div>
-                      ) : (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/60">
-                          <Camera className="w-6 h-6" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                        <Camera className="w-6 h-6 text-white" />
-                      </div>
-                    </motion.button>
-                    <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-lg">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#A259FF] to-[#6B4EFF] flex items-center justify-center text-[10px] font-bold text-white">
-                        {Math.floor(profileData.xp / 100) + 1}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Profile Info */}
-                  <div className="flex-1 min-w-0">
-                    {/* Username with Verified Badge */}
-                    <div className="flex items-center gap-2 mb-2">
-                      <motion.button
-                        onClick={() => setEditingField('username')}
-                        className="flex items-center gap-2 group"
-                      >
-                        <span className="text-2xl font-bold text-white/60">@</span>
-                        <span className="text-2xl font-bold text-white font-display truncate">
-                          {profileData.username || 'username'}
-                        </span>
-                        {usernameAvailable && (
-                          <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="flex items-center"
-                          >
-                            <BadgeCheck className="w-5 h-5 text-white" />
-                          </motion.div>
-                        )}
-                      </motion.button>
-                    </div>
-
-                    {/* Bio */}
-                    <div className="mb-3">
-                      <motion.button
-                        onClick={() => setEditingField('bio')}
-                        className="text-white/80 hover:text-white transition-colors font-medium text-left block w-full"
-                      >
-                        {profileData.bio || 'Add a short bio'}
-                      </motion.button>
-                    </div>
-
-                    {/* Stats Row */}
-                    <div className="flex items-center gap-3 text-sm font-medium text-white/90 mb-4 bg-white/5 rounded-2xl px-4 py-2 backdrop-blur-sm border border-white/10">
-                      <div className="flex items-center gap-1.5">
-                        <Trophy className="w-4 h-4" />
-                        <span>Level {Math.floor(profileData.xp / 100) + 1}</span>
-                      </div>
-                      <div className="w-1 h-1 rounded-full bg-white/20" />
-                      <div className="flex items-center gap-1.5">
-                        <Star className="w-4 h-4" />
-                        <span>{profileData.xp} XP</span>
-                      </div>
-                      <div className="w-1 h-1 rounded-full bg-white/20" />
-                      <div className="flex items-center gap-1.5">
-                        <Tags className="w-4 h-4" />
-                        <span>{profileData.tags.length} Tags</span>
-                      </div>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
-                      <AnimatePresence>
-                        {profileData.tags.slice(0, 3).map((tag) => {
-                          const tagText = tag.split(' ')[1];
-                          const TagIcon = (TAG_ICONS[tagText.toLowerCase()] as LucideIcon) || Target;
-                          return (
-                            <motion.button
-                              key={tag}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.8 }}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => handleTagToggle(tag)}
-                              className="px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white text-sm font-medium flex items-center gap-1.5 group hover:bg-white/20 transition-all border border-white/10"
-                            >
-                              <TagIcon className="w-3.5 h-3.5" />
-                              {tagText}
-                              <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </motion.button>
-                          );
-                        })}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Link Preview */}
-                <motion.button
-                  onClick={handleCopyLink}
-                  className="absolute bottom-6 right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm text-white/80 hover:text-white transition-colors group border border-white/10"
-                >
-                  <LinkIcon className="w-4 h-4" />
-                  <span className="font-mono text-sm">tradr.co/{profileData.username || 'username'}</span>
-                  <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.button>
-              </div>
-            </div>
-
-            {/* Theme Selector */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mt-8 space-y-4"
-            >
-              <div className="text-center text-sm font-medium text-gray-500 mb-4">
-                Choose your profile theme
-              </div>
-              <div className="flex justify-center gap-3">
-                {THEMES.map((theme) => (
-                  <motion.button
-                    key={theme.id}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setProfileData({ ...profileData, theme: theme.id })}
-                    className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${theme.gradient} ${
-                      profileData.theme === theme.id 
-                        ? 'ring-2 ring-[#A259FF] ring-offset-2' 
-                        : 'ring-1 ring-white/20'
-                    }`}
-                  />
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Info Block */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-8 p-6 rounded-3xl bg-white border border-gray-100 shadow-sm"
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-xl bg-[#A259FF]/10 flex items-center justify-center">
-                  <Lock className="w-4 h-4 text-[#A259FF]" />
-                </div>
-                <span className="font-display font-bold text-gray-900">Your tradr page is almost ready</span>
-              </div>
-              <p className="text-sm text-gray-600 ml-11">
-                You&apos;ll be able to share this link with followers and post your verified trades.
-              </p>
-            </motion.div>
-
-            {/* Preview Share Card Button */}
+          {/* Avatar & Username Section */}
+          <div className="flex flex-col items-center gap-4 mb-6">
             <motion.button
-              onClick={handlePreviewShare}
-              className="mt-4 w-full py-3 rounded-2xl bg-white border border-gray-200 shadow-sm hover:border-[#A259FF]/20 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative group"
+              onClick={handleAvatarClick}
             >
-              <div className="w-5 h-5 rounded-lg bg-[#A259FF]/10 flex items-center justify-center group-hover:bg-[#A259FF]/20 transition-colors">
-                <Share2 className="w-3 h-3 text-[#A259FF]" />
+              <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-white/20 group-hover:ring-white/40 transition-all">
+                {profileData.avatar ? (
+                  <Image
+                    src={profileData.avatar}
+                    alt="Profile"
+                    width={80}
+                    height={80}
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-white/10 flex items-center justify-center">
+                    <Camera className="w-8 h-8 text-white/40" />
+                  </div>
+                )}
               </div>
-              <span className="font-medium text-gray-900">Preview Share Card</span>
+              <motion.div
+                className="absolute -bottom-1 -right-1 bg-primary text-white text-xs font-medium px-2 rounded-full"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+              >
+                {Math.floor(profileData.xp / 100) + 1}
+              </motion.div>
             </motion.button>
 
-            {/* Continue Button */}
-            <motion.div 
-              className="mt-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <button
-                onClick={handleContinue}
-                disabled={!isValid}
-                className={`w-full py-4 rounded-2xl font-medium text-lg transition-all duration-200 flex items-center justify-center gap-2 ${
-                  isValid 
-                    ? `bg-gradient-to-r ${currentTheme.gradient} text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]` 
-                    : 'bg-gray-100 text-gray-400'
-                }`}
-              >
-                <span className="font-display">Continue</span>
-                {isValid && <Check className="w-5 h-5" />}
-              </button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </main>
-
-      {/* Preview Modal */}
-      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-        <DialogContent className="sm:max-w-md">
-          <div className="aspect-[1.4/1] relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-background to-secondary/20 p-6">
-            {/* Card Preview Content */}
-            <div className="flex items-center gap-4 mb-4">
+            <div className="w-full max-w-[200px]">
               <div className="relative">
-                <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-primary/20">
-                  {profileData.avatar && (
-                    <Image
-                      src={profileData.avatar}
-                      alt="Profile"
-                      width={64}
-                      height={64}
-                      className="object-cover"
-                    />
+                <input
+                  type="text"
+                  value={profileData.username}
+                  onChange={(e) => handleFieldEdit('username', e.target.value)}
+                  className="w-full text-center text-xl font-semibold text-white bg-transparent border-b-2 border-white/20 focus:border-white/40 focus:outline-none transition-colors px-2 py-1"
+                  placeholder="Username"
+                />
+                <AnimatePresence>
+                  {usernameAvailable && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      className="absolute right-0 top-1/2 -translate-y-1/2"
+                    >
+                      <Check className="w-5 h-5 text-green-400" />
+                    </motion.div>
                   )}
-                </div>
-                <div className="absolute -bottom-1 -right-1 bg-primary text-white text-xs font-medium px-1.5 rounded-full">
-                  {Math.floor(profileData.xp / 100) + 1}
-                </div>
+                </AnimatePresence>
               </div>
-
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-semibold">{profileData.username}</span>
-                  <BadgeCheck className="w-5 h-5 text-primary" />
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">{profileData.bio}</div>
-              </div>
+              <input
+                type="text"
+                value={profileData.bio}
+                onChange={(e) => handleFieldEdit('bio', e.target.value)}
+                className="w-full text-center text-sm text-white/80 bg-transparent border-none focus:outline-none mt-2"
+                placeholder="Write a short bio..."
+              />
             </div>
+          </div>
 
-            <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl mb-4">
-              <div className="text-center">
-                <div className="text-sm font-medium">{profileData.followers}</div>
-                <div className="text-xs text-muted-foreground">Followers</div>
+          {/* Stats Row */}
+          <div className="flex items-center justify-between px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl mb-6">
+            <Tooltip content="Your trader level">
+              <div className="text-center group">
+                <div className="text-lg font-semibold text-white">{Math.floor(profileData.xp / 100) + 1}</div>
+                <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Level</div>
               </div>
-              <div className="text-center">
-                <div className="text-sm font-medium">{profileData.following}</div>
-                <div className="text-xs text-muted-foreground">Following</div>
+            </Tooltip>
+            <Tooltip content="Experience points">
+              <div className="text-center group">
+                <div className="text-lg font-semibold text-white">{profileData.xp}</div>
+                <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">XP</div>
               </div>
-              <div className="text-center">
-                <div className="text-sm font-medium">{profileData.trades}</div>
-                <div className="text-xs text-muted-foreground">Trades</div>
+            </Tooltip>
+            <Tooltip content="Active tags">
+              <div className="text-center group">
+                <div className="text-lg font-semibold text-white">{profileData.tags.length}/5</div>
+                <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Tags</div>
               </div>
-            </div>
+            </Tooltip>
+          </div>
 
-            <div className="flex flex-wrap gap-2">
+          {/* Tags Section */}
+          <div className="flex flex-wrap gap-2 justify-center mb-6">
+            <AnimatePresence>
               {profileData.tags.map((tag) => {
                 const tagText = tag.split(' ')[1];
                 const TagIcon = (TAG_ICONS[tagText.toLowerCase()] as LucideIcon) || Target;
                 return (
-                  <div
+                  <motion.button
                     key={tag}
-                    className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full text-sm"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-sm text-white transition-colors"
+                    onClick={() => handleTagToggle(tag)}
                   >
-                    <TagIcon className="w-4 h-4 text-primary" />
+                    <TagIcon className="w-4 h-4" />
                     <span>{tagText}</span>
-                  </div>
+                    <X className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </motion.button>
                 );
               })}
-            </div>
+            </AnimatePresence>
+            {profileData.tags.length < 5 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-sm text-white transition-colors"
+                onClick={() => setEditingField('tag')}
+              >
+                + Add Tag
+              </motion.button>
+            )}
           </div>
-        </DialogContent>
-      </Dialog>
+
+          {/* Profile Link */}
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl text-white text-sm">
+              tradr.co/{profileData.username || 'username'}
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCopyLink}
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
+            >
+              <Copy className="w-4 h-4 text-white" />
+            </motion.button>
+          </div>
+
+          {/* Theme Picker */}
+          <div className="flex justify-center gap-2">
+            {THEMES.map((theme) => (
+              <motion.button
+                key={theme.id}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`w-8 h-8 rounded-full bg-gradient-to-br ${theme.gradient} ${
+                  theme.id === currentTheme.id ? 'ring-2 ring-white scale-110' : ''
+                }`}
+                onClick={() => handleFieldEdit('theme', theme.id)}
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Preview Modal */}
+        <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+          <DialogContent className="sm:max-w-md p-0 bg-transparent border-none">
+            <div className="aspect-[4/5] w-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 shadow-2xl">
+              {/* Preview content */}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 } 
