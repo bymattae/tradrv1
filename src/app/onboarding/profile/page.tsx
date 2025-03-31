@@ -15,15 +15,9 @@ import { useToast } from '@/components/ui/use-toast';
 interface Theme {
   id: string;
   name: string;
-  gradient: string;
-  textColor: string;
-  tagBg: string;
-  tagText: string;
-  linkColor: string;
-  statColor: string;
-  accentColor: string;
   bgGradient: string;
   borderColor: string;
+  description: string;
 }
 
 interface ProfileData {
@@ -71,71 +65,69 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 const THEMES: Theme[] = [
-  { 
+  {
+    id: 'sol',
+    name: 'Sol',
+    bgGradient: 'bg-gradient-to-br from-[#FFE897] via-[#F8D458] to-[#F5BE45]',
+    borderColor: 'border-yellow-400',
+    description: 'Bright and optimistic'
+  },
+  {
+    id: 'neon-drift',
+    name: 'Neon Drift',
+    bgGradient: 'bg-gradient-to-br from-[#7EE8FA] via-[#89A0FA] to-[#9D6EFF]',
+    borderColor: 'border-blue-400',
+    description: 'Digital and energetic'
+  },
+  {
     id: 'vapor',
     name: 'Vapor',
-    gradient: 'from-[#A18CD1] via-[#FBC2EB] to-[#FBC2EB]',
-    textColor: 'text-[#2a2a2a]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#2a2a2a]',
-    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
-    statColor: 'text-[#2a2a2a]',
-    accentColor: 'text-[#A18CD1]',
-    bgGradient: 'bg-gradient-to-br from-[#A18CD1] via-[#FBC2EB] to-[#FBC2EB]',
-    borderColor: 'border-[#A18CD1]',
+    bgGradient: 'bg-gradient-to-br from-[#FFB7ED] via-[#E589FF] to-[#B66FFF]',
+    borderColor: 'border-purple-400',
+    description: 'Iconic and vibey'
   },
-  { 
-    id: 'sunshine',
-    name: 'Sunshine',
-    gradient: 'from-[#FDEB71] via-[#F8D800] to-[#F8D800]',
-    textColor: 'text-[#2a2a2a]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#2a2a2a]',
-    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
-    statColor: 'text-[#2a2a2a]',
-    accentColor: 'text-[#F8D800]',
-    bgGradient: 'bg-gradient-to-br from-[#FDEB71] via-[#F8D800] to-[#F8D800]',
-    borderColor: 'border-[#F8D800]',
+  {
+    id: 'palm-mist',
+    name: 'Palm Mist',
+    bgGradient: 'bg-gradient-to-br from-[#96F7D2] via-[#ABF2BB] to-[#F0F7B2]',
+    borderColor: 'border-green-400',
+    description: 'Calm and fresh'
   },
-  { 
-    id: 'cloud',
-    name: 'Cloud',
-    gradient: 'from-[#A1C4FD] via-[#C2E9FB] to-[#C2E9FB]',
-    textColor: 'text-[#2a2a2a]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#2a2a2a]',
-    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
-    statColor: 'text-[#2a2a2a]',
-    accentColor: 'text-[#A1C4FD]',
-    bgGradient: 'bg-gradient-to-br from-[#A1C4FD] via-[#C2E9FB] to-[#C2E9FB]',
-    borderColor: 'border-[#A1C4FD]',
+  {
+    id: 'dreamwave',
+    name: 'Dreamwave',
+    bgGradient: 'bg-gradient-to-br from-[#FF9897] via-[#FFA7B5] to-[#FFC4A4]',
+    borderColor: 'border-pink-400',
+    description: 'Warm and fun'
   },
-  { 
-    id: 'blush',
-    name: 'Blush',
-    gradient: 'from-[#FDCBCA] via-[#D4A5A5] to-[#D4A5A5]',
-    textColor: 'text-[#2a2a2a]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#2a2a2a]',
-    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
-    statColor: 'text-[#2a2a2a]',
-    accentColor: 'text-[#D4A5A5]',
-    bgGradient: 'bg-gradient-to-br from-[#FDCBCA] via-[#D4A5A5] to-[#D4A5A5]',
-    borderColor: 'border-[#D4A5A5]',
-  },
-  { 
+  {
     id: 'phantom',
     name: 'Phantom',
-    gradient: 'from-[#8E9EAB] via-[#EEF2F3] to-[#EEF2F3]',
-    textColor: 'text-[#2a2a2a]',
-    tagBg: 'bg-white/20',
-    tagText: 'text-[#2a2a2a]',
-    linkColor: 'text-[#2a2a2a]/90 hover:text-[#2a2a2a]',
-    statColor: 'text-[#2a2a2a]',
-    accentColor: 'text-[#8E9EAB]',
-    bgGradient: 'bg-gradient-to-br from-[#8E9EAB] via-[#EEF2F3] to-[#EEF2F3]',
-    borderColor: 'border-[#8E9EAB]',
+    bgGradient: 'bg-gradient-to-br from-[#4B63D3] via-[#5E4FD3] to-[#7A47D3]',
+    borderColor: 'border-indigo-400',
+    description: 'Dark mode vibes'
   },
+  {
+    id: 'blossom',
+    name: 'Blossom',
+    bgGradient: 'bg-gradient-to-br from-[#FFA3E5] via-[#FF8ED4] to-[#FF64B4]',
+    borderColor: 'border-pink-400',
+    description: 'Youthful and bright'
+  },
+  {
+    id: 'glowmint',
+    name: 'Glowmint',
+    bgGradient: 'bg-gradient-to-br from-[#96F7B1] via-[#6EEFC0] to-[#4BE1C5]',
+    borderColor: 'border-emerald-400',
+    description: 'Sharp and playful'
+  },
+  {
+    id: 'sunflare',
+    name: 'Sunflare',
+    bgGradient: 'bg-gradient-to-br from-[#FFB344] via-[#FF8C37] to-[#FF6B2B]',
+    borderColor: 'border-orange-400',
+    description: 'Bold and strong'
+  }
 ];
 
 const TAG_ICONS: Record<string, LucideIcon> = {
@@ -585,20 +577,27 @@ export default function ProfileBuilder() {
                 <div className="relative bg-white/5 rounded-2xl p-3 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                   <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                     {THEMES.map((theme) => (
-                      <button
-                        key={theme.name}
-                        onClick={() => handleFieldEdit('theme', theme.id)}
-                        className={`relative group w-11 h-11 sm:w-12 sm:h-12 rounded-full transition-all duration-300 ${
-                          currentTheme.name === theme.name
-                            ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-black/10'
-                            : 'hover:ring-2 hover:ring-white/30 hover:ring-offset-2 hover:ring-offset-black/10'
-                        }`}
-                      >
-                        <div className={`absolute inset-0 rounded-full ${theme.bgGradient} transition-all duration-300 group-hover:scale-110`} />
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-transparent" />
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/5 to-transparent" />
-                        <div className="absolute inset-0 rounded-full border border-white/5" />
-                      </button>
+                      <div key={theme.name} className="relative group">
+                        <button
+                          onClick={() => handleFieldEdit('theme', theme.id)}
+                          className={`relative w-11 h-11 sm:w-12 sm:h-12 rounded-full transition-all duration-300 ${
+                            currentTheme.name === theme.name
+                              ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-black/10'
+                              : 'hover:ring-2 hover:ring-white/30 hover:ring-offset-2 hover:ring-offset-black/10'
+                          }`}
+                        >
+                          <div className={`absolute inset-0 rounded-full ${theme.bgGradient} transition-all duration-300 group-hover:scale-110`} />
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-transparent" />
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/5 to-transparent" />
+                          <div className="absolute inset-0 rounded-full border border-white/5" />
+                        </button>
+                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
+                          <div className="bg-black/80 backdrop-blur-md rounded-lg px-2.5 py-1 text-xs text-white font-medium shadow-lg">
+                            {theme.name}
+                            <div className="text-[10px] text-white/70">{theme.description}</div>
+                          </div>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
