@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Space_Grotesk } from 'next/font/google';
 
 interface Theme {
   id: string;
@@ -61,11 +62,16 @@ interface TagSuggestion {
   category: string;
 }
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+});
+
 const THEMES: Theme[] = [
   { 
     id: 'vapor',
     name: 'Vapor',
-    gradient: 'from-[#a86efc] via-[#3a7bd5] to-[#3a7bd5]',
+    gradient: 'from-[#a86efc]/90 via-[#3a7bd5]/90 to-[#3a7bd5]/90',
     textColor: 'text-white',
     tagBg: 'bg-white/10',
     tagText: 'text-white',
@@ -153,6 +159,14 @@ const getContrastColor = (hexcolor: string) => {
   const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
   return yiq >= 128 ? 'text-black' : 'text-white';
 };
+
+// Add placeholder tags
+const PLACEHOLDER_TAGS: TagSuggestion[] = [
+  { text: 'SMC', icon: Target, category: 'Strategy' },
+  { text: 'NAS100', icon: LineChart, category: 'Market' },
+  { text: 'Supply/Demand', icon: Zap, category: 'Strategy' },
+  { text: 'Funded', icon: Shield, category: 'Status' },
+];
 
 export default function ProfileBuilder() {
   const router = useRouter();
@@ -397,7 +411,7 @@ export default function ProfileBuilder() {
       <div className="max-w-md mx-auto">
         {/* Profile Card */}
         <motion.div
-          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl`}
+          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${spaceGrotesk.variable}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -437,8 +451,8 @@ export default function ProfileBuilder() {
                   type="text"
                   value={profileData.username}
                   onChange={(e) => handleFieldEdit('username', e.target.value)}
-                  className={`w-full text-center text-3xl font-bold ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-inter group-hover:bg-white/10 rounded-lg`}
-                  placeholder="Username"
+                  className={`w-full text-center text-3xl font-extrabold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
+                  placeholder="Choose your @handle"
                 />
                 <Pencil className={`absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40 opacity-0 group-hover:opacity-100 transition-opacity`} />
                 {usernameAvailable && (
@@ -462,7 +476,7 @@ export default function ProfileBuilder() {
             {/* Bio */}
             <div className="relative group w-full max-w-[280px]">
               <div
-                className={`text-center ${currentTheme.textColor} text-sm cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-medium`}
+                className={`text-center ${currentTheme.textColor} text-sm cursor-pointer group-hover:bg-white/10 rounded-lg px-3 py-2 transition-colors font-normal`}
                 onClick={() => setEditingField('bio')}
               >
                 {editingField === 'bio' ? (
@@ -471,13 +485,13 @@ export default function ProfileBuilder() {
                     value={profileData.bio}
                     onChange={(e) => handleFieldEdit('bio', e.target.value)}
                     className="w-full text-center bg-transparent border-none focus:outline-none"
-                    placeholder="Add a short intro..."
+                    placeholder="Click to add a short trader bio..."
                     onBlur={() => setEditingField(null)}
                     autoFocus
                   />
                 ) : (
                   <>
-                    {profileData.bio || "Add a short intro..."}
+                    {profileData.bio || "Click to add a short trader bio..."}
                     <Pencil className={`absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40 opacity-0 group-hover:opacity-100 transition-opacity`} />
                   </>
                 )}
@@ -490,54 +504,62 @@ export default function ProfileBuilder() {
             {profileData.hasConnectedStrategy ? (
               <div className="flex items-center justify-center gap-8">
                 <div className="text-center">
-                  <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
+                  <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
                     <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
                     <span className={currentTheme.accentColor}>+{profileData.stats.performance}%</span>
                   </div>
-                  <div className={`text-xs ${currentTheme.textColor} font-medium`}>Gain</div>
+                  <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Gain</div>
                 </div>
                 <div className="text-center">
-                  <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
+                  <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
                     <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
                     {profileData.stats.winRate}%
                   </div>
-                  <div className={`text-xs ${currentTheme.textColor} font-medium`}>Win Rate</div>
+                  <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Win Rate</div>
                 </div>
                 <div className="text-center">
-                  <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
+                  <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
                     <Wallet className={`w-4 h-4 ${currentTheme.accentColor}`} />
                     {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
                   </div>
-                  <div className={`text-xs ${currentTheme.textColor} font-medium`}>Verified</div>
+                  <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Verified</div>
                 </div>
               </div>
             ) : (
               <div className="relative">
-                <div className="flex items-center justify-center gap-8">
+                <div className="flex items-center justify-center gap-8 blur-sm">
                   <div className="text-center">
-                    <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
+                    <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
                       <TrendingUp className={`w-4 h-4 ${currentTheme.accentColor}`} />
                       <span className={currentTheme.accentColor}>+14.5%</span>
                     </div>
-                    <div className={`text-xs ${currentTheme.textColor} font-medium`}>Gain</div>
+                    <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Gain</div>
                   </div>
                   <div className="text-center">
-                    <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
+                    <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
                       <Percent className={`w-4 h-4 ${currentTheme.accentColor}`} />
                       72%
                     </div>
-                    <div className={`text-xs ${currentTheme.textColor} font-medium`}>Win Rate</div>
+                    <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Win Rate</div>
                   </div>
                   <div className="text-center">
-                    <div className={`text-xl font-semibold ${currentTheme.textColor} flex items-center gap-1`}>
+                    <div className={`text-xl font-semibold tracking-wide ${currentTheme.textColor} flex items-center gap-1`}>
                       <LineChart className={`w-4 h-4 ${currentTheme.accentColor}`} />
                       2.1
                     </div>
-                    <div className={`text-xs ${currentTheme.textColor} font-medium`}>Avg R:R</div>
+                    <div className={`text-xs ${currentTheme.textColor} font-medium uppercase tracking-wider`}>Avg R:R</div>
                   </div>
                 </div>
-                <div className={`mt-2 text-center text-sm ${currentTheme.textColor} font-medium`}>
-                  Connect your account to verify your stats. You can do this in the next step.
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Lock className={`w-8 h-8 ${currentTheme.textColor}/60`} />
+                  </motion.div>
+                  <div className={`mt-2 text-center text-sm ${currentTheme.textColor} font-medium`}>
+                    Connect your account in the next step to unlock your real stats
+                  </div>
                 </div>
               </div>
             )}
@@ -546,23 +568,45 @@ export default function ProfileBuilder() {
           {/* Tags Section */}
           <div className="mt-6">
             <div className="flex flex-wrap justify-center gap-2">
-              {profileData.tags.map((tag, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5`}
-                >
-                  <span>{tag}</span>
-                  <button
-                    onClick={() => handleTagToggle(tag)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+              {profileData.tags.length > 0 ? (
+                profileData.tags.map((tag, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors`}
                   >
-                    <X className="w-3 h-3" />
-                  </button>
-                </motion.div>
-              ))}
-              {profileData.tags.length < 5 && (
+                    <span>{tag}</span>
+                    <button
+                      onClick={() => handleTagToggle(tag)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="text-center w-full">
+                  <div className={`text-sm ${currentTheme.textColor}/60 font-medium`}>
+                    + Add your style
+                  </div>
+                  <div className="mt-2 flex flex-wrap justify-center gap-2">
+                    {PLACEHOLDER_TAGS.map((tag, index) => (
+                      <motion.button
+                        key={index}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`px-3 py-1 rounded-full ${currentTheme.tagBg} hover:bg-white/20 ${currentTheme.tagText} text-sm font-medium transition-colors flex items-center gap-1.5`}
+                        onClick={() => handleAddTagFromSuggestion(tag)}
+                      >
+                        <tag.icon className={`w-4 h-4 ${currentTheme.accentColor}`} />
+                        {tag.text}
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {profileData.tags.length > 0 && profileData.tags.length < 5 && (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
