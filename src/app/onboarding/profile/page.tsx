@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
+import { LucideIcon } from 'lucide-react';
 
 interface ProfileData {
   username: string;
@@ -58,7 +59,7 @@ const THEMES = [
   }
 ];
 
-const TAG_ICONS = {
+const TAG_ICONS: Record<string, LucideIcon> = {
   'trader': Target,
   'funded': Zap,
   'crypto': Sparkle,
@@ -421,7 +422,7 @@ export default function ProfileBuilder() {
                       <AnimatePresence>
                         {profileData.tags.slice(0, 3).map((tag) => {
                           const tagText = tag.split(' ')[1];
-                          const TagIcon = TAG_ICONS[tagText.toLowerCase()] || Target;
+                          const TagIcon = (TAG_ICONS[tagText.toLowerCase()] as LucideIcon) || Target;
                           return (
                             <motion.button
                               key={tag}
