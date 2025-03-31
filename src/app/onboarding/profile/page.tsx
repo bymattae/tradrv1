@@ -2,14 +2,13 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Tooltip } from '@/components/ui/tooltip';
 
 interface ProfileData {
   username: string;
@@ -345,24 +344,18 @@ export default function ProfileBuilder() {
 
           {/* Stats Row */}
           <div className="flex items-center justify-between px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl mb-6">
-            <Tooltip content="Your trader level">
-              <div className="text-center group">
-                <div className="text-lg font-semibold text-white">{Math.floor(profileData.xp / 100) + 1}</div>
-                <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Level</div>
-              </div>
-            </Tooltip>
-            <Tooltip content="Experience points">
-              <div className="text-center group">
-                <div className="text-lg font-semibold text-white">{profileData.xp}</div>
-                <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">XP</div>
-              </div>
-            </Tooltip>
-            <Tooltip content="Active tags">
-              <div className="text-center group">
-                <div className="text-lg font-semibold text-white">{profileData.tags.length}/5</div>
-                <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Tags</div>
-              </div>
-            </Tooltip>
+            <div className="text-center group">
+              <div className="text-lg font-semibold text-white">{Math.floor(profileData.xp / 100) + 1}</div>
+              <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Level</div>
+            </div>
+            <div className="text-center group">
+              <div className="text-lg font-semibold text-white">{profileData.xp}</div>
+              <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">XP</div>
+            </div>
+            <div className="text-center group">
+              <div className="text-lg font-semibold text-white">{profileData.tags.length}/5</div>
+              <div className="text-xs text-white/60 group-hover:text-white/80 transition-colors">Tags</div>
+            </div>
           </div>
 
           {/* Tags Section */}
