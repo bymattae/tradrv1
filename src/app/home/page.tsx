@@ -152,6 +152,158 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Proof Over Promises Section */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-6">
+                Real traders.
+                <br />
+                Real stats.
+              </h2>
+              <p className="text-xl text-gray-600 mb-8">
+                Every profile is powered by real trading data—no fluff. Connect your trading account and let your performance speak for itself.
+              </p>
+              <Link
+                href="/auth/signup"
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-black text-white hover:bg-gray-800 transition-colors"
+              >
+                Get your Tradr profile
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </motion.div>
+
+            {/* Mobile Preview */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="bg-gradient-to-br from-purple-100 to-blue-100 rounded-[2.5rem] p-8 shadow-xl">
+                <div className="bg-white rounded-2xl p-6 shadow-sm">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full" />
+                      <div className="text-lg font-bold">@sarahtrader</div>
+                    </div>
+                    <div className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                      Verified
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-gray-900">86%</div>
+                      <div className="text-sm text-gray-500">Win Rate</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-gray-900">+235%</div>
+                      <div className="text-sm text-gray-500">Return</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-gray-900">4.2k</div>
+                      <div className="text-sm text-gray-500">Followers</div>
+                    </div>
+                  </div>
+                  <div className="h-32 bg-gray-100 rounded-xl" />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social-Ready Design Section */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-50 to-purple-50 opacity-50" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-6">
+              Built for social sharing
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Your profile is designed to look great everywhere—from Twitter to LinkedIn.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Customizable Themes */}
+            <motion.div
+              className="bg-white rounded-2xl p-6 shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl mb-4 flex items-center justify-center">
+                <div className="w-6 h-6 bg-white rounded-lg" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Customizable themes
+              </h3>
+              <p className="text-gray-600">
+                Choose from beautiful themes or create your own to match your brand.
+              </p>
+            </motion.div>
+
+            {/* Share to Socials */}
+            <motion.div
+              className="bg-white rounded-2xl p-6 shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-green-400 rounded-xl mb-4 flex items-center justify-center">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Share to socials
+              </h3>
+              <p className="text-gray-600">
+                One-click sharing to all major social platforms with beautiful previews.
+              </p>
+            </motion.div>
+
+            {/* Instant Verification */}
+            <motion.div
+              className="bg-white rounded-2xl p-6 shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-xl mb-4 flex items-center justify-center">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Instant verification
+              </h3>
+              <p className="text-gray-600">
+                Connect your trading account and get verified status immediately.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 } 
