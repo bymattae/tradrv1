@@ -606,29 +606,10 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Footer */}
-            <div className="mt-8 sm:mt-10 text-center pb-2 sm:pb-4">
-              <button
-                onClick={() => {
-                  const shareLink = `tradr.co/${profileData.username.replace(/[^a-z0-9]/g, '')}`;
-                  navigator.clipboard.writeText(shareLink);
-                  toast({
-                    title: "Link copied!",
-                    description: "Your profile link has been copied to clipboard.",
-                    duration: 2000,
-                  });
-                }}
-                className="group relative inline-flex items-center gap-1.5"
-              >
-                <div className={`text-base sm:text-lg font-bold tracking-wide ${
-                  currentTheme.name === 'Dark' ? 'text-white' : 'text-black'
-                } font-space-grotesk drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}>
-                  Made with{' '}
-                  <span className={`${currentTheme.gradient} drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}>
-                    #Tradr
-                  </span>
-                  <span className="ml-1 opacity-75 group-hover:opacity-100 transition-opacity">✨</span>
-                </div>
-              </button>
+            <div className="mt-6 sm:mt-8 text-center">
+              <div className="text-sm text-black font-bold font-space-grotesk">
+                Made with <span className="text-[#00E396]">#Tradr</span>
+              </div>
             </div>
           </div>
         </div>
