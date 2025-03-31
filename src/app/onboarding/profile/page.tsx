@@ -575,29 +575,22 @@ export default function ProfileBuilder() {
               <div className="relative">
                 <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)]" />
                 <div className="relative bg-white/5 rounded-2xl p-3 border border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                  <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                  <div className="grid grid-cols-5 gap-2">
                     {THEMES.map((theme) => (
-                      <div key={theme.name} className="relative group">
-                        <button
-                          onClick={() => handleFieldEdit('theme', theme.id)}
-                          className={`relative w-11 h-11 sm:w-12 sm:h-12 rounded-full transition-all duration-300 ${
-                            currentTheme.name === theme.name
-                              ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-black/10'
-                              : 'hover:ring-2 hover:ring-white/30 hover:ring-offset-2 hover:ring-offset-black/10'
-                          }`}
-                        >
-                          <div className={`absolute inset-0 rounded-full ${theme.bgGradient} transition-all duration-300 group-hover:scale-110`} />
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-transparent" />
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/5 to-transparent" />
-                          <div className="absolute inset-0 rounded-full border border-white/5" />
-                        </button>
-                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
-                          <div className="bg-black/80 backdrop-blur-md rounded-lg px-2.5 py-1 text-xs text-white font-medium shadow-lg">
+                      <button
+                        key={theme.id}
+                        onClick={() => setProfileData({ ...profileData, theme: theme.id })}
+                        className={`relative group w-10 h-10 rounded-full overflow-hidden transition-transform hover:scale-105 ${
+                          profileData.theme === theme.id ? 'ring-2 ring-black' : ''
+                        }`}
+                      >
+                        <div className={`absolute inset-0 ${theme.bgGradient}`} />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+                          <span className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
                             {theme.name}
-                            <div className="text-[10px] text-white/70">{theme.description}</div>
-                          </div>
+                          </span>
                         </div>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
