@@ -2,13 +2,21 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+
+interface ThemeCustomization {
+  usernameColor: string;
+  gradientStart: string;
+  gradientEnd: string;
+  statHighlight: string;
+  avatarBorder: string;
+}
 
 interface ProfileData {
   username: string;
@@ -27,6 +35,12 @@ interface ProfileData {
     performance: number;
     winRate: number;
     maxDD: number;
+  };
+  hasConnectedStrategy: boolean;
+  themeCustomization: ThemeCustomization;
+  verifiedAccounts: {
+    live: number;
+    funded: number;
   };
 }
 
@@ -90,6 +104,20 @@ const SUGGESTED_TAGS = [
   '🔥 Forex',
 ];
 
+const USERNAME_COLORS = [
+  { name: 'White', value: 'text-white' },
+  { name: 'Black', value: 'text-black' },
+  { name: 'Neon Blue', value: 'text-blue-400' },
+  { name: 'Soft Pink', value: 'text-pink-300' },
+];
+
+const STAT_HIGHLIGHTS = [
+  { name: 'Violet', value: 'from-violet-400 to-violet-600' },
+  { name: 'Cyan', value: 'from-cyan-400 to-cyan-600' },
+  { name: 'Yellow', value: 'from-yellow-400 to-yellow-600' },
+  { name: 'Red', value: 'from-red-400 to-red-600' },
+];
+
 export default function ProfileBuilder() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -100,6 +128,7 @@ export default function ProfileBuilder() {
   const [profileStrength, setProfileStrength] = useState(0);
   const [showCopied, setShowCopied] = useState(false);
   const [showXPAnimation, setShowXPAnimation] = useState<{ amount: number; isVisible: boolean }>({ amount: 0, isVisible: false });
+  const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
     username: '',
     avatar: null,
@@ -117,7 +146,19 @@ export default function ProfileBuilder() {
       performance: 42.8,
       winRate: 68,
       maxDD: 8
-    }
+    },
+    hasConnectedStrategy: false,
+    themeCustomization: {
+      usernameColor: 'text-white',
+      gradientStart: '#FC67FA',
+      gradientEnd: '#6A82FB',
+      statHighlight: 'from-violet-400 to-violet-600',
+      avatarBorder: 'ring-white/20',
+    },
+    verifiedAccounts: {
+      live: 0,
+      funded: 0,
+    },
   });
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [showHolo, setShowHolo] = useState(false);
@@ -253,6 +294,16 @@ export default function ProfileBuilder() {
     });
   };
 
+  const handleThemeCustomization = (field: keyof ThemeCustomization, value: string) => {
+    setProfileData(prev => ({
+      ...prev,
+      themeCustomization: {
+        ...prev.themeCustomization,
+        [field]: value
+      }
+    }));
+  };
+
   const currentTheme = THEMES.find(t => t.id === profileData.theme) || THEMES[0];
 
   return (
@@ -291,7 +342,7 @@ export default function ProfileBuilder() {
       <div className="max-w-md mx-auto">
         {/* Profile Card */}
         <motion.div
-          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${currentTheme.gradient} p-4 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${showHolo ? 'animate-holo' : ''}`}
+          className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-[${profileData.themeCustomization.gradientStart}] to-[${profileData.themeCustomization.gradientEnd}] p-4 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${showHolo ? 'animate-holo' : ''}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -344,7 +395,7 @@ export default function ProfileBuilder() {
               className="relative group"
               onClick={handleAvatarClick}
             >
-              <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-white/20 group-hover:ring-white/40 transition-all">
+              <div className={`w-20 h-20 rounded-full overflow-hidden ring-2 ${profileData.themeCustomization.avatarBorder} group-hover:ring-white/40 transition-all`}>
                 {profileData.avatar ? (
                   <Image
                     src={profileData.avatar}
@@ -367,7 +418,7 @@ export default function ProfileBuilder() {
                   type="text"
                   value={profileData.username}
                   onChange={(e) => handleFieldEdit('username', e.target.value)}
-                  className="w-full text-center text-2xl font-bold text-white bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-inter"
+                  className={`w-full text-center text-2xl font-bold ${profileData.themeCustomization.usernameColor} bg-transparent border-none focus:outline-none transition-colors px-2 py-1 font-inter`}
                   placeholder="Username"
                 />
                 {usernameAvailable && (
@@ -401,20 +452,44 @@ export default function ProfileBuilder() {
             </div>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-2 mt-4">
-            <div className="text-center p-2 bg-white/5 rounded-lg">
-              <div className="text-lg font-semibold text-white">{profileData.level}</div>
-              <div className="text-xs text-white/60">Level</div>
-            </div>
-            <div className="text-center p-2 bg-white/5 rounded-lg">
-              <div className="text-lg font-semibold text-white">{profileData.xp}</div>
-              <div className="text-xs text-white/60">XP</div>
-            </div>
-            <div className="text-center p-2 bg-white/5 rounded-lg">
-              <div className="text-lg font-semibold text-white">{profileData.tags.length}/5</div>
-              <div className="text-xs text-white/60">Tags</div>
-            </div>
+          {/* Clean Stats Row */}
+          <div className="flex items-center justify-center gap-6 mt-4">
+            {profileData.hasConnectedStrategy ? (
+              <>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                    <TrendingUp className="w-4 h-4" />
+                    <span className="text-green-400">+{profileData.stats.performance}%</span>
+                  </div>
+                  <div className="text-xs text-white/60">Gain</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                    <Percent className="w-4 h-4" />
+                    {profileData.stats.winRate}%
+                  </div>
+                  <div className="text-xs text-white/60">Win Rate</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-white flex items-center gap-1">
+                    <Wallet className="w-4 h-4" />
+                    {profileData.verifiedAccounts.live}/{profileData.verifiedAccounts.funded}
+                  </div>
+                  <div className="text-xs text-white/60">Verified</div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center group relative">
+                <div className="text-lg font-semibold text-white/40 flex items-center gap-1">
+                  <Lock className="w-4 h-4" />
+                  Stats Hidden
+                </div>
+                <div className="text-xs text-white/40">Connect account to unlock stats</div>
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/90 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Connect your trading account to display performance stats
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Tags Section */}
@@ -453,43 +528,7 @@ export default function ProfileBuilder() {
             )}
           </div>
 
-          {/* Stats Row */}
-          <div className="flex items-center justify-center gap-4 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl mt-4">
-            {profileData.isVerified && profileData.showStats ? (
-              <>
-                <div className="text-center">
-                  <div className="text-lg font-semibold text-white flex items-center gap-1">
-                    <span className="text-green-400">+{profileData.stats.performance}%</span>
-                  </div>
-                  <div className="text-xs text-white/60">Performance</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-semibold text-white flex items-center gap-1">
-                    <Trophy className="w-4 h-4 text-yellow-400" />
-                    {profileData.stats.winRate}%
-                  </div>
-                  <div className="text-xs text-white/60">Win Rate</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-semibold text-white flex items-center gap-1">
-                    <Shield className="w-4 h-4 text-blue-400" />
-                    {profileData.stats.maxDD}%
-                  </div>
-                  <div className="text-xs text-white/60">Max DD</div>
-                </div>
-              </>
-            ) : (
-              <div className="text-center">
-                <div className="text-lg font-semibold text-white flex items-center gap-1">
-                  <Lock className="w-4 h-4 text-white/60" />
-                  Stats Hidden
-                </div>
-                <div className="text-xs text-white/40">Sync to verify your performance</div>
-              </div>
-            )}
-          </div>
-
-          {/* Theme Picker & Holo Toggle */}
+          {/* Theme Picker & Customizer */}
           <div className="flex flex-col items-center gap-3 mt-4">
             <div className="flex justify-center gap-2">
               {THEMES.map((theme) => (
@@ -509,16 +548,75 @@ export default function ProfileBuilder() {
                 {currentTheme.name}
               </div>
               <button
-                onClick={() => setShowHolo(!showHolo)}
-                className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                  showHolo 
-                    ? 'bg-white/20 text-white' 
-                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
-                }`}
+                onClick={() => setShowThemeCustomizer(!showThemeCustomizer)}
+                className="px-3 py-1 rounded-full text-sm bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors flex items-center gap-1"
               >
-                {showHolo ? '✨ Holo On' : '✨ Holo Off'}
+                <Palette className="w-4 h-4" />
+                Customize
+                <ChevronDown className={`w-4 h-4 transition-transform ${showThemeCustomizer ? 'rotate-180' : ''}`} />
               </button>
             </div>
+
+            {/* Theme Customizer Panel */}
+            <AnimatePresence>
+              {showThemeCustomizer && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="w-full bg-white/10 backdrop-blur-sm rounded-xl p-4 mt-2"
+                >
+                  <div className="space-y-4">
+                    {/* Username Color */}
+                    <div>
+                      <label className="text-xs text-white/60 mb-2 block">Username Color</label>
+                      <div className="flex gap-2">
+                        {USERNAME_COLORS.map((color) => (
+                          <button
+                            key={color.value}
+                            onClick={() => handleThemeCustomization('usernameColor', color.value)}
+                            className={`w-8 h-8 rounded-full ${color.value} ${
+                              profileData.themeCustomization.usernameColor === color.value ? 'ring-2 ring-white' : ''
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Stat Highlight */}
+                    <div>
+                      <label className="text-xs text-white/60 mb-2 block">Stat Highlight</label>
+                      <div className="flex gap-2">
+                        {STAT_HIGHLIGHTS.map((highlight) => (
+                          <button
+                            key={highlight.value}
+                            onClick={() => handleThemeCustomization('statHighlight', highlight.value)}
+                            className={`w-8 h-8 rounded-full bg-gradient-to-br ${highlight.value} ${
+                              profileData.themeCustomization.statHighlight === highlight.value ? 'ring-2 ring-white' : ''
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Holo Toggle */}
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs text-white/60">Holo Effect</label>
+                      <button
+                        onClick={() => setShowHolo(!showHolo)}
+                        className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                          showHolo 
+                            ? 'bg-white/20 text-white' 
+                            : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                        }`}
+                      >
+                        {showHolo ? '✨ On' : '✨ Off'}
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
 
