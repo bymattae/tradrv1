@@ -399,46 +399,46 @@ export default function ProfileBuilder() {
 
       <div className="max-w-md mx-auto">
         {/* Profile Card Container */}
-        <div className="relative w-full max-w-[400px] mx-auto">
+        <div className="relative w-full max-w-[420px] mx-auto px-4">
           <div className="absolute inset-0 bg-white/10 rounded-2xl backdrop-blur-md" />
-          <div className={`relative bg-white/5 rounded-2xl p-6 border border-white/10 shadow-lg ${currentTheme.bgGradient}`}>
+          <div className={`relative bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg ${currentTheme.bgGradient}`}>
             {/* Avatar Section */}
             <div className="relative group">
-              <div className={`w-32 h-32 mx-auto rounded-full border-4 ${currentTheme.borderColor} transition-colors duration-300 group-hover:border-white/30 overflow-hidden`}>
+              <div className={`w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full border-4 ${currentTheme.borderColor} transition-colors duration-300 group-hover:border-white/30 overflow-hidden`}>
                 <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                  <User className="w-16 h-16 text-gray-400" />
+                  <User className="w-14 h-14 sm:w-16 sm:h-16 text-gray-400" />
                 </div>
               </div>
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="bg-black/50 rounded-full p-3">
-                  <Camera className="w-6 h-6 text-white" />
+                <div className="bg-black/50 rounded-full p-2.5 sm:p-3">
+                  <Camera className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
               </div>
             </div>
 
             {/* Username & Verification */}
-            <div className="text-center w-full max-w-[280px] mx-auto mt-6">
+            <div className="text-center w-full max-w-[280px] mx-auto mt-4 sm:mt-6">
               <div className="relative group">
                 <div className="relative flex items-center justify-center">
-                  <div className="flex items-center gap-1">
-                    <span className={`text-4xl font-bold tracking-tight ${currentTheme.textColor} font-space-grotesk`}>@</span>
+                  <div className="relative w-full">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl font-bold text-black/40 font-space-grotesk">@</div>
                     <input
                       type="text"
                       value={profileData.username}
                       onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase())}
-                      className={`text-4xl font-bold tracking-tight ${currentTheme.textColor} bg-transparent border-none focus:outline-none transition-colors py-1 font-space-grotesk group-hover:bg-white/10 rounded-lg`}
+                      className="w-full text-center text-2xl sm:text-3xl font-bold tracking-tight text-black bg-white/10 border border-white/10 rounded-xl py-2.5 px-12 focus:outline-none focus:border-white/20 transition-colors font-space-grotesk"
                       placeholder="username"
                     />
+                    {profileData.username.length >= 3 && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        {usernameAvailable ? (
+                          <Check className="w-5 h-5 text-[#00E396]" />
+                        ) : (
+                          <X className="w-5 h-5 text-red-400" />
+                        )}
+                      </div>
+                    )}
                   </div>
-                  {profileData.username.length >= 3 && (
-                    <div className="absolute right-[-40px] top-1/2 -translate-y-1/2 bg-white/10 rounded-full p-1">
-                      {usernameAvailable ? (
-                        <Check className="w-5 h-5 text-[#16c784]" />
-                      ) : (
-                        <X className="w-5 h-5 text-red-400" />
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
               {profileData.username.length >= 3 && (
@@ -446,9 +446,9 @@ export default function ProfileBuilder() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="mt-1"
+                  className="mt-2"
                 >
-                  <div className={`text-sm ${currentTheme.textColor}/80 font-medium tracking-wide font-space-grotesk`}>
+                  <div className="text-sm text-black/60 font-medium tracking-wide hover:text-[#00E396] transition-colors cursor-pointer font-space-grotesk">
                     tradr.co/{profileData.username}
                   </div>
                 </motion.div>
@@ -457,31 +457,36 @@ export default function ProfileBuilder() {
 
             {/* Bio */}
             <div className="relative group w-full max-w-[280px] mx-auto mt-4">
-              <div
-                className={`text-center ${currentTheme.textColor} text-xl cursor-pointer group-hover:bg-white/10 rounded-lg px-4 py-3 transition-colors font-medium font-space-grotesk`}
-                onClick={() => setEditingField('bio')}
-              >
-                {editingField === 'bio' ? (
-                  <input
-                    type="text"
-                    value={profileData.bio}
-                    onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                    className="w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk text-xl"
-                    placeholder="Add a short trader bio..."
-                    onBlur={() => setEditingField(null)}
-                    autoFocus
-                  />
-                ) : (
-                  <>
-                    {profileData.bio || "Add a short trader bio..."}
-                    <Pencil className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/40 opacity-0 group-hover:opacity-100 transition-opacity`} />
-                  </>
-                )}
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
+                <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
+                  <div
+                    className={`text-center text-black text-lg sm:text-xl cursor-pointer group-hover:bg-white/10 rounded-lg px-4 py-3 transition-colors font-medium font-space-grotesk`}
+                    onClick={() => setEditingField('bio')}
+                  >
+                    {editingField === 'bio' ? (
+                      <input
+                        type="text"
+                        value={profileData.bio}
+                        onChange={(e) => handleFieldEdit('bio', e.target.value)}
+                        className="w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk text-lg sm:text-xl"
+                        placeholder="Add a short trader bio..."
+                        onBlur={() => setEditingField(null)}
+                        autoFocus
+                      />
+                    ) : (
+                      <>
+                        {profileData.bio || "Add a short trader bio..."}
+                        <Pencil className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Tags Section */}
-            <div className="mt-6 px-6">
+            <div className="mt-4 sm:mt-6 px-4 sm:px-6">
               <div className="relative">
                 <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
                 <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
@@ -491,7 +496,7 @@ export default function ProfileBuilder() {
                         key={index}
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className={`group relative px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors shadow-sm font-space-grotesk`}
+                        className="group relative px-3 py-1.5 rounded-full bg-white/10 text-black text-sm font-medium flex items-center gap-1.5 hover:bg-white/20 transition-colors shadow-sm font-space-grotesk"
                       >
                         <span className="lowercase">{tag}</span>
                         <button
@@ -513,12 +518,12 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className={`px-3 py-1.5 rounded-full ${currentTheme.tagBg} ${currentTheme.tagText} text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32 shadow-sm font-space-grotesk`}
+                        className="px-3 py-1.5 rounded-full bg-white/10 text-black text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/20 w-32 shadow-sm font-space-grotesk"
                         placeholder="#addhashtag"
                       />
                     )}
                     {profileData.tags.length >= 3 && (
-                      <div className={`text-xs ${currentTheme.textColor}/60 font-normal flex items-center gap-1 font-space-grotesk`}>
+                      <div className="text-xs text-black/60 font-normal flex items-center gap-1 font-space-grotesk">
                         <AlertCircle className="w-3 h-3" />
                         You can only add up to 3 hashtags
                       </div>
@@ -529,31 +534,31 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Stats Section */}
-            <div className="mt-6 px-6">
+            <div className="mt-4 sm:mt-6 px-4 sm:px-6">
               <div className="relative">
                 <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
                 <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
-                  <div className="flex items-center justify-center gap-8">
-                    <div className="text-center">
+                  <div className="flex items-center justify-between gap-4 sm:gap-8">
+                    <div className="text-center flex-1">
                       <div className="text-xl font-bold tracking-wide text-black font-space-grotesk">
                         +0.0%
                       </div>
-                      <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Gain</div>
+                      <div className="text-xs text-black/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Gain</div>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center flex-1">
                       <div className="text-xl font-bold tracking-wide text-black font-space-grotesk">
                         0%
                       </div>
-                      <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Win Rate</div>
+                      <div className="text-xs text-black/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Win Rate</div>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center flex-1">
                       <div className="text-xl font-bold tracking-wide text-black font-space-grotesk">
                         0.0
                       </div>
-                      <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Avg R:R</div>
+                      <div className="text-xs text-black/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk">Avg R:R</div>
                     </div>
                   </div>
-                  <div className="mt-4 text-center text-xs text-gray-400 font-normal flex items-center justify-center gap-1 font-space-grotesk">
+                  <div className="mt-4 text-center text-xs text-black/60 font-normal flex items-center justify-center gap-1 font-space-grotesk">
                     You can sync your trading account once you&apos;ve completed your profile.
                     <Info className="w-3 h-3" />
                   </div>
@@ -562,7 +567,7 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Theme Selection */}
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <div className="relative">
                 <div className="absolute inset-0 bg-white/10 rounded-xl backdrop-blur-md" />
                 <div className="relative bg-white/5 rounded-xl p-4 border border-white/10 shadow-lg">
@@ -571,9 +576,9 @@ export default function ProfileBuilder() {
                       <button
                         key={theme.name}
                         onClick={() => handleFieldEdit('theme', theme.id)}
-                        className={`relative group w-12 h-12 rounded-full transition-all duration-300 ${
+                        className={`relative group w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300 ${
                           currentTheme.name === theme.name
-                            ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20'
+                            ? 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/20'
                             : 'hover:ring-2 hover:ring-white/50 hover:ring-offset-2 hover:ring-offset-black/20'
                         }`}
                       >
@@ -589,9 +594,9 @@ export default function ProfileBuilder() {
             </div>
 
             {/* Footer */}
-            <div className="mt-8 text-center">
-              <div className={`text-sm ${currentTheme.textColor}/60 font-normal font-space-grotesk`}>
-                Made with <span className="text-[#16c784]">#Tradr</span>
+            <div className="mt-6 sm:mt-8 text-center">
+              <div className="text-sm text-black/60 font-normal font-space-grotesk">
+                Made with <span className="text-[#00E396]">#Tradr</span>
               </div>
             </div>
           </div>
