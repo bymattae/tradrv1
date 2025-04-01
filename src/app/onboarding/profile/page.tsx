@@ -384,25 +384,25 @@ export default function ProfileBuilder() {
   };
 
   return (
-    <div className={`min-h-screen bg-neutral-100 flex flex-col ${spaceGrotesk.variable}`}>
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="relative w-full max-w-md">
-          <div className="absolute top-0 w-full text-center mb-8 sm:mb-10">
+    <div className={`min-h-screen bg-neutral-100 overflow-y-auto py-10 ${spaceGrotesk.variable}`}>
+      <div className="flex flex-col items-center px-4 pb-12">
+        <div className="relative w-full max-w-md mb-20">
+          <div className="absolute top-0 w-full text-center mb-8">
             <div className="inline-block px-3 py-1 bg-black/10 backdrop-blur-sm rounded-full text-sm font-medium text-black/70">
               Step 2 of 3
             </div>
           </div>
 
-          <div className="mt-14 sm:mt-16 overflow-hidden">
+          <div className="mt-14 overflow-hidden">
             {/* Header */}
             <div className="text-center space-y-1 mb-5 sm:mb-8">
               <h1 className="text-2xl sm:text-3xl font-bold text-black">Build your profile</h1>
               <p className="text-base text-neutral-500">Make it stand out</p>
             </div>
 
-            <div className="relative mb-4 sm:mb-6 pb-8">
+            <div className="relative">
               {/* Card Surface */}
-              <div className="rounded-2xl overflow-hidden max-w-sm mx-auto relative">
+              <div className="rounded-2xl overflow-hidden w-full max-w-sm mx-auto">
                 {/* Subtle background for card */}
                 <div className={`relative aspect-[3/2] w-full ${currentTheme.bgGradient}`}>
                   {/* More visible metallic effects */}
@@ -558,29 +558,29 @@ export default function ProfileBuilder() {
                         <div className="relative">
                           <div className="absolute inset-0 bg-black/10 rounded-2xl backdrop-blur-md shadow-[0_6px_18px_rgba(0,0,0,0.12)]" />
                           <div className={`relative ${currentTheme.inputBg} rounded-2xl p-3 border ${currentTheme.borderColor}/30 shadow-[0_4px_16px_rgba(0,0,0,0.15)]`}>
-                            <div className="flex items-center justify-between gap-3 sm:gap-6">
+                            <div className="flex items-center justify-between gap-2">
                               <div className="text-center flex-1">
-                                <div className={`text-lg sm:text-xl font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
+                                <div className={`text-base sm:text-lg font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                                   +0.0%
                                 </div>
                                 <div className={`text-xs ${currentTheme.textColor}/50 font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Gain</div>
                               </div>
                               <div className="text-center flex-1">
-                                <div className={`text-lg sm:text-xl font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
+                                <div className={`text-base sm:text-lg font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                                   0%
                                 </div>
                                 <div className={`text-xs ${currentTheme.textColor}/50 font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Win Rate</div>
                               </div>
                               <div className="text-center flex-1">
-                                <div className={`text-lg sm:text-xl font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
+                                <div className={`text-base sm:text-lg font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                                   0.0
                                 </div>
                                 <div className={`text-xs ${currentTheme.textColor}/50 font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Avg R:R</div>
                               </div>
                             </div>
-                            <div className={`mt-3 text-center text-xs font-normal flex items-center justify-center gap-1 font-space-grotesk ${currentTheme.textColor}/60`}>
+                            <div className={`mt-2 text-center text-[10px] font-normal flex items-center justify-center gap-1 font-space-grotesk ${currentTheme.textColor}/60`}>
                               You can sync your trading account once you&apos;ve completed your profile.
-                              <Info className="w-3 h-3" />
+                              <Info className="w-2.5 h-2.5" />
                             </div>
                           </div>
                         </div>
@@ -591,12 +591,12 @@ export default function ProfileBuilder() {
                         <div className="relative">
                           <div className="absolute inset-0 bg-black/10 rounded-2xl backdrop-blur-md shadow-[0_6px_18px_rgba(0,0,0,0.12)]" />
                           <div className="relative bg-black/10 rounded-2xl p-4 border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.15)]">
-                            <div className="grid grid-cols-5 gap-3 justify-items-center">
+                            <div className="grid grid-cols-5 gap-2 justify-items-center">
                               {THEMES.map((theme) => (
                                 <button
                                   key={theme.id}
                                   onClick={() => setProfileData({ ...profileData, theme: theme.id })}
-                                  className={`relative group w-14 h-14 rounded-full overflow-hidden transition-all duration-300 transform hover:scale-110 ${
+                                  className={`relative group w-12 h-12 rounded-full overflow-hidden transition-all duration-300 transform hover:scale-110 ${
                                     profileData.theme === theme.id 
                                       ? 'ring-2 ring-white/70 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
                                       : 'shadow-[0_6px_16px_rgba(0,0,0,0.2)]'
