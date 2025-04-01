@@ -411,29 +411,10 @@ export default function ProfileBuilder() {
 
       {/* Main content container */}
       <div className="px-4 py-5">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex-1">
-            <h2 className="text-xl font-bold text-white">Your profile</h2>
-          </div>
-          <div className="flex items-center">
-            <div className="w-12 h-6 bg-indigo-500 rounded-full p-0.5 transition-colors duration-300">
-              <div className="w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform duration-300 translate-x-6"></div>
-            </div>
-            <span className="text-sm ml-2 text-white">Show</span>
-          </div>
-        </div>
-
         {/* Profile Card Container - Styling the container but not touching the card itself */}
-        <div className="rounded-2xl overflow-hidden border border-[#242424] bg-[#1A1A1A] p-6">
+        <div className="rounded-2xl overflow-hidden border border-[#242424] bg-[#1A1A1A] p-6 mt-2">
           {/* The profile card - unchanged */}
-          <div className="relative">
-            {/* Super Label - small and subtle */}
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="bg-black/10 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-[10px] font-medium text-black/70 shadow-sm uppercase tracking-wider font-space-grotesk">
-                Profile Card
-              </div>
-            </div>
-            
+          <div className="relative">            
             <div className="rounded-2xl overflow-hidden max-w-sm mx-auto">
               {/* Card background */}
               <div className={`relative w-full ${currentTheme.bgGradient} p-5 sm:p-6`}>
@@ -447,7 +428,7 @@ export default function ProfileBuilder() {
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-black/10" />
                 
                 {/* Content */}
-                <div className="relative z-10 space-y-4 font-space-grotesk">
+                <div className="relative z-10 space-y-4">
                   {/* Username with Avatar */}
                   <div className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                     {/* Profile Picture */}
@@ -486,7 +467,7 @@ export default function ProfileBuilder() {
                             type="text"
                             value={profileData.username}
                             onChange={(e) => handleFieldEdit('username', e.target.value)}
-                            className={`w-full bg-transparent border-none focus:outline-none text-xl font-bold ${currentTheme.inputText} pl-1 font-space-grotesk`}
+                            className={`w-full bg-transparent border-none focus:outline-none text-xl font-bold ${currentTheme.inputText} pl-1`}
                             placeholder="yourname"
                             onBlur={() => setEditingField(null)}
                             autoFocus
@@ -503,7 +484,7 @@ export default function ProfileBuilder() {
                   
                   {/* Bio */}
                   <div 
-                    className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer font-space-grotesk`}
+                    className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer`}
                     onClick={() => setEditingField('bio')}
                   >
                     {editingField === 'bio' ? (
@@ -511,7 +492,7 @@ export default function ProfileBuilder() {
                         type="text"
                         value={profileData.bio}
                         onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                        className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText} font-space-grotesk`}
+                        className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText}`}
                         placeholder="Add a short trader bio..."
                         onBlur={() => setEditingField(null)}
                         autoFocus
@@ -526,7 +507,7 @@ export default function ProfileBuilder() {
                     {profileData.tags.map((tag, index) => (
                       <div
                         key={index}
-                        className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-sm flex items-center gap-1.5 bg-white/10 border border-white/10 font-space-grotesk`}
+                        className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-sm flex items-center gap-1.5 bg-white/10 border border-white/10`}
                       >
                         <span>{tag}</span>
                         <button
@@ -548,7 +529,7 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-sm border border-dashed border-white/20 w-32 text-center font-space-grotesk`}
+                        className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-sm border border-dashed border-white/20 w-32 text-center`}
                         placeholder="#addhashtag"
                       />
                     )}
@@ -558,26 +539,26 @@ export default function ProfileBuilder() {
                   <div className="p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                     <div className="flex items-center justify-between">
                       <div className="text-center flex-1">
-                        <div className={`text-lg font-semibold ${currentTheme.textColor} font-space-grotesk`}>
+                        <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
                           +0.0%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider font-space-grotesk`}>
+                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
                           Gain
                         </div>
                       </div>
                       <div className="text-center flex-1">
-                        <div className={`text-lg font-semibold ${currentTheme.textColor} font-space-grotesk`}>
+                        <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
                           0%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider font-space-grotesk`}>
+                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
                           Win Rate
                         </div>
                       </div>
                       <div className="text-center flex-1">
-                        <div className={`text-lg font-semibold ${currentTheme.textColor} font-space-grotesk`}>
+                        <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
                           0.0
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider font-space-grotesk`}>
+                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
                           Avg R:R
                         </div>
                       </div>
@@ -609,7 +590,7 @@ export default function ProfileBuilder() {
                   
                   {/* Footer */}
                   <div className="pt-2 text-center">
-                    <div className={`text-sm font-bold ${currentTheme.textColor} font-space-grotesk`}>
+                    <div className={`text-sm font-bold ${currentTheme.textColor}`}>
                       Made with <span className="text-[#00E396]">#Tradr</span>
                     </div>
                   </div>
@@ -619,53 +600,13 @@ export default function ProfileBuilder() {
           </div>
         </div>
 
-        {/* FAQ-like section styled after the Benefits in the reference image */}
-        <div className="mt-10 mb-4">
-          <div className="mb-4">
-            <h2 className="text-lg font-bold text-white">What you get</h2>
-          </div>
-          
-          <div className="bg-[#1A1A1A] rounded-xl border border-[#242424] mb-3 overflow-hidden">
-            <div className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="rounded-full bg-indigo-500 w-5 h-5 flex items-center justify-center text-white">
-                  <Check className="w-3 h-3" />
-                </div>
-                <span className="text-white font-medium">Personal trader profile</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-[#1A1A1A] rounded-xl border border-[#242424] mb-3 overflow-hidden">
-            <div className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="rounded-full bg-indigo-500 w-5 h-5 flex items-center justify-center text-white">
-                  <Check className="w-3 h-3" />
-                </div>
-                <span className="text-white font-medium">Performance stats tracking</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-[#1A1A1A] rounded-xl border border-[#242424] mb-3 overflow-hidden">
-            <div className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="rounded-full bg-indigo-500 w-5 h-5 flex items-center justify-center text-white">
-                  <Check className="w-3 h-3" />
-                </div>
-                <span className="text-white font-medium">Free shared profile link</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Edit your profile button */}
+        {/* Continue button */}
         <div className="mt-8 mb-6">
           <button
             className="w-full bg-indigo-500 text-white py-3.5 rounded-full font-medium shadow-sm hover:bg-indigo-600 transition-colors"
             onClick={handleContinue}
           >
-            Edit your profile
+            Looks good!
           </button>
         </div>
 
