@@ -500,14 +500,14 @@ export default function ProfileBuilder() {
                       </div>
                     </div>
                     
-                    {/* Username with @ symbol */}
+                    {/* Username with @ symbol and availability indicator */}
                     <div 
-                      className={`flex-1 text-left ${currentTheme.textColor} text-xl font-medium cursor-pointer rounded-xl transition-colors`}
+                      className={`flex-1 text-left ${currentTheme.textColor} text-xl font-bold cursor-pointer rounded-xl transition-colors`}
                       onClick={() => setEditingField('username')}
                     >
                       {editingField === 'username' ? (
                         <div className="flex items-center">
-                          <span className={`text-xl ${currentTheme.textColor}/70`}>@</span>
+                          <span className={`text-xl ${currentTheme.textColor}/70 font-bold`}>@</span>
                           <input
                             type="text"
                             value={profileData.username}
@@ -517,11 +517,35 @@ export default function ProfileBuilder() {
                             onBlur={() => setEditingField(null)}
                             autoFocus
                           />
+                          {profileData.username.length > 2 && (
+                            <div className="relative group">
+                              {usernameAvailable ? 
+                                <Check className="w-4 h-4 text-green-500 ml-1" /> : 
+                                <X className="w-4 h-4 text-red-500 ml-1" />
+                              }
+                              <div className="absolute right-0 -top-8 transform translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                                {usernameAvailable ? 'Username available' : 'Username taken'}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ) : (
-                        <div className="flex items-center">
-                          <span className={`text-xl ${currentTheme.textColor}/70`}>@</span>
-                          <span className="pl-1 font-bold">{profileData.username || "username"}</span>
+                        <div className="flex items-center justify-between w-full">
+                          <div className="flex items-center">
+                            <span className={`text-xl ${currentTheme.textColor}/70 font-bold`}>@</span>
+                            <span className="pl-1 font-bold">{profileData.username || "username"}</span>
+                          </div>
+                          {profileData.username.length > 2 && (
+                            <div className="relative group">
+                              {usernameAvailable ? 
+                                <Check className="w-4 h-4 text-green-500" /> : 
+                                <X className="w-4 h-4 text-red-500" />
+                              }
+                              <div className="absolute right-0 -top-8 transform translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                                {usernameAvailable ? 'Username available' : 'Username taken'}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -529,7 +553,7 @@ export default function ProfileBuilder() {
                   
                   {/* Bio */}
                   <div 
-                    className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer group hover:border-white/30 transition-all duration-200`}
+                    className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer group hover:border-white/30 transition-all duration-200 font-bold`}
                     onClick={() => setEditingField('bio')}
                   >
                     {editingField === 'bio' ? (
@@ -537,7 +561,7 @@ export default function ProfileBuilder() {
                         type="text"
                         value={profileData.bio}
                         onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                        className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText}`}
+                        className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText} font-bold`}
                         placeholder="Add a short trader bio..."
                         onBlur={() => setEditingField(null)}
                         autoFocus
@@ -558,7 +582,7 @@ export default function ProfileBuilder() {
                     {profileData.tags.map((tag, index) => (
                       <div
                         key={index}
-                        className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-sm flex items-center gap-1.5 bg-white/10 border border-white/10 hover:bg-white/15 transition-colors duration-200`}
+                        className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-sm flex items-center gap-1.5 bg-white/10 border border-white/10 hover:bg-white/15 transition-colors duration-200 font-bold`}
                       >
                         <span>{tag}</span>
                         <button
@@ -580,7 +604,7 @@ export default function ProfileBuilder() {
                             setNewTag('');
                           }
                         }}
-                        className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-sm border border-dashed border-white/20 w-32 text-center hover:border-white/40 focus:border-white/40 transition-colors duration-200`}
+                        className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-sm border border-dashed border-white/20 w-32 text-center hover:border-white/40 focus:border-white/40 transition-colors duration-200 font-bold`}
                         placeholder="#addhashtag"
                       />
                     )}
@@ -590,10 +614,10 @@ export default function ProfileBuilder() {
                   <div className="p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                     <div className="flex items-center justify-between">
                       <div className="text-center flex-1 group relative">
-                        <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
+                        <div className={`text-lg font-bold ${currentTheme.textColor}`}>
                           +0.0%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider flex items-center justify-center`}>
+                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider flex items-center justify-center font-bold`}>
                           Gain
                           <span className="ml-0.5 opacity-70"><Info className="w-2.5 h-2.5" /></span>
                         </div>
@@ -602,10 +626,10 @@ export default function ProfileBuilder() {
                         </div>
                       </div>
                       <div className="text-center flex-1 group relative">
-                        <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
+                        <div className={`text-lg font-bold ${currentTheme.textColor}`}>
                           0%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider flex items-center justify-center`}>
+                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider flex items-center justify-center font-bold`}>
                           Win Rate
                           <span className="ml-0.5 opacity-70"><Info className="w-2.5 h-2.5" /></span>
                         </div>
@@ -614,10 +638,10 @@ export default function ProfileBuilder() {
                         </div>
                       </div>
                       <div className="text-center flex-1 group relative">
-                        <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
+                        <div className={`text-lg font-bold ${currentTheme.textColor}`}>
                           0.0
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider flex items-center justify-center`}>
+                        <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider flex items-center justify-center font-bold`}>
                           Avg R:R
                           <span className="ml-0.5 opacity-70"><Info className="w-2.5 h-2.5" /></span>
                         </div>
@@ -651,6 +675,18 @@ export default function ProfileBuilder() {
                         )}
                       </button>
                     ))}
+                  </div>
+                  
+                  {/* Profile URL display with copy */}
+                  <div className="flex items-center justify-center p-2 px-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer group hover:bg-white/15 transition-all" onClick={handleCopyLink}>
+                    <LinkIcon className={`w-3.5 h-3.5 ${currentTheme.textColor} mr-2`} />
+                    <span className={`text-sm ${currentTheme.textColor} font-bold`}>tradr.co/{profileData.username || "username"}</span>
+                    <div className="ml-auto relative">
+                      <Copy className={`w-3.5 h-3.5 ${currentTheme.textColor}/70 group-hover:${currentTheme.textColor}`} />
+                      <div className="absolute right-0 -top-8 transform translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                        Copy link
+                      </div>
+                    </div>
                   </div>
                   
                   {/* Footer */}
