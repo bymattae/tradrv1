@@ -412,30 +412,16 @@ export default function ProfileBuilder() {
         </div>
       </div>
       
-      {/* Navigation with back button and points */}
+      {/* Navigation with back button and dots */}
       <div className="bg-[#121212] px-5 py-4 flex items-center justify-between">
         <Link href="/onboarding" className="text-gray-300 hover:text-white">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <div className="flex items-center">
-          <span className="text-gray-300 text-sm mr-2">You earned</span>
-          <div className="flex items-center bg-black/30 px-2 py-0.5 rounded-full">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-1">
-              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5"/>
-              <path d="M12 6V18" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-              <path d="M8 10L12 6L16 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span className="text-white font-semibold">50 HP</span>
-          </div>
+        <div className="flex space-x-1.5">
+          <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+          <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+          <div className="w-2 h-2 rounded-full bg-[#242424]"></div>
         </div>
-      </div>
-      
-      {/* Step indicators */}
-      <div className="flex justify-center space-x-1.5 mt-0.5 mb-2">
-        <div className="w-2 h-2 rounded-full bg-[#4ADE80]"></div>
-        <div className="w-2 h-2 rounded-full bg-[#4ADE80]"></div>
-        <div className="w-2 h-2 rounded-full bg-[#4ADE80]"></div>
-        <div className="w-2 h-2 rounded-full bg-gray-700"></div>
       </div>
       
       {/* Centered title and subtitle */}
@@ -445,18 +431,6 @@ export default function ProfileBuilder() {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600">trader profile</span>
         </h1>
         <p className="text-sm text-gray-400 mt-3 max-w-xs mx-auto">Create your personalized identity to showcase your trading style</p>
-      </div>
-
-      {/* HP reward button for completing profile */}
-      <div className="flex justify-center mt-2 mb-5">
-        <div className="flex items-center bg-[#4ADE80]/20 border border-[#4ADE80]/30 px-4 py-1.5 rounded-full">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-1.5">
-            <circle cx="12" cy="12" r="10" stroke="#4ADE80" strokeWidth="1.5"/>
-            <path d="M12 6V18" stroke="#4ADE80" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M8 10L12 6L16 10" stroke="#4ADE80" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span className="text-[#4ADE80] font-semibold">25 HP</span>
-        </div>
       </div>
 
       {/* Main content container */}
