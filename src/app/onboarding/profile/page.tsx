@@ -382,23 +382,24 @@ export default function ProfileBuilder() {
 
   return (
     <div className={`min-h-screen bg-[#121212] ${spaceGrotesk.variable} font-space-grotesk`}>
-      {/* Header with back button and title */}
+      {/* Simplified header with back button and step dots */}
       <div className="sticky top-0 z-50 bg-[#121212] px-5 py-4 border-b border-[#242424]">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           <Link href="/onboarding" className="text-gray-300 hover:text-white">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div className="ml-4 flex-1">
-            <h1 className="text-xl font-bold text-white">Build your profile</h1>
-            <p className="text-sm text-gray-400 mt-0.5">Create your trader identity</p>
-          </div>
-          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#242424] text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-              <path fillRule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clipRule="evenodd" />
-            </svg>
+          <div className="flex space-x-1.5">
+            <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+            <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+            <div className="w-2 h-2 rounded-full bg-[#242424]"></div>
           </div>
         </div>
+      </div>
+      
+      {/* Centered title and subtitle */}
+      <div className="px-5 py-6 text-center">
+        <h1 className="text-2xl font-bold text-white">Build your profile</h1>
+        <p className="text-sm text-gray-400 mt-1.5">Create your trader identity</p>
       </div>
 
       {/* Progress indicator */}
@@ -413,7 +414,7 @@ export default function ProfileBuilder() {
       </div>
 
       {/* Main content container */}
-      <div className="px-4 py-5">
+      <div className="px-4 py-3">
         {/* Profile Card Container - Styling the container but not touching the card itself */}
         <div className="rounded-2xl overflow-hidden border border-[#242424] bg-[#1A1A1A] p-6 mt-2">
           {/* The profile card - unchanged */}
