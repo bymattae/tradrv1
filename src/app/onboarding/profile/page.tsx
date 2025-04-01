@@ -440,10 +440,10 @@ export default function ProfileBuilder() {
       {/* Centered title and subtitle with improved hierarchy */}
       <div className="px-5 py-5 text-center">
         <h1 className="text-5xl font-black text-white tracking-tight mb-1">
-          Your trader identity.
+          Create your Tradr
         </h1>
         <p className="text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600 mb-3">
-          Build it. Brand it. Show it off.
+          Make it beautiful ✨
         </p>
       </div>
 
