@@ -466,7 +466,7 @@ export default function ProfileBuilder() {
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-black/15" />
                 
                 {/* Content */}
-                <div className="relative z-10 space-y-4">
+                <div className="relative z-10 space-y-4 font-space-grotesk">
                   {/* Username with Avatar - enhanced */}
                   <div className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                     {/* Profile Picture - enhanced */}
