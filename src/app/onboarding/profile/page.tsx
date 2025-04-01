@@ -98,11 +98,11 @@ const THEMES: Theme[] = [
     id: 'lavender',
     name: 'Lavender Metal',
     bgGradient: 'bg-[linear-gradient(145deg,#C1AEE0,#9273C7)]',
-    textColor: 'text-white',
+    textColor: 'text-black',
     borderColor: 'border-[#A48FCB]',
     inputBg: 'bg-[#A490C4]/30',
-    inputText: 'text-white',
-    placeholderText: 'text-white/50',
+    inputText: 'text-black',
+    placeholderText: 'text-black/50',
     shadowColor: 'shadow-[#6A569D]',
     description: 'Elegant lavender finish'
   },
@@ -126,7 +126,7 @@ const THEMES: Theme[] = [
     borderColor: 'border-[#D1A39D]',
     inputBg: 'bg-[#D5A59E]/25',
     inputText: 'text-[#2d1b1b]',
-    placeholderText: 'text-[#2d1b1b]/50',
+    placeholderText: 'text-black/50',
     shadowColor: 'shadow-[#96655F]',
     description: 'Sophisticated rose gold finish'
   }
@@ -496,7 +496,7 @@ export default function ProfileBuilder() {
                           <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
                             +0.0%
                           </div>
-                          <div className={`text-xs ${currentTheme.textColor}/60 uppercase tracking-wider`}>
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
                             Gain
                           </div>
                         </div>
@@ -504,7 +504,7 @@ export default function ProfileBuilder() {
                           <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
                             0%
                           </div>
-                          <div className={`text-xs ${currentTheme.textColor}/60 uppercase tracking-wider`}>
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
                             Win Rate
                           </div>
                         </div>
@@ -512,7 +512,7 @@ export default function ProfileBuilder() {
                           <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
                             0.0
                           </div>
-                          <div className={`text-xs ${currentTheme.textColor}/60 uppercase tracking-wider`}>
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
                             Avg R:R
                           </div>
                         </div>
