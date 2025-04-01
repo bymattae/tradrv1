@@ -496,9 +496,9 @@ export default function ProfileBuilder() {
                         </div>
                       )}
                       {!profileData.username && !editingField && (
-                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                          <div className="bg-white/15 rounded-full p-1.5 backdrop-blur-md hover:bg-white/20 transition-all duration-200">
-                            <Pencil className="w-3 h-3 text-white/80" />
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <div className="bg-white/20 rounded-full p-2 backdrop-blur-md hover:bg-white/30 transition-all duration-200 shadow-sm">
+                            <Pencil className="w-4 h-4 text-white" />
                           </div>
                         </div>
                       )}
@@ -534,9 +534,9 @@ export default function ProfileBuilder() {
                       <Pencil className="w-3.5 h-3.5 text-white/80" />
                     </div>
                     {!profileData.bio && !editingField && (
-                      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <div className="bg-white/15 rounded-full p-1.5 backdrop-blur-md hover:bg-white/20 transition-all duration-200">
-                          <Pencil className="w-3 h-3 text-white/80" />
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <div className="bg-white/20 rounded-full p-2 backdrop-blur-md hover:bg-white/30 transition-all duration-200 shadow-sm">
+                          <Pencil className="w-4 h-4 text-white" />
                         </div>
                       </div>
                     )}
@@ -579,9 +579,9 @@ export default function ProfileBuilder() {
                       />
                     )}
                     {profileData.tags.length === 0 && !newTag && (
-                      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                        <div className="bg-white/15 rounded-full p-1.5 backdrop-blur-md">
-                          <Plus className="w-3.5 h-3.5 text-white/80" />
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <div className="bg-white/20 rounded-full p-2 backdrop-blur-md shadow-sm">
+                          <Plus className="w-4 h-4 text-white" />
                         </div>
                       </div>
                     )}
