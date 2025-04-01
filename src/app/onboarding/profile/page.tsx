@@ -416,29 +416,62 @@ export default function ProfileBuilder() {
                   
                   {/* Content */}
                   <div className="relative z-10 space-y-4">
-                    {/* Username entry area */}
-                    <div 
-                      className={`w-full text-center ${currentTheme.textColor} text-xl font-medium cursor-pointer p-3 rounded-xl hover:bg-white/10 transition-colors`}
-                      onClick={() => setEditingField('username')}
-                    >
-                      {editingField === 'username' ? (
-                        <input
-                          type="text"
-                          value={profileData.username}
-                          onChange={(e) => handleFieldEdit('username', e.target.value)}
-                          className={`w-full text-center bg-transparent border-none focus:outline-none text-xl ${currentTheme.inputText}`}
-                          placeholder="yourname"
-                          onBlur={() => setEditingField(null)}
-                          autoFocus
-                        />
-                      ) : (
-                        <>{profileData.username || "@"}</>
-                      )}
+                    {/* Username with Avatar */}
+                    <div className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
+                      {/* Profile Picture */}
+                      <div
+                        className="relative h-12 w-12 rounded-full overflow-hidden border border-white/30 cursor-pointer flex-shrink-0"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
+                        {profileData.avatar ? (
+                          <Image
+                            src={profileData.avatar}
+                            alt="Profile"
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-full"
+                          />
+                        ) : (
+                          <div className="h-full w-full flex items-center justify-center bg-white/10">
+                            <Camera className={`w-5 h-5 ${currentTheme.textColor}/70`} />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/30 backdrop-blur-sm">
+                          <Camera className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                      
+                      {/* Username with @ symbol */}
+                      <div 
+                        className={`flex-1 text-left ${currentTheme.textColor} text-xl font-medium cursor-pointer rounded-xl transition-colors`}
+                        onClick={() => setEditingField('username')}
+                      >
+                        {editingField === 'username' ? (
+                          <div className="flex items-center">
+                            <span className={`text-xl ${currentTheme.textColor}/70`}>@</span>
+                            <input
+                              type="text"
+                              value={profileData.username}
+                              onChange={(e) => handleFieldEdit('username', e.target.value)}
+                              className={`w-full bg-transparent border-none focus:outline-none text-xl ${currentTheme.inputText} pl-1`}
+                              placeholder="yourname"
+                              onBlur={() => setEditingField(null)}
+                              autoFocus
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex items-center">
+                            <span className={`text-xl ${currentTheme.textColor}/70`}>@</span>
+                            <span className="pl-1">{profileData.username || "username"}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     
                     {/* Bio */}
                     <div 
-                      className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 cursor-pointer`}
+                      className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer`}
                       onClick={() => setEditingField('bio')}
                     >
                       {editingField === 'bio' ? (
@@ -457,7 +490,7 @@ export default function ProfileBuilder() {
                     </div>
                     
                     {/* Tags */}
-                    <div className="flex flex-wrap justify-center gap-2 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                    <div className="flex flex-wrap justify-center gap-2 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                       {profileData.tags.map((tag, index) => (
                         <div
                           key={index}
@@ -490,7 +523,7 @@ export default function ProfileBuilder() {
                     </div>
                     
                     {/* Stats */}
-                    <div className="p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                    <div className="p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                       <div className="flex items-center justify-between">
                         <div className="text-center flex-1">
                           <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
