@@ -432,17 +432,22 @@ export default function ProfileBuilder() {
         <p className="text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600 mb-3">
           Build it. Brand it. Show it off.
         </p>
-        <p className="text-sm text-gray-400 mt-3 max-w-xs mx-auto">
-          Craft a profile that shows the world how you trade.
-        </p>
         
-        {/* Profile preview link */}
-        <div className="flex items-center justify-center mt-4 mb-1">
-          <span className="text-xs text-gray-500">Your profile will be available at:</span>
-        </div>
-        <div className="inline-flex items-center bg-white/5 rounded-full px-3 py-1.5 border border-white/10">
+        {/* Profile URL with copy icon */}
+        <div className="inline-flex items-center bg-white/5 rounded-full px-3 py-1.5 border border-white/10 mt-4">
           <span className="text-sm text-gray-400">tradr.co/</span>
           <span className="text-sm text-indigo-400 font-medium">{profileData.username || "username"}</span>
+          <button 
+            onClick={handleCopyLink}
+            className="ml-2 text-gray-400 hover:text-white transition-colors focus:outline-none"
+          >
+            <Copy className="w-3.5 h-3.5" />
+          </button>
+          {showCopied && (
+            <span className="absolute mt-8 bg-black/90 text-white text-xs rounded px-2 py-1 transition-opacity">
+              Copied!
+            </span>
+          )}
         </div>
       </div>
 
