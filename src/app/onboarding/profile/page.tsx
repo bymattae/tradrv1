@@ -397,20 +397,11 @@ export default function ProfileBuilder() {
       </div>
       
       {/* Centered title and subtitle */}
-      <div className="px-5 py-6 text-center">
-        <h1 className="text-2xl font-bold text-white">Build your profile</h1>
-        <p className="text-sm text-gray-400 mt-1.5">Create your trader identity</p>
-      </div>
-
-      {/* Progress indicator */}
-      <div className="bg-[#121212] px-4 pb-2">
-        <div className="flex items-center justify-between mb-2">
-          <div className="text-xs font-medium text-gray-400">Step 2 of 3</div>
-          <div className="text-xs font-medium text-indigo-400">67%</div>
-        </div>
-        <div className="w-full h-1 bg-[#242424] rounded-full overflow-hidden">
-          <div className="h-full bg-indigo-500 rounded-full w-[67%]"></div>
-        </div>
+      <div className="px-5 py-8 text-center">
+        <h1 className="text-3xl font-black text-white tracking-tight">
+          Build your <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-indigo-600">trader profile</span>
+        </h1>
+        <p className="text-sm text-gray-400 mt-2.5 max-w-xs mx-auto">Create your personalized identity to showcase your trading style</p>
       </div>
 
       {/* Main content container */}
