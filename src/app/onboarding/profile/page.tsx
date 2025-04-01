@@ -382,26 +382,81 @@ export default function ProfileBuilder() {
 
   return (
     <div className={`min-h-screen bg-[#121212] ${spaceGrotesk.variable} font-space-grotesk`}>
-      {/* Simplified header with back button and step dots */}
-      <div className="sticky top-0 z-50 bg-[#121212] px-5 py-4 border-b border-[#242424]">
-        <div className="flex items-center justify-between">
-          <Link href="/onboarding" className="text-gray-300 hover:text-white">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div className="flex space-x-1.5">
-            <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-            <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-            <div className="w-2 h-2 rounded-full bg-[#242424]"></div>
+      {/* Status bar - mobile style */}
+      <div className="sticky top-0 z-50 bg-[#121212] px-5 py-3 flex items-center justify-between">
+        <div className="flex items-center text-gray-300 text-sm font-medium">
+          9:41
+        </div>
+        <div className="flex items-center space-x-1.5">
+          <div className="text-gray-300">
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M16.5 0.666656H1.5C0.671574 0.666656 0 1.33823 0 2.16666V11.8333C0 12.6618 0.671574 13.3333 1.5 13.3333H16.5C17.3284 13.3333 18 12.6618 18 11.8333V2.16666C18 1.33823 17.3284 0.666656 16.5 0.666656ZM1.5 11.8333V2.16666H16.5V11.8333H1.5Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div className="text-gray-300">
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.24999 4.66666C3.21694 4.66666 3.99999 3.88361 3.99999 2.91666C3.99999 1.94971 3.21694 1.16666 2.24999 1.16666C1.28304 1.16666 0.5 1.94971 0.5 2.91666C0.5 3.88361 1.28304 4.66666 2.24999 4.66666Z" fill="currentColor"/>
+              <path d="M5.5 2.91669H17.5V2.91669C17.5 2.45646 17.1269 2.08335 16.6667 2.08335H6.33333C5.8731 2.08335 5.5 2.45646 5.5 2.91669V2.91669Z" fill="currentColor"/>
+              <path d="M5.5 7.00002H17.5V7.00002C17.5 6.53979 17.1269 6.16669 16.6667 6.16669H6.33333C5.8731 6.16669 5.5 6.53979 5.5 7.00002V7.00002Z" fill="currentColor"/>
+              <path d="M5.5 11.0833H17.5V11.0833C17.5 10.6231 17.1269 10.25 16.6667 10.25H6.33333C5.8731 10.25 5.5 10.6231 5.5 11.0833V11.0833Z" fill="currentColor"/>
+              <path d="M2.24999 12.8333C3.21694 12.8333 3.99999 12.0503 3.99999 11.0833C3.99999 10.1164 3.21694 9.33335 2.24999 9.33335C1.28304 9.33335 0.5 10.1164 0.5 11.0833C0.5 12.0503 1.28304 12.8333 2.24999 12.8333Z" fill="currentColor"/>
+              <path d="M2.24999 8.75C3.21694 8.75 3.99999 7.96695 3.99999 7C3.99999 6.03305 3.21694 5.25 2.24999 5.25C1.28304 5.25 0.5 6.03305 0.5 7C0.5 7.96695 1.28304 8.75 2.24999 8.75Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div className="text-gray-300">
+            <svg width="18" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 6H7c-3.3 0-6 2.7-6 6s2.7 6 6 6h10c3.3 0 6-2.7 6-6s-2.7-6-6-6z" stroke="currentColor" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
+              <path d="M17 6c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="currentColor"></path>
+            </svg>
           </div>
         </div>
       </div>
       
+      {/* Navigation with back button and points */}
+      <div className="bg-[#121212] px-5 py-4 flex items-center justify-between">
+        <Link href="/onboarding" className="text-gray-300 hover:text-white">
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+        <div className="flex items-center">
+          <span className="text-gray-300 text-sm mr-2">You earned</span>
+          <div className="flex items-center bg-black/30 px-2 py-0.5 rounded-full">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-1">
+              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5"/>
+              <path d="M12 6V18" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M8 10L12 6L16 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span className="text-white font-semibold">50 HP</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Step indicators */}
+      <div className="flex justify-center space-x-1.5 mt-0.5 mb-2">
+        <div className="w-2 h-2 rounded-full bg-[#4ADE80]"></div>
+        <div className="w-2 h-2 rounded-full bg-[#4ADE80]"></div>
+        <div className="w-2 h-2 rounded-full bg-[#4ADE80]"></div>
+        <div className="w-2 h-2 rounded-full bg-gray-700"></div>
+      </div>
+      
       {/* Centered title and subtitle */}
-      <div className="px-5 py-8 text-center">
-        <h1 className="text-3xl font-black text-white tracking-tight">
-          Build your <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-indigo-600">trader profile</span>
+      <div className="px-5 py-5 text-center">
+        <h1 className="text-5xl font-black text-white tracking-tight leading-tight">
+          Build your <br />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600">trader profile</span>
         </h1>
-        <p className="text-sm text-gray-400 mt-2.5 max-w-xs mx-auto">Create your personalized identity to showcase your trading style</p>
+        <p className="text-sm text-gray-400 mt-3 max-w-xs mx-auto">Create your personalized identity to showcase your trading style</p>
+      </div>
+
+      {/* HP reward button for completing profile */}
+      <div className="flex justify-center mt-2 mb-5">
+        <div className="flex items-center bg-[#4ADE80]/20 border border-[#4ADE80]/30 px-4 py-1.5 rounded-full">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-1.5">
+            <circle cx="12" cy="12" r="10" stroke="#4ADE80" strokeWidth="1.5"/>
+            <path d="M12 6V18" stroke="#4ADE80" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M8 10L12 6L16 10" stroke="#4ADE80" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span className="text-[#4ADE80] font-semibold">25 HP</span>
+        </div>
       </div>
 
       {/* Main content container */}
@@ -598,10 +653,11 @@ export default function ProfileBuilder() {
         {/* Continue button */}
         <div className="mt-8 mb-6">
           <button
-            className="w-full bg-indigo-500 text-white py-3.5 rounded-full font-medium shadow-sm hover:bg-indigo-600 transition-colors"
+            className="w-full bg-[#FCFF52] text-black py-3.5 rounded-full font-bold text-lg shadow-lg hover:bg-[#EAED4E] transition-colors relative overflow-hidden group"
             onClick={handleContinue}
           >
-            Looks good!
+            <span className="relative z-10">Looks good!</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FCFF52]/0 via-white/20 to-[#FCFF52]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
           </button>
         </div>
 
