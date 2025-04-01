@@ -402,6 +402,13 @@ export default function ProfileBuilder() {
 
             {/* Main Card */}
             <div className="relative">
+              {/* Super Label - small and subtle */}
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                <div className="bg-black/10 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-[10px] font-medium text-black/70 shadow-sm uppercase tracking-wider font-space-grotesk">
+                  Profile Card
+                </div>
+              </div>
+              
               <div className="rounded-2xl overflow-hidden max-w-sm mx-auto">
                 {/* Card background */}
                 <div className={`relative w-full ${currentTheme.bgGradient} p-5 sm:p-6`}>
@@ -415,7 +422,7 @@ export default function ProfileBuilder() {
                   <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-black/10" />
                   
                   {/* Content */}
-                  <div className="relative z-10 space-y-4">
+                  <div className="relative z-10 space-y-4 font-space-grotesk">
                     {/* Username with Avatar */}
                     <div className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                       {/* Profile Picture */}
@@ -454,7 +461,7 @@ export default function ProfileBuilder() {
                               type="text"
                               value={profileData.username}
                               onChange={(e) => handleFieldEdit('username', e.target.value)}
-                              className={`w-full bg-transparent border-none focus:outline-none text-xl ${currentTheme.inputText} pl-1`}
+                              className={`w-full bg-transparent border-none focus:outline-none text-xl font-bold ${currentTheme.inputText} pl-1 font-space-grotesk`}
                               placeholder="yourname"
                               onBlur={() => setEditingField(null)}
                               autoFocus
@@ -463,7 +470,7 @@ export default function ProfileBuilder() {
                         ) : (
                           <div className="flex items-center">
                             <span className={`text-xl ${currentTheme.textColor}/70`}>@</span>
-                            <span className="pl-1">{profileData.username || "username"}</span>
+                            <span className="pl-1 font-bold">{profileData.username || "username"}</span>
                           </div>
                         )}
                       </div>
@@ -471,7 +478,7 @@ export default function ProfileBuilder() {
                     
                     {/* Bio */}
                     <div 
-                      className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer`}
+                      className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer font-space-grotesk`}
                       onClick={() => setEditingField('bio')}
                     >
                       {editingField === 'bio' ? (
@@ -479,7 +486,7 @@ export default function ProfileBuilder() {
                           type="text"
                           value={profileData.bio}
                           onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                          className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText}`}
+                          className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText} font-space-grotesk`}
                           placeholder="Add a short trader bio..."
                           onBlur={() => setEditingField(null)}
                           autoFocus
@@ -494,7 +501,7 @@ export default function ProfileBuilder() {
                       {profileData.tags.map((tag, index) => (
                         <div
                           key={index}
-                          className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-sm flex items-center gap-1.5 bg-white/10 border border-white/10`}
+                          className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-sm flex items-center gap-1.5 bg-white/10 border border-white/10 font-space-grotesk`}
                         >
                           <span>{tag}</span>
                           <button
@@ -516,7 +523,7 @@ export default function ProfileBuilder() {
                               setNewTag('');
                             }
                           }}
-                          className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-sm border border-dashed border-white/20 w-32 text-center`}
+                          className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-sm border border-dashed border-white/20 w-32 text-center font-space-grotesk`}
                           placeholder="#addhashtag"
                         />
                       )}
@@ -526,26 +533,26 @@ export default function ProfileBuilder() {
                     <div className="p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
                       <div className="flex items-center justify-between">
                         <div className="text-center flex-1">
-                          <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
+                          <div className={`text-lg font-semibold ${currentTheme.textColor} font-space-grotesk`}>
                             +0.0%
                           </div>
-                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider font-space-grotesk`}>
                             Gain
                           </div>
                         </div>
                         <div className="text-center flex-1">
-                          <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
+                          <div className={`text-lg font-semibold ${currentTheme.textColor} font-space-grotesk`}>
                             0%
                           </div>
-                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider font-space-grotesk`}>
                             Win Rate
                           </div>
                         </div>
                         <div className="text-center flex-1">
-                          <div className={`text-lg font-semibold ${currentTheme.textColor}`}>
+                          <div className={`text-lg font-semibold ${currentTheme.textColor} font-space-grotesk`}>
                             0.0
                           </div>
-                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider`}>
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-wider font-space-grotesk`}>
                             Avg R:R
                           </div>
                         </div>
@@ -577,7 +584,7 @@ export default function ProfileBuilder() {
                     
                     {/* Footer */}
                     <div className="pt-2 text-center">
-                      <div className={`text-sm font-bold ${currentTheme.textColor}`}>
+                      <div className={`text-sm font-bold ${currentTheme.textColor} font-space-grotesk`}>
                         Made with <span className="text-[#00E396]">#Tradr</span>
                       </div>
                     </div>
