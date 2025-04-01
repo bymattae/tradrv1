@@ -16,7 +16,12 @@ interface Theme {
   id: string;
   name: string;
   bgGradient: string;
+  textColor: string;
   borderColor: string;
+  inputBg: string;
+  inputText: string;
+  placeholderText: string;
+  shadowColor: string;
   description: string;
 }
 
@@ -66,38 +71,63 @@ const spaceGrotesk = Space_Grotesk({
 
 const THEMES: Theme[] = [
   {
-    id: 'black-metal',
+    id: 'black',
     name: 'Black Metal',
-    bgGradient: 'bg-gradient-to-br from-[#1a1a1a] to-[#2e2e2e]',
-    borderColor: 'border-[#3f3f3f]',
+    bgGradient: 'bg-[linear-gradient(135deg,#141414,#2C2C2C)]',
+    textColor: 'text-white',
+    borderColor: 'border-[#3A3A3A]',
+    inputBg: 'bg-[#202020]/50',
+    inputText: 'text-white',
+    placeholderText: 'text-white/50',
+    shadowColor: 'shadow-[#000000]',
     description: 'Premium black metal finish'
   },
   {
-    id: 'gold-metal',
+    id: 'gold',
     name: 'Gold Metal',
-    bgGradient: 'bg-gradient-to-br from-[#d4c49d] to-[#b49b68]',
-    borderColor: 'border-[#c5ae7c]',
+    bgGradient: 'bg-[linear-gradient(135deg,#D6C58E,#BDA76C)]',
+    textColor: 'text-[#3a2d1b]',
+    borderColor: 'border-[#C5B686]',
+    inputBg: 'bg-[#C9B87D]/20',
+    inputText: 'text-[#3a2d1b]',
+    placeholderText: 'text-[#3a2d1b]/50',
+    shadowColor: 'shadow-[#9E8B55]',
     description: 'Luxurious gold finish'
   },
   {
-    id: 'lavender-metal',
+    id: 'lavender',
     name: 'Lavender Metal',
-    bgGradient: 'bg-gradient-to-br from-[#c5b5e5] to-[#9c82d1]',
-    borderColor: 'border-[#b79eda]',
+    bgGradient: 'bg-[linear-gradient(135deg,#C8B5ED,#816AAE)]',
+    textColor: 'text-white',
+    borderColor: 'border-[#A48FCB]',
+    inputBg: 'bg-[#9F85CA]/30',
+    inputText: 'text-white',
+    placeholderText: 'text-white/50',
+    shadowColor: 'shadow-[#6A569D]',
     description: 'Elegant lavender finish'
   },
   {
     id: 'space-grey',
     name: 'Space Grey',
-    bgGradient: 'bg-gradient-to-br from-[#a3a3a3] to-[#626262]',
-    borderColor: 'border-[#8b8b8b]',
+    bgGradient: 'bg-[linear-gradient(135deg,#99989C,#5E5D60)]',
+    textColor: 'text-white',
+    borderColor: 'border-[#7B7A7E]',
+    inputBg: 'bg-[#7C7B7F]/30',
+    inputText: 'text-white',
+    placeholderText: 'text-white/50',
+    shadowColor: 'shadow-[#4D4C4F]',
     description: 'Modern space grey finish'
   },
   {
     id: 'rose-gold',
     name: 'Rose Gold',
-    bgGradient: 'bg-gradient-to-br from-[#d7a9a0] to-[#a86f65]',
-    borderColor: 'border-[#c8988b]',
+    bgGradient: 'bg-[linear-gradient(135deg,#EBC2BD,#B67C74)]',
+    textColor: 'text-[#2d1b1b]',
+    borderColor: 'border-[#D1A39D]',
+    inputBg: 'bg-[#D4A198]/20',
+    inputText: 'text-[#2d1b1b]',
+    placeholderText: 'text-[#2d1b1b]/50',
+    shadowColor: 'shadow-[#96655F]',
     description: 'Sophisticated rose gold finish'
   }
 ];
@@ -366,34 +396,30 @@ export default function ProfileBuilder() {
       <div className="max-w-md mx-auto">
         {/* Profile Card Container */}
         <div className="relative w-full max-w-[420px] mx-auto px-4">
-          <div className="absolute inset-0 bg-white/5 rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.1)]" />
-          <div className={`relative overflow-hidden rounded-3xl p-4 sm:p-6 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.1)] ${currentTheme.bgGradient}`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50" />
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.2),transparent_50%,rgba(255,255,255,0.05))]" />
+          <div className="absolute inset-0 bg-black/5 rounded-3xl backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.25)]" />
+          <div className={`relative overflow-hidden rounded-3xl p-4 sm:p-6 border ${currentTheme.borderColor}/40 shadow-[0_8px_32px_rgba(0,0,0,0.2)] ${currentTheme.bgGradient}`}>
+            {/* Metallic overlay effects */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-70" />
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.3),transparent_40%,rgba(0,0,0,0.1))]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.4),transparent_70%)]" />
+            
+            {/* Card content */}
             <div className="relative">
               {/* Title Section */}
               <div className="text-center mb-6 sm:mb-8">
-                <h1 className={`text-lg sm:text-xl font-bold ${
-                  currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                    ? 'text-white'
-                    : 'text-[#3a2d1b]'
-                } font-space-grotesk drop-shadow-sm`}>
+                <h1 className={`text-lg sm:text-xl font-bold ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                   Build your profile
                 </h1>
-                <p className={`text-base sm:text-lg ${
-                  currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                    ? 'text-white/60'
-                    : 'text-[#3a2d1b]/60'
-                } font-space-grotesk mt-1`}>
+                <p className={`text-base sm:text-lg ${currentTheme.textColor}/60 font-space-grotesk mt-1`}>
                   Make it stand out
                 </p>
               </div>
 
               {/* Avatar Section */}
               <div className="relative group">
-                <div className={`w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full border-2 ${currentTheme.borderColor}/20 transition-all duration-300 group-hover:border-white/30 overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.05)]`}>
-                  <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                    <User className="w-14 h-14 sm:w-16 sm:h-16 text-gray-400" />
+                <div className={`w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full border-2 ${currentTheme.borderColor}/30 transition-all duration-300 group-hover:border-white/30 overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.15)]`}>
+                  <div className={`w-full h-full ${currentTheme.inputBg} flex items-center justify-center`}>
+                    <User className={`w-14 h-14 sm:w-16 sm:h-16 ${currentTheme.textColor}/40`} />
                   </div>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -408,24 +434,16 @@ export default function ProfileBuilder() {
                 <div className="relative group">
                   <div className="relative flex items-center justify-center">
                     <div className="relative w-full">
-                      <div className={`absolute left-3 top-1/2 -translate-y-1/2 text-xl sm:text-2xl font-semibold ${
-                        currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                          ? 'text-white/30'
-                          : 'text-[#3a2d1b]/30'
-                      } font-space-grotesk`}>@</div>
+                      <div className={`absolute left-3 top-1/2 -translate-y-1/2 text-xl sm:text-2xl font-semibold ${currentTheme.textColor}/30 font-space-grotesk`}>@</div>
                       <input
                         type="text"
                         value={profileData.username}
                         onChange={(e) => handleFieldEdit('username', e.target.value.toLowerCase().slice(0, 18))}
-                        className={`w-full text-center text-xl sm:text-2xl font-semibold tracking-tight ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white placeholder:text-white/30'
-                            : 'text-[#3a2d1b] placeholder:text-[#3a2d1b]/30'
-                        } bg-white/5 border border-white/10 rounded-2xl py-2.5 px-10 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] font-space-grotesk`}
+                        className={`w-full text-center text-xl sm:text-2xl font-semibold tracking-tight ${currentTheme.inputText} ${currentTheme.inputBg} border ${currentTheme.borderColor}/30 rounded-2xl py-2.5 px-10 focus:outline-none focus:${currentTheme.borderColor}/60 focus:bg-black/5 transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.15)] font-space-grotesk placeholder:${currentTheme.placeholderText}`}
                         placeholder="username"
                       />
                       {profileData.username.length >= 3 && (
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/10 rounded-full p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/10 rounded-full p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.15)]">
                           {usernameAvailable ? (
                             <Check className="w-4 h-4 text-[#00E396]" />
                           ) : (
@@ -443,11 +461,7 @@ export default function ProfileBuilder() {
                     exit={{ opacity: 0, y: 10 }}
                     className="mt-2"
                   >
-                    <div className={`text-sm ${
-                      currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                        ? 'text-white/50 hover:text-[#00E396]'
-                        : 'text-[#3a2d1b]/50 hover:text-[#00E396]'
-                    } font-medium tracking-wide transition-colors cursor-pointer font-space-grotesk`}>
+                    <div className={`text-sm ${currentTheme.textColor}/50 hover:text-[#00E396] font-medium tracking-wide transition-colors cursor-pointer font-space-grotesk`}>
                       tradr.co/{profileData.username.replace(/[^a-z0-9]/g, '')}
                     </div>
                   </motion.div>
@@ -457,14 +471,10 @@ export default function ProfileBuilder() {
               {/* Bio */}
               <div className="relative group w-full max-w-[280px] mx-auto mt-5 sm:mt-6">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.1)]" />
-                  <div className="relative bg-white/5 rounded-2xl p-3 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+                  <div className="absolute inset-0 bg-black/5 rounded-2xl backdrop-blur-md shadow-[0_6px_18px_rgba(0,0,0,0.12)]" />
+                  <div className={`relative ${currentTheme.inputBg} rounded-2xl p-3 border ${currentTheme.borderColor}/30 shadow-[0_4px_16px_rgba(0,0,0,0.15)]`}>
                     <div
-                      className={`text-center ${
-                        currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                          ? 'text-white'
-                          : 'text-[#3a2d1b]'
-                      } text-base sm:text-lg cursor-pointer group-hover:bg-white/5 rounded-xl px-3 py-2.5 transition-all duration-300 font-medium font-space-grotesk`}
+                      className={`text-center ${currentTheme.textColor} text-base sm:text-lg cursor-pointer group-hover:bg-white/5 rounded-xl px-3 py-2.5 transition-all duration-300 font-medium font-space-grotesk`}
                       onClick={() => setEditingField('bio')}
                     >
                       {editingField === 'bio' ? (
@@ -472,11 +482,7 @@ export default function ProfileBuilder() {
                           type="text"
                           value={profileData.bio}
                           onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                          className={`w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk text-base sm:text-lg ${
-                            currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                              ? 'text-white placeholder:text-white/30'
-                              : 'text-[#3a2d1b] placeholder:text-[#3a2d1b]/30'
-                          }`}
+                          className={`w-full text-center bg-transparent border-none focus:outline-none font-space-grotesk text-base sm:text-lg ${currentTheme.inputText} placeholder:${currentTheme.placeholderText}`}
                           placeholder="Add a short trader bio..."
                           onBlur={() => setEditingField(null)}
                           autoFocus
@@ -484,11 +490,7 @@ export default function ProfileBuilder() {
                       ) : (
                         <>
                           {profileData.bio || "Add a short trader bio..."}
-                          <Pencil className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${
-                            currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                              ? 'text-white/30'
-                              : 'text-[#3a2d1b]/30'
-                          } opacity-0 group-hover:opacity-100 transition-all duration-300`} />
+                          <Pencil className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${currentTheme.textColor}/30 opacity-0 group-hover:opacity-100 transition-all duration-300`} />
                         </>
                       )}
                     </div>
@@ -499,19 +501,15 @@ export default function ProfileBuilder() {
               {/* Tags Section */}
               <div className="mt-5 sm:mt-6 px-3 sm:px-4">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.1)]" />
-                  <div className="relative bg-white/5 rounded-2xl p-3 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+                  <div className="absolute inset-0 bg-black/5 rounded-2xl backdrop-blur-md shadow-[0_6px_18px_rgba(0,0,0,0.12)]" />
+                  <div className={`relative ${currentTheme.inputBg} rounded-2xl p-3 border ${currentTheme.borderColor}/30 shadow-[0_4px_16px_rgba(0,0,0,0.15)]`}>
                     <div className="flex flex-wrap justify-center gap-2">
                       {profileData.tags.map((tag, index) => (
                         <motion.div
                           key={index}
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className={`group relative px-3 py-2 rounded-xl bg-white/5 ${
-                            currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                              ? 'text-white'
-                              : 'text-[#3a2d1b]'
-                          } text-sm font-medium flex items-center gap-1.5 hover:bg-white/10 transition-all duration-300 shadow-[0_2px_8px_rgba(0,0,0,0.1)] font-space-grotesk min-h-[44px]`}
+                          className={`group relative px-3 py-2 rounded-xl bg-white/10 backdrop-blur-sm ${currentTheme.textColor} text-sm font-medium flex items-center gap-1.5 hover:bg-white/15 transition-all duration-300 shadow-[0_2px_10px_rgba(0,0,0,0.15)] font-space-grotesk min-h-[44px] border border-white/10`}
                         >
                           <span className="lowercase">{tag}</span>
                           <button
@@ -533,20 +531,12 @@ export default function ProfileBuilder() {
                               setNewTag('');
                             }
                           }}
-                          className={`px-3 py-2 rounded-xl bg-white/5 ${
-                            currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                              ? 'text-white placeholder:text-white/30'
-                              : 'text-[#3a2d1b] placeholder:text-[#3a2d1b]/30'
-                          } text-sm font-medium border-2 border-dashed border-white/20 hover:border-white/30 focus:outline-none focus:border-white/40 w-32 shadow-[0_2px_8px_rgba(0,0,0,0.1)] font-space-grotesk min-h-[44px] text-center transition-colors duration-300`}
+                          className={`px-3 py-2 rounded-xl bg-white/5 ${currentTheme.inputText} text-sm font-medium border-2 border-dashed ${currentTheme.borderColor}/20 hover:${currentTheme.borderColor}/30 focus:outline-none focus:${currentTheme.borderColor}/40 w-32 shadow-[0_2px_10px_rgba(0,0,0,0.15)] font-space-grotesk min-h-[44px] text-center placeholder:${currentTheme.placeholderText} transition-colors duration-300`}
                           placeholder="#addhashtag"
                         />
                       )}
                       {profileData.tags.length >= 3 && (
-                        <div className={`text-xs font-normal flex items-center gap-1 font-space-grotesk ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white/50'
-                            : 'text-[#3a2d1b]/50'
-                        }`}>
+                        <div className={`text-xs font-normal flex items-center gap-1 font-space-grotesk ${currentTheme.textColor}/50`}>
                           <AlertCircle className="w-3 h-3" />
                           You can only add up to 3 hashtags
                         </div>
@@ -559,57 +549,29 @@ export default function ProfileBuilder() {
               {/* Stats Section */}
               <div className="mt-5 sm:mt-6 px-3 sm:px-4">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.1)]" />
-                  <div className="relative bg-white/5 rounded-2xl p-3 border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+                  <div className="absolute inset-0 bg-black/5 rounded-2xl backdrop-blur-md shadow-[0_6px_18px_rgba(0,0,0,0.12)]" />
+                  <div className={`relative ${currentTheme.inputBg} rounded-2xl p-3 border ${currentTheme.borderColor}/30 shadow-[0_4px_16px_rgba(0,0,0,0.15)]`}>
                     <div className="flex items-center justify-between gap-3 sm:gap-6">
                       <div className="text-center flex-1">
-                        <div className={`text-lg sm:text-xl font-semibold tracking-wide ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white'
-                            : 'text-[#3a2d1b]'
-                        } font-space-grotesk drop-shadow-sm`}>
+                        <div className={`text-lg sm:text-xl font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                           +0.0%
                         </div>
-                        <div className={`text-xs ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white/40'
-                            : 'text-[#3a2d1b]/40'
-                        } font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Gain</div>
+                        <div className={`text-xs ${currentTheme.textColor}/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Gain</div>
                       </div>
                       <div className="text-center flex-1">
-                        <div className={`text-lg sm:text-xl font-semibold tracking-wide ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white'
-                            : 'text-[#3a2d1b]'
-                        } font-space-grotesk drop-shadow-sm`}>
+                        <div className={`text-lg sm:text-xl font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                           0%
                         </div>
-                        <div className={`text-xs ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white/40'
-                            : 'text-[#3a2d1b]/40'
-                        } font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Win Rate</div>
+                        <div className={`text-xs ${currentTheme.textColor}/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Win Rate</div>
                       </div>
                       <div className="text-center flex-1">
-                        <div className={`text-lg sm:text-xl font-semibold tracking-wide ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white'
-                            : 'text-[#3a2d1b]'
-                        } font-space-grotesk drop-shadow-sm`}>
+                        <div className={`text-lg sm:text-xl font-semibold tracking-wide ${currentTheme.textColor} font-space-grotesk drop-shadow-sm`}>
                           0.0
                         </div>
-                        <div className={`text-xs ${
-                          currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                            ? 'text-white/40'
-                            : 'text-[#3a2d1b]/40'
-                        } font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Avg R:R</div>
+                        <div className={`text-xs ${currentTheme.textColor}/40 font-medium uppercase tracking-wider mt-1 font-space-grotesk`}>Avg R:R</div>
                       </div>
                     </div>
-                    <div className={`mt-3 text-center text-xs font-normal flex items-center justify-center gap-1 font-space-grotesk ${
-                      currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                        ? 'text-white/50'
-                        : 'text-[#3a2d1b]/50'
-                    }`}>
+                    <div className={`mt-3 text-center text-xs font-normal flex items-center justify-center gap-1 font-space-grotesk ${currentTheme.textColor}/50`}>
                       You can sync your trading account once you&apos;ve completed your profile.
                       <Info className="w-3 h-3" />
                     </div>
@@ -620,23 +582,40 @@ export default function ProfileBuilder() {
               {/* Theme Selection */}
               <div className="mt-6 sm:mt-8">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-md shadow-[0_4px_32px_rgba(0,0,0,0.1)]" />
-                  <div className="relative bg-white/5 rounded-2xl p-4 border border-white/10 shadow-[0_4px_32px_rgba(0,0,0,0.1)]">
-                    <div className="grid grid-cols-5 gap-3">
+                  <div className="absolute inset-0 bg-black/5 rounded-2xl backdrop-blur-md shadow-[0_6px_18px_rgba(0,0,0,0.12)]" />
+                  <div className="relative bg-black/5 rounded-2xl p-4 border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.15)]">
+                    <div className="grid grid-cols-5 gap-3 justify-items-center">
                       {THEMES.map((theme) => (
                         <button
                           key={theme.id}
                           onClick={() => setProfileData({ ...profileData, theme: theme.id })}
-                          className={`relative group w-12 h-12 rounded-full overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-xl ${
+                          className={`relative group w-14 h-14 rounded-full overflow-hidden transition-all duration-300 transform hover:scale-110 ${
                             profileData.theme === theme.id 
-                              ? 'ring-2 ring-white/50 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-                              : 'shadow-[0_4px_12px_rgba(0,0,0,0.15)]'
+                              ? 'ring-2 ring-white shadow-[0_0_20px_rgba(255,255,255,0.4)]' 
+                              : 'shadow-[0_6px_16px_rgba(0,0,0,0.2)]'
                           }`}
+                          aria-label={`Select ${theme.name} theme`}
                         >
-                          <div className={`absolute inset-0 ${theme.bgGradient} shadow-inner`} />
-                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50" />
+                          {/* Metallic card background */}
+                          <div className={`absolute inset-0 ${theme.bgGradient}`} />
+                          
+                          {/* Metallic effects */}
+                          <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent opacity-70" />
+                          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.3),transparent_40%,rgba(0,0,0,0.1))]" />
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.5),transparent_70%)]" />
+                          
+                          {/* Selection indicator */}
+                          {profileData.theme === theme.id && (
+                            <div className="absolute inset-0 flex items-center justify-center z-10">
+                              <div className="bg-white/30 backdrop-blur-sm rounded-full p-1.5 shadow-lg">
+                                <Check className="w-3 h-3 text-white drop-shadow-md" />
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Hover effect */}
                           <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors duration-300">
-                            <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg">
+                            <span className={`${theme.textColor} text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg text-center px-1`}>
                               {theme.name.split(' ')[0]}
                             </span>
                           </div>
@@ -649,11 +628,7 @@ export default function ProfileBuilder() {
 
               {/* Footer */}
               <div className="mt-6 sm:mt-8 text-center">
-                <div className={`text-sm font-bold font-space-grotesk ${
-                  currentTheme.id === 'black-metal' || currentTheme.id === 'space-grey' || currentTheme.id === 'lavender-metal'
-                    ? 'text-white'
-                    : 'text-[#3a2d1b]'
-                }`}>
+                <div className={`text-sm font-bold font-space-grotesk ${currentTheme.textColor}`}>
                   Made with <span className="text-[#00E396]">#Tradr</span>
                 </div>
               </div>
