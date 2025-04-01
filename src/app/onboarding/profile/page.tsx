@@ -301,7 +301,7 @@ export default function ProfileBuilder() {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`tradr.co/${profileData.username}`);
+    navigator.clipboard.writeText(`www.tradr.co/${profileData.username}`);
     setShowCopied(true);
     setTimeout(() => setShowCopied(false), 2000);
   };
@@ -438,17 +438,17 @@ export default function ProfileBuilder() {
       </div>
       
       {/* Centered title and subtitle with improved hierarchy */}
-      <div className="px-5 py-5 text-center">
-        <h1 className="text-5xl font-black text-white tracking-tight mb-1">
+      <div className="px-5 py-3 text-center">
+        <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-1">
           Create your Tradr
         </h1>
-        <p className="text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600 mb-3">
+        <p className="text-xl md:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600 mb-2">
           Make it beautiful ✨
         </p>
       </div>
 
       {/* Main content container */}
-      <div className="px-4 py-3">
+      <div className="px-4 py-2">
         {/* Profile Card Container - Styling the container but not touching the card itself */}
         <div className="rounded-2xl overflow-hidden border border-[#242424] bg-[#1A1A1A] p-6 mt-2 shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
           {/* The profile card */}
@@ -676,7 +676,7 @@ export default function ProfileBuilder() {
                   {/* Profile URL display with copy */}
                   <div className="flex items-center justify-center p-2 px-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.15)] cursor-pointer group hover:bg-white/15 transition-all" onClick={handleCopyLink}>
                     <LinkIcon className={`w-3.5 h-3.5 ${currentTheme.textColor} mr-2`} />
-                    <span className={`text-sm ${currentTheme.textColor} font-bold`}>tradr.co/{profileData.username || "username"}</span>
+                    <span className={`text-sm ${currentTheme.textColor} font-bold`}>www.tradr.co/{profileData.username || "username"}</span>
                     <div className="ml-auto relative">
                       <Copy className={`w-3.5 h-3.5 ${currentTheme.textColor}/70 group-hover:${currentTheme.textColor}`} />
                       <div className="absolute right-0 -top-8 transform translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
@@ -702,7 +702,7 @@ export default function ProfileBuilder() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
               <LinkIcon className="w-4 h-4 text-gray-400 mr-2" />
-              <span className="text-sm text-gray-300 font-medium">tradr.co/{profileData.username || "username"}</span>
+              <span className="text-sm text-gray-300 font-medium">www.tradr.co/{profileData.username || "username"}</span>
             </div>
             <button 
               onClick={handleCopyLink}
