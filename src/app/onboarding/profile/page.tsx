@@ -578,13 +578,6 @@ export default function ProfileBuilder() {
                         placeholder="#addhashtag"
                       />
                     )}
-                    {profileData.tags.length === 0 && !newTag && (
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <div className="bg-white/20 rounded-full p-2 backdrop-blur-md shadow-sm">
-                          <Plus className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                    )}
                   </div>
                   
                   {/* Stats - with tooltips - improved typography */}
