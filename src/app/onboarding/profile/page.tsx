@@ -381,80 +381,32 @@ export default function ProfileBuilder() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#121212] ${spaceGrotesk.variable} font-space-grotesk`}>
-      {/* Status bar - mobile style */}
-      <div className="sticky top-0 z-50 bg-[#121212] px-5 py-3 flex items-center justify-between">
-        <div className="flex items-center text-gray-300 text-sm font-medium">
-          9:41
-        </div>
-        <div className="flex items-center space-x-1.5">
-          <div className="text-gray-300">
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M16.5 0.666656H1.5C0.671574 0.666656 0 1.33823 0 2.16666V11.8333C0 12.6618 0.671574 13.3333 1.5 13.3333H16.5C17.3284 13.3333 18 12.6618 18 11.8333V2.16666C18 1.33823 17.3284 0.666656 16.5 0.666656ZM1.5 11.8333V2.16666H16.5V11.8333H1.5Z" fill="currentColor"/>
-            </svg>
-          </div>
-          <div className="text-gray-300">
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.24999 4.66666C3.21694 4.66666 3.99999 3.88361 3.99999 2.91666C3.99999 1.94971 3.21694 1.16666 2.24999 1.16666C1.28304 1.16666 0.5 1.94971 0.5 2.91666C0.5 3.88361 1.28304 4.66666 2.24999 4.66666Z" fill="currentColor"/>
-              <path d="M5.5 2.91669H17.5V2.91669C17.5 2.45646 17.1269 2.08335 16.6667 2.08335H6.33333C5.8731 2.08335 5.5 2.45646 5.5 2.91669V2.91669Z" fill="currentColor"/>
-              <path d="M5.5 7.00002H17.5V7.00002C17.5 6.53979 17.1269 6.16669 16.6667 6.16669H6.33333C5.8731 6.16669 5.5 6.53979 5.5 7.00002V7.00002Z" fill="currentColor"/>
-              <path d="M5.5 11.0833H17.5V11.0833C17.5 10.6231 17.1269 10.25 16.6667 10.25H6.33333C5.8731 10.25 5.5 10.6231 5.5 11.0833V11.0833Z" fill="currentColor"/>
-              <path d="M2.24999 12.8333C3.21694 12.8333 3.99999 12.0503 3.99999 11.0833C3.99999 10.1164 3.21694 9.33335 2.24999 9.33335C1.28304 9.33335 0.5 10.1164 0.5 11.0833C0.5 12.0503 1.28304 12.8333 2.24999 12.8333Z" fill="currentColor"/>
-              <path d="M2.24999 8.75C3.21694 8.75 3.99999 7.96695 3.99999 7C3.99999 6.03305 3.21694 5.25 2.24999 5.25C1.28304 5.25 0.5 6.03305 0.5 7C0.5 7.96695 1.28304 8.75 2.24999 8.75Z" fill="currentColor"/>
-            </svg>
-          </div>
-          <div className="text-gray-300">
-            <svg width="18" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17 6H7c-3.3 0-6 2.7-6 6s2.7 6 6 6h10c3.3 0 6-2.7 6-6s-2.7-6-6-6z" stroke="currentColor" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
-              <path d="M17 6c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="currentColor"></path>
-            </svg>
-          </div>
-          
-          {/* Live Preview Button */}
-          <div className="group relative ml-2">
-            <button 
-              onClick={() => setIsPreviewOpen(true)}
-              className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-300 border border-gray-700 bg-[#181818] hover:bg-[#242424] hover:border-gray-600 transition-all duration-200"
-            >
-              Live preview
-            </button>
-            <div className="absolute right-0 -bottom-8 transform translate-y-2 bg-black/90 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-              See how your card looks in public
-            </div>
-          </div>
-        </div>
+    <div className={`min-h-screen bg-black ${spaceGrotesk.variable} font-space-grotesk`}>
+      {/* Simple header - matching reference */}
+      <div className="bg-black p-3 border-b border-neutral-800 flex items-center">
+        <div className="text-gray-400 text-xs">9:41 AM</div>
       </div>
       
-      {/* Navigation with back button and dots */}
-      <div className="bg-[#121212] px-5 py-4 flex items-center justify-between">
-        <Link href="/onboarding" className="text-gray-300 hover:text-white">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div className="flex space-x-1.5">
-          <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-          <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-          <div className="w-2 h-2 rounded-full bg-[#242424]"></div>
+      <div className="bg-black">
+        {/* Simple navigation */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
+          <Link href="/onboarding" className="text-white">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <button 
+            onClick={() => setIsPreviewOpen(true)}
+            className="text-xs text-gray-400 flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-md"
+          >
+            <Search className="w-3 h-3" />
+            Live preview
+          </button>
         </div>
-      </div>
-      
-      {/* Centered title and subtitle with improved hierarchy */}
-      <div className="px-5 py-3 text-center">
-        <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-1">
-          Create your Tradr
-        </h1>
-        <p className="text-xl md:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-600 mb-2">
-          Make it beautiful ✨
-        </p>
-      </div>
-
-      {/* Main content container */}
-      <div className="px-4 py-2">
-        {/* Profile Card Container - Styling the container but not touching the card itself */}
-        <div className="rounded-2xl overflow-hidden border border-[#242424] bg-[#1A1A1A] p-6 mt-2 shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
-          {/* The profile card */}
-          <div className="relative">            
-            <div className="rounded-2xl overflow-hidden max-w-sm mx-auto">
-              {/* Card background - enhanced metallic effects */}
+        
+        {/* Main content - simplified */}
+        <div className="p-5">
+          {/* Keep the profile card exactly as is */}
+          <div className="max-w-sm mx-auto mb-5">
+            <div className="rounded-2xl overflow-hidden">
               <div className={`relative w-full ${currentTheme.bgGradient} p-5 sm:p-6`}>
                 {/* Enhanced metallic effects */}
                 <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent opacity-90" />
@@ -709,97 +661,44 @@ export default function ProfileBuilder() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Sharing Box - improved design with monospace URL and better icons */}
-        <div className="mt-6 rounded-xl bg-gradient-to-b from-[#1E1E1E] to-[#151515] p-5 border border-[#2A2A2A] shadow-lg">
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between mb-5">
-              <div className="text-white text-sm font-medium">Share your profile</div>
+          
+          {/* Simplified sharing section */}
+          <div className="flex items-center justify-between bg-neutral-900 border border-neutral-800 rounded-md px-3 py-3 mb-5">
+            <div className="flex items-center gap-2">
+              <LinkIcon className="w-4 h-4 text-neutral-500" />
+              <span className="text-neutral-400 text-sm font-medium">tradr.co/{profileData.username || "username"}</span>
             </div>
-            
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex-1 flex items-center bg-[#242424]/90 backdrop-blur-sm rounded-full py-2.5 px-4 border border-[#333333] group pr-1">
-                <LinkIcon className="w-4 h-4 text-gray-400 mr-2.5" />
-                <span className="text-sm text-gray-300 font-medium font-mono tracking-tight">www.tradr.co/{profileData.username || "username"}</span>
-                <button 
-                  onClick={handleCopyLink}
-                  className="ml-auto bg-[#333333]/80 hover:bg-[#444444] px-3 py-1.5 rounded-full text-xs text-gray-300 font-medium flex items-center gap-1.5 transition-all duration-200 active:scale-95"
-                >
-                  <Copy className="w-3.5 h-3.5 transition-transform duration-200" />
-                  <span>Copy</span>
-                  {showCopied && (
-                    <div className="absolute right-6 transform translate-y-1/4 bg-green-600/90 text-white text-xs rounded-full px-2 py-0.5">
-                      Copied!
-                    </div>
-                  )}
-                </button>
-              </div>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              {/* Social Icons - improved with tooltip labels */}
-              <button className="w-12 h-12 rounded-full flex items-center justify-center bg-[#242424]/90 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-[#2a2a2a] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-200 relative group">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Facebook</span>
-              </button>
-              
-              <button className="w-12 h-12 rounded-full flex items-center justify-center bg-[#242424]/90 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-[#2a2a2a] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-200 relative group">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Email</span>
-              </button>
-              
-              <button className="w-12 h-12 rounded-full flex items-center justify-center bg-[#242424]/90 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-[#2a2a2a] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-200 relative group">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22.5401 6.42C21.8868 6.70496 21.1939 6.89141 20.4802 6.97C21.2249 6.53105 21.7866 5.83376 22.0541 5.02C21.3574 5.42788 20.5989 5.71661 19.8082 5.87C19.2635 5.29385 18.5546 4.90393 17.7799 4.75943C17.0052 4.61494 16.2051 4.72263 15.4929 5.06592C14.7807 5.40921 14.1938 5.96932 13.8252 6.67213C13.4565 7.37493 13.3258 8.18372 13.4502 8.97C11.9385 8.89958 10.4599 8.53255 9.10322 7.8942C7.74652 7.25584 6.53321 6.36197 5.5401 5.26C5.22773 5.80867 5.06695 6.42825 5.06999 7.06C5.06999 8.29 5.7001 9.38 6.6401 10.02C6.07345 10.0034 5.51949 9.84825 5.0301 9.57V9.62C5.0309 10.4281 5.31046 11.2133 5.82707 11.8442C6.34368 12.4751 7.06708 12.9165 7.8701 13.1C7.34522 13.242 6.79729 13.264 6.2601 13.164C6.47807 13.8587 6.91719 14.4722 7.51276 14.9158C8.10834 15.3595 8.82739 15.6119 9.5701 15.634C8.32772 16.6147 6.80276 17.1443 5.2301 17.142C4.94414 17.1426 4.65836 17.1247 4.3751 17.088C5.9726 18.1311 7.82801 18.6802 9.7251 18.678C13.8651 18.678 16.1401 15.274 16.1401 12.292C16.1401 12.13 16.1361 11.968 16.1291 11.81C16.8283 11.3164 17.4404 10.7053 17.9351 10.002C17.1756 10.3383 16.3729 10.5591 15.5501 10.656C16.4045 10.1213 17.0395 9.29897 17.3401 8.346L22.5401 6.42Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Twitter</span>
-              </button>
-              
-              <button className="w-12 h-12 rounded-full flex items-center justify-center bg-[#242424]/90 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-[#2a2a2a] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-200 relative group">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M16 8V13C16 13.9319 16.3688 14.8252 17.0251 15.4815C17.6813 16.1377 18.5745 16.5065 19.5064 16.5065C20.4383 16.5065 21.3315 16.1377 21.9877 15.4815C22.644 14.8252 23.0128 13.9319 23.0128 13V12C23.0064 9.82833 22.2365 7.7242 20.8123 6.1307C19.3881 4.5372 17.4298 3.56036 15.2695 3.39168C13.1092 3.22301 10.9751 3.87612 9.2597 5.20883C7.5443 6.54153 6.38218 8.4489 6.00326 10.5791C5.62435 12.7093 6.05206 14.8996 7.1994 16.7293C8.34673 18.559 10.1251 19.8946 12.2078 20.4664C14.2905 21.0383 16.5347 20.8048 18.456 19.8126C20.3772 18.8204 21.8476 17.1348 22.56 15.09" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Instagram</span>
-              </button>
-              
-              <button className="w-12 h-12 rounded-full flex items-center justify-center bg-[#242424]/90 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-[#2a2a2a] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-200 relative group">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20.5 3.5L3.5 10.5L9.5 13.5M20.5 3.5L17.5 20.5L9.5 13.5M20.5 3.5L9.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M9.5 13.5V18.5L12.5 15.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Telegram</span>
-              </button>
-            </div>
+            <button 
+              onClick={handleCopyLink}
+              className="text-neutral-500 hover:text-neutral-300 transition-colors"
+            >
+              <Copy className="w-4 h-4" />
+              {showCopied && (
+                <div className="absolute transform translate-y-2 bg-green-600/90 text-white text-xs rounded-full px-2 py-0.5">
+                  Copied
+                </div>
+              )}
+            </button>
           </div>
-        </div>
-
-        {/* Continue button - yellow to match design */}
-        <div className="mt-6 mb-6">
+          
+          {/* Continue button - simplified */}
           <button
-            className="w-full bg-[#FCFF52] text-black py-3.5 rounded-full font-bold text-lg shadow-lg hover:bg-[#EAED4E] transition-colors relative overflow-hidden group"
+            className="w-full bg-neutral-100 text-black py-3 rounded-md font-medium"
             onClick={handleContinue}
           >
-            <span className="relative z-10">Looks good!</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FCFF52]/0 via-white/20 to-[#FCFF52]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+            Continue
           </button>
         </div>
-
-        {/* For avatar upload */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          accept="image/*"
-          className="hidden"
-        />
       </div>
+
+      {/* For avatar upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        className="hidden"
+      />
     </div>
   );
 }
