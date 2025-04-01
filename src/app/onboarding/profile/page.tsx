@@ -479,15 +479,18 @@ export default function ProfileBuilder() {
                           <div className="flex items-center">
                             <span className={`text-[20px] ${currentTheme.textColor}/70 font-bold`}>@</span>
                             <span className="pl-1 font-bold">{profileData.username || "username"}</span>
+                            {profileData.username.length > 2 && usernameAvailable && (
+                              <div className="relative inline-flex ml-1">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-full animate-pulse-slow opacity-70"></div>
+                                <div className="relative bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-full p-0.5">
+                                  <Check className="w-3 h-3 text-white" />
+                                </div>
+                              </div>
+                            )}
                           </div>
-                          {profileData.username.length > 2 && (
+                          {profileData.username.length > 2 && !usernameAvailable && (
                             <div className="flex items-center gap-2">
-                              {usernameAvailable ? 
-                                <div className="animate-pulse-subtle">
-                                  <Check className="w-5 h-5 text-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
-                                </div> : 
-                                <X className="w-5 h-5 text-red-500" />
-                              }
+                              <X className="w-5 h-5 text-red-500" />
                             </div>
                           )}
                           <div className="absolute right-4 opacity-0 group-hover:opacity-70 transition-opacity group-hover/edit:opacity-100">
