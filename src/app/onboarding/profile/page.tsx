@@ -236,6 +236,10 @@ export default function ProfileBuilder() {
   const [hintIndex, setHintIndex] = useState(0);
   const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [firstBioSave, setFirstBioSave] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
+  const [showLevelUpToast, setShowLevelUpToast] = useState(false);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -447,11 +451,11 @@ export default function ProfileBuilder() {
   // Add a bio character limit
   const bioCharLimit = 120;
 
-  // Bio hints that rotate
+  // Bio hints that rotate - update with requested hints
   const bioHints = [
     "describe your style in a sentence.",
-    "make it sound like your twitter bio.",
-    "what's your trading alter ego?"
+    "keep it short, catchy, and bold.",
+    "think of it like your IG bio."
   ];
 
   // Rotate hints for bio
@@ -486,11 +490,26 @@ export default function ProfileBuilder() {
     setUsernameSuggestions(suggestions);
   };
 
-  // Update the save field handler to include animations
+  // Enhance save field handler with additional animations
   const handleSaveField = () => {
     setIsUpdating(true);
     setJustSaved(activeEditDrawer);
     setShowSavedAnimation(true);
+    
+    // Check for first bio save
+    if (activeEditDrawer === 'bio' && firstBioSave && profileData.bio.trim().length > 0) {
+      setFirstBioSave(false);
+      setShowLevelUpToast(true);
+      setTimeout(() => setShowLevelUpToast(false), 3000);
+      
+      // Trigger confetti for first bio save
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#A259FF', '#6B4EFF', '#241654']
+      });
+    }
     
     // Play sound if enabled
     if (soundEnabled) {
@@ -509,12 +528,41 @@ export default function ProfileBuilder() {
     }, 3000);
   };
 
+  // Add typing detection for bio animation
+  const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length <= bioCharLimit) {
+      setProfileData({...profileData, bio: e.target.value});
+      
+      // Set typing state to true
+      setIsTyping(true);
+      
+      // Clear previous timeout
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      
+      // Set timeout to turn off typing state after 1 second of inactivity
+      typingTimeoutRef.current = setTimeout(() => {
+        setIsTyping(false);
+      }, 1000);
+    }
+  };
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Update tags with animation
   const handleTagAddWithAnimation = () => {
     if (newTag && profileData.tags.length < 3) {
       const formattedTag = newTag.toLowerCase();
       setProfileData(prev => ({
-        ...profileData,
+        ...prev,
         tags: [...prev.tags, formattedTag]
       }));
       setNewTag('');
@@ -607,7 +655,7 @@ export default function ProfileBuilder() {
           <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
             <div className={`${currentTheme.textColor} font-medium`}>
               {profileData.bio || "Write your bio"}
-                      </div>
+                </div>
             <button 
               className={`absolute right-2 top-2 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
                          ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
@@ -615,7 +663,7 @@ export default function ProfileBuilder() {
             >
               <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
             </button>
-                  </div>
+              </div>
           
           {/* Tags - Add subtle outline */}
           <div className="flex flex-wrap gap-2 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
@@ -628,7 +676,7 @@ export default function ProfileBuilder() {
                 >
                   <X className="w-3 h-3" />
                 </button>
-              </div>
+                </div>
             ))}
             {profileData.tags.length < 3 && (
               <button 
@@ -666,9 +714,9 @@ export default function ProfileBuilder() {
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
+              </div>
             </div>
-          </div>
-          
+
           {/* Powered by text */}
           <div className={`text-center mt-3 text-xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
             powered by tradr
@@ -703,7 +751,25 @@ export default function ProfileBuilder() {
               </div>
             </div>
 
-      {/* Sliding Bottom Drawer - Updated with gamification elements */}
+      {/* Add Level Up Toast notification */}
+      <AnimatePresence>
+        {showLevelUpToast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 bg-purple-900/90 text-white px-4 py-3 rounded-lg shadow-lg backdrop-blur-sm text-sm font-medium flex items-center gap-2"
+          >
+            <span className="text-yellow-300 text-lg">✨</span>
+            <div>
+              <span className="font-bold">Level 1 Badge Unlocked!</span>
+              <div className="text-xs text-purple-200">Your bio is ready to shine</div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Sliding Bottom Drawer - Enhanced with improved visuals */}
       <AnimatePresence>
         {activeEditDrawer && (
           <>
@@ -731,12 +797,13 @@ export default function ProfileBuilder() {
               <div className="p-6">
                 {activeEditDrawer === 'username' && (
                   <div className="space-y-4">
-                    <div>
+                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">claim your handle</h3>
-                      <p className="text-sm text-gray-400">your profile link will be tradr.co/<span className="text-purple-400">{profileData.username || 'username'}</span></p>
+                      <p className="text-[#C5C5C5] text-sm mt-1">your profile link will be tradr.co/<span className="text-purple-400">{profileData.username || 'username'}</span></p>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                     </div>
                     
-                    <div className="relative">
+                    <div className="relative group">
                       <div className="flex">
                         <div className="bg-gray-800 px-3 flex items-center border-r border-gray-700 rounded-l-md">
                           <span className="text-gray-400">@</span>
@@ -749,7 +816,7 @@ export default function ProfileBuilder() {
                           }}
                           onFocus={() => setUsernameInputFocused(true)}
                           onBlur={() => setUsernameInputFocused(false)}
-                          className={`bg-gray-800 text-gray-200 rounded-r-md py-3 px-3 w-full border border-gray-700 focus:outline-none transition-all duration-300 ${
+                          className={`bg-gray-800 text-gray-200 rounded-r-md py-4 px-4 w-full border border-gray-700 focus:outline-none transition-all duration-300 ${
                             usernameInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
                           }`}
                           placeholder="username"
@@ -757,7 +824,7 @@ export default function ProfileBuilder() {
                         />
                       </div>
                       
-                      <div className="mt-2 flex justify-between items-center">
+                      <div className="mt-3 flex justify-between items-center">
                         <div>
                           {usernameStatus === 'checking' && (
                             <div className="text-yellow-400 text-xs flex items-center">
@@ -780,21 +847,21 @@ export default function ProfileBuilder() {
                         </div>
                         <button
                           onClick={handleSuggestUsername}
-                          className="text-xs flex items-center gap-1 bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded transition"
+                          className="text-xs flex items-center gap-1 bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded transition-all"
                         >
                           <span role="img" aria-label="lightbulb">💡</span> suggest
                         </button>
                       </div>
 
                       {usernameSuggestions.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-2">
+                        <div className="mt-3 flex flex-wrap gap-2 bg-gray-800/40 p-3 rounded-md">
                           {usernameSuggestions.map((suggestion, index) => (
                             <button
                               key={index}
                               onClick={() => {
                                 setProfileData({...profileData, username: suggestion});
                               }}
-                              className="text-xs bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded transition text-purple-300"
+                              className="text-xs bg-purple-900/50 hover:bg-purple-800/70 px-3 py-1.5 rounded transition-all text-purple-300"
                             >
                               @{suggestion}
                             </button>
@@ -806,137 +873,214 @@ export default function ProfileBuilder() {
                     <motion.button
                       onClick={handleSaveField}
                       disabled={usernameStatus === 'unavailable' || profileData.username.length < 3}
-                      className={`w-full font-medium py-3 px-4 rounded-md transition shadow-lg ${
+                      className={`w-full font-medium py-3 px-4 rounded-md transition-all shadow-lg overflow-hidden relative ${
                         usernameStatus === 'unavailable' || profileData.username.length < 3
                           ? 'bg-gray-600 cursor-not-allowed'
-                          : 'bg-purple-600 hover:bg-purple-700 text-white'
+                          : 'bg-purple-600 hover:bg-purple-500'
                       }`}
                       whileTap={{ scale: 0.98 }}
+                      whileHover={
+                        usernameStatus !== 'unavailable' && profileData.username.length >= 3
+                          ? { boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)" }
+                          : {}
+                      }
                     >
-                      {showSavedAnimation ? (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center justify-center"
-                        >
-                          <Check className="w-5 h-5 mr-2" />
-                          <span>saved!</span>
-                        </motion.div>
-                      ) : (
-                        'save changes'
+                      {usernameStatus !== 'unavailable' && profileData.username.length >= 3 && (
+                        <motion.div 
+                          className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: "0%" }}
+                          transition={{ duration: 0.4 }}
+                        />
                       )}
+                      
+                      <span className="relative z-10">
+                        {showSavedAnimation ? (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="flex items-center justify-center"
+                          >
+                            <Check className="w-5 h-5 mr-2" />
+                            <span>saved!</span>
+                          </motion.div>
+                        ) : (
+                          'save changes'
+                        )}
+                      </span>
                     </motion.button>
 
-                    <div className="flex justify-end items-center">
-                      <button 
-                        onClick={() => setSoundEnabled(!soundEnabled)}
-                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
-                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
-                        }`}
-                      >
-                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
-                      </button>
+                    <div className="flex justify-end items-center mt-2">
+                      <div className="group relative">
+                        <button 
+                          onClick={() => setSoundEnabled(!soundEnabled)}
+                          className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
+                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                          }`}
+                        >
+                          {soundEnabled ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <line x1="23" y1="9" x2="17" y2="15" />
+                              <line x1="17" y1="9" x2="23" y2="15" />
+                            </svg>
+                          )}
+                          <span>sound</span>
+                        </button>
+                        <div className="absolute bottom-full right-0 mb-2 w-40 text-center opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded p-2 pointer-events-none">
+                          click sounds: {soundEnabled ? 'on' : 'off'}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'bio' && (
                   <div className="space-y-4">
-                    <div>
+                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">craft your trader bio</h3>
-                      <p className="text-sm text-gray-400">keep it sharp — this is your badge.</p>
+                      <p className="text-[#C5C5C5] text-sm mt-1">keep it sharp — this is your badge.</p>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                     </div>
 
-                    <div className="relative">
+                    <div className="relative group">
                       <textarea
                         value={profileData.bio}
-                        onChange={(e) => {
-                          if (e.target.value.length <= bioCharLimit) {
-                            setProfileData({...profileData, bio: e.target.value});
-                          }
-                        }}
+                        onChange={handleBioChange}
                         onFocus={() => setBioInputFocused(true)}
                         onBlur={() => setBioInputFocused(false)}
-                        className={`bg-gray-800 text-gray-200 rounded-md py-3 px-3 w-full h-28 border border-gray-700 focus:outline-none resize-none transition-all duration-300 ${
+                        className={`bg-gray-800 text-gray-200 rounded-md py-4 px-4 w-full h-32 border border-gray-700 focus:outline-none resize-none transition-all duration-300 ${
                           bioInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
                         }`}
                         placeholder="write your bio"
                         autoFocus
                       />
-                      <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                      
+                      {/* Typing animation border */}
+                      {isTyping && (
+                        <motion.div 
+                          className="absolute bottom-0 left-0 h-[2px] bg-purple-500"
+                          initial={{ width: "0%" }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: 1.2 }}
+                        />
+                      )}
+                      
+                      <div className="absolute bottom-3 right-3 text-xs text-gray-400 bg-gray-800/80 px-2 py-1 rounded">
                         {profileData.bio.length}/{bioCharLimit}
                       </div>
                     </div>
 
                     <motion.div
                       key={hintIndex}
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
+                      exit={{ opacity: 0, y: -5 }}
                       transition={{ duration: 0.5 }}
-                      className="text-sm text-purple-400/70 italic"
+                      className="text-sm text-[#999] bg-gray-800/30 p-3 rounded-md border border-gray-700/50 italic"
                     >
                       {bioHints[hintIndex]}
                     </motion.div>
 
                     <motion.button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden group"
                       whileTap={{ scale: 0.98 }}
+                      whileHover={{
+                        boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)",
+                      }}
                     >
-                      {showSavedAnimation ? (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center justify-center"
-                        >
-                          <Check className="w-5 h-5 mr-2" />
-                          <span>saved!</span>
-                        </motion.div>
-                      ) : (
-                        'save changes'
-                      )}
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "0%" }}
+                        transition={{ duration: 0.4 }}
+                      />
+                      
+                      <span className="relative z-10">
+                        {showSavedAnimation ? (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="flex items-center justify-center"
+                          >
+                            <Check className="w-5 h-5 mr-2" />
+                            <span>saved!</span>
+                          </motion.div>
+                        ) : (
+                          'save changes'
+                        )}
+                      </span>
                     </motion.button>
 
-                    <div className="flex justify-end items-center">
-                      <button 
-                        onClick={() => setSoundEnabled(!soundEnabled)}
-                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
-                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
-                        }`}
-                      >
-                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
-                      </button>
+                    <div className="flex justify-end items-center mt-2">
+                      <div className="group relative">
+                        <button 
+                          onClick={() => setSoundEnabled(!soundEnabled)}
+                          className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
+                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                          }`}
+                        >
+                          {soundEnabled ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <line x1="23" y1="9" x2="17" y2="15" />
+                              <line x1="17" y1="9" x2="23" y2="15" />
+                            </svg>
+                          )}
+                          <span>sound</span>
+                        </button>
+                        <div className="absolute bottom-full right-0 mb-2 w-40 text-center opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded p-2 pointer-events-none">
+                          click sounds: {soundEnabled ? 'on' : 'off'}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'tags' && (
                   <div className="space-y-4">
-                    <div>
+                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">add your hashtags</h3>
-                      <p className="text-sm text-gray-400">choose up to 3 tags that match your style.</p>
+                      <p className="text-[#C5C5C5] text-sm mt-1">choose up to 3 tags that match your style.</p>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                     </div>
 
-                    <div className="flex justify-center mb-2">
+                    <div className="flex justify-center mb-4">
                       <div className="flex gap-2">
                         {[0, 1, 2].map((index) => (
                           <div 
                             key={index} 
-                            className={`w-8 h-8 rounded-md flex items-center justify-center ${
+                            className={`w-10 h-10 rounded-md flex items-center justify-center transition-all ${
                               index < profileData.tags.length 
-                                ? 'bg-purple-600' 
+                                ? 'bg-purple-600 scale-110' 
                                 : 'bg-gray-700/50'
                             }`}
                           >
-                            {index < profileData.tags.length && <Check className="w-4 h-4 text-white" />}
+                            {index < profileData.tags.length ? (
+                              <Check className="w-5 h-5 text-white" />
+                            ) : (
+                              <span className="text-gray-400">{index + 1}</span>
+                            )}
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="bg-gray-800 rounded-md border border-gray-700 p-3">
-                      <div className="flex flex-wrap gap-2 mb-2 min-h-[40px]">
+                    <div className="bg-gray-800 rounded-md border border-gray-700 p-4">
+                      <div className="flex flex-wrap gap-2 mb-3 min-h-[48px]">
                         <AnimatePresence>
                           {profileData.tags.map((tag, i) => (
                             <motion.div 
@@ -944,12 +1088,13 @@ export default function ProfileBuilder() {
                               initial={{ scale: 0.8, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               exit={{ scale: 0.8, opacity: 0 }}
-                              className="bg-gray-700 text-gray-300 px-2 py-1 rounded flex items-center space-x-1"
+                              className="bg-purple-900/30 text-purple-200 px-3 py-1.5 rounded-md flex items-center space-x-1 border border-purple-800/30"
+                              layout
                             >
-                              <span>{tag}</span>
+                              <span className="mr-1">#{tag}</span>
                               <button
                                 onClick={() => handleTagToggle(tag)}
-                                className="text-gray-400 hover:text-red-400 ml-1"
+                                className="text-purple-400 hover:text-red-400 ml-1 p-0.5 rounded-full hover:bg-gray-700/50"
                               >
                                 <X className="w-3 h-3" />
                               </button>
@@ -966,7 +1111,7 @@ export default function ProfileBuilder() {
                             onKeyDown={handleTagKeyDown}
                             onFocus={() => setTagInputFocused(true)}
                             onBlur={() => setTagInputFocused(false)}
-                            className={`bg-transparent text-gray-300 w-full border border-gray-700 rounded p-2 focus:outline-none transition-all duration-300 ${
+                            className={`bg-gray-800 text-gray-200 rounded-md py-3 px-4 w-full border border-gray-700 focus:outline-none transition-all duration-300 ${
                               tagInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
                             }`}
                             placeholder="type and press enter to add"
@@ -975,7 +1120,7 @@ export default function ProfileBuilder() {
                           <button
                             onClick={handleTagAddWithAnimation}
                             disabled={!newTag.trim()}
-                            className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-full transition-all ${
+                            className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 rounded-full transition-all ${
                               newTag.trim() ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-700 cursor-not-allowed'
                             }`}
                           >
@@ -984,103 +1129,178 @@ export default function ProfileBuilder() {
                         </div>
                       )}
                     </div>
-                    <div className="text-xs text-gray-400 mt-1 flex items-center">
+                    <div className="text-xs text-[#C5C5C5] mt-2 flex items-center justify-center bg-gray-800/40 py-2 px-3 rounded-md">
                       <span className="mr-1">press</span>
-                      <span className="bg-gray-800 px-1.5 py-0.5 rounded text-purple-300 font-mono">Enter</span>
+                      <span className="bg-purple-900/40 px-2 py-0.5 rounded text-purple-300 font-mono">Enter</span>
                       <span className="ml-1">to add a hashtag</span>
                     </div>
 
                     <motion.button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden"
                       whileTap={{ scale: 0.98 }}
+                      whileHover={{
+                        boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)",
+                      }}
                     >
-                      {showSavedAnimation ? (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center justify-center"
-                        >
-                          <Check className="w-5 h-5 mr-2" />
-                          <span>saved!</span>
-                        </motion.div>
-                      ) : (
-                        'save changes'
-                      )}
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "0%" }}
+                        transition={{ duration: 0.4 }}
+                      />
+                      
+                      <span className="relative z-10">
+                        {showSavedAnimation ? (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="flex items-center justify-center"
+                          >
+                            <Check className="w-5 h-5 mr-2" />
+                            <span>saved!</span>
+                          </motion.div>
+                        ) : (
+                          'save changes'
+                        )}
+                      </span>
                     </motion.button>
 
-                    <div className="flex justify-end items-center">
-                      <button 
-                        onClick={() => setSoundEnabled(!soundEnabled)}
-                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
-                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
-                        }`}
-                      >
-                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
-                      </button>
+                    <div className="flex justify-end items-center mt-2">
+                      <div className="group relative">
+                        <button 
+                          onClick={() => setSoundEnabled(!soundEnabled)}
+                          className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
+                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                          }`}
+                        >
+                          {soundEnabled ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <line x1="23" y1="9" x2="17" y2="15" />
+                              <line x1="17" y1="9" x2="23" y2="15" />
+                            </svg>
+                          )}
+                          <span>sound</span>
+                        </button>
+                        <div className="absolute bottom-full right-0 mb-2 w-40 text-center opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded p-2 pointer-events-none">
+                          click sounds: {soundEnabled ? 'on' : 'off'}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'theme' && (
                   <div className="space-y-4">
-                    <div>
+                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">choose your theme</h3>
-                      <p className="text-sm text-gray-400">pick a color that defines your style.</p>
+                      <p className="text-[#C5C5C5] text-sm mt-1">pick a color that defines your style.</p>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                     </div>
                     
-                    <div className="grid grid-cols-5 gap-3">
+                    <div className="grid grid-cols-5 gap-3 p-2">
                       {THEMES.map((theme) => (
-                        <button
+                        <motion.button
                           key={theme.id}
                           onClick={() => setProfileData({...profileData, theme: theme.id})}
-                          className={`relative w-14 h-14 rounded-full flex items-center justify-center ${theme.bgGradient} 
+                          className={`relative w-16 h-16 rounded-full flex items-center justify-center ${theme.bgGradient} 
                                      ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
+                          whileHover={{ 
+                            scale: 1.05,
+                            boxShadow: "0 0 10px rgba(145, 71, 255, 0.5)",
+                          }}
+                          whileTap={{ scale: 0.95 }}
                         >
                           {profileData.theme === theme.id && (
-                            <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
+                            <motion.div 
+                              className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5"
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                            >
                               <Check className="w-3 h-3" />
-                            </div>
+                            </motion.div>
                           )}
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                            {theme.id === 'black' && <Moon className={`w-5 h-5 text-white`} />}
-                            {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black`} />}
-                            {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white`} />}
-                            {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white`} />}
-                            {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black`} />}
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
+                            {theme.id === 'black' && <Moon className={`w-6 h-6 text-white`} />}
+                            {theme.id === 'gold' && <Gem className={`w-6 h-6 text-black`} />}
+                            {theme.id === 'lavender' && <FlowerIcon className={`w-6 h-6 text-white`} />}
+                            {theme.id === 'space-grey' && <CircleIcon className={`w-6 h-6 text-white`} />}
+                            {theme.id === 'rose-gold' && <HeartIcon className={`w-6 h-6 text-black`} />}
                           </div>
-                        </button>
+                        </motion.button>
                       ))}
+                    </div>
+
+                    <div className="text-xs text-[#C5C5C5] mt-2 flex items-center justify-center bg-gray-800/40 py-2 px-3 rounded-md">
+                      tap a theme to see it in your profile preview
                     </div>
 
                     <motion.button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden"
                       whileTap={{ scale: 0.98 }}
+                      whileHover={{
+                        boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)",
+                      }}
                     >
-                      {showSavedAnimation ? (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center justify-center"
-                        >
-                          <Check className="w-5 h-5 mr-2" />
-                          <span>saved!</span>
-                        </motion.div>
-                      ) : (
-                        'save changes'
-                      )}
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "0%" }}
+                        transition={{ duration: 0.4 }}
+                      />
+                      
+                      <span className="relative z-10">
+                        {showSavedAnimation ? (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="flex items-center justify-center"
+                          >
+                            <Check className="w-5 h-5 mr-2" />
+                            <span>saved!</span>
+                          </motion.div>
+                        ) : (
+                          'save changes'
+                        )}
+                      </span>
                     </motion.button>
 
-                    <div className="flex justify-end items-center">
-                      <button 
-                        onClick={() => setSoundEnabled(!soundEnabled)}
-                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
-                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
-                        }`}
-                      >
-                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
-                      </button>
+                    <div className="flex justify-end items-center mt-2">
+                      <div className="group relative">
+                        <button 
+                          onClick={() => setSoundEnabled(!soundEnabled)}
+                          className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
+                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                          }`}
+                        >
+                          {soundEnabled ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <line x1="23" y1="9" x2="17" y2="15" />
+                              <line x1="17" y1="9" x2="23" y2="15" />
+                            </svg>
+                          )}
+                          <span>sound</span>
+                        </button>
+                        <div className="absolute bottom-full right-0 mb-2 w-40 text-center opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded p-2 pointer-events-none">
+                          click sounds: {soundEnabled ? 'on' : 'off'}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
