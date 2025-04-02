@@ -391,8 +391,8 @@ export default function ProfileBuilder() {
         {/* Simple navigation */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
           <Link href="/onboarding" className="text-white">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
           <button 
             onClick={() => setIsPreviewOpen(true)}
             className="text-xs text-gray-400 flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-md"
@@ -400,8 +400,8 @@ export default function ProfileBuilder() {
             <Search className="w-3 h-3" />
             Live preview
           </button>
-        </div>
-        
+            </div>
+
         {/* Main content - simplified */}
         <div className="p-5">
           {/* Keep the profile card exactly as is */}
@@ -417,14 +417,14 @@ export default function ProfileBuilder() {
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/50" />
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-black/15" />
                 
-                {/* Content with improved spacing */}
-                <div className="relative z-10 space-y-5 font-space-grotesk">
+                {/* Content with improved spacing - tightened spacing between sections */}
+                <div className="relative z-10 space-y-4 font-space-grotesk">
                   {/* Username with Avatar - enhanced */}
                   <div className="relative">
-                    <div className="absolute -top-3 left-3 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-sm z-10">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Username</span>
+                    <div className="absolute -top-2 left-2 z-10">
+                      <span className="text-[10px] text-gray-400/50 font-medium tracking-wider lowercase font-light">username</span>
                     </div>
-                    <div className="flex items-center gap-3 p-3.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-all duration-200 hover:border-white/30 group">
+                    <div className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-[0_2px_12px_rgba(0,0,0,0.15)] transition-all duration-200 hover:border-white/30 group hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)]">
                       {/* Profile Picture - enhanced */}
                       <div
                         className="relative h-14 w-14 rounded-full overflow-hidden border border-white/50 cursor-pointer flex-shrink-0 group/avatar shadow-md"
@@ -454,7 +454,7 @@ export default function ProfileBuilder() {
                       
                       {/* Username with @ symbol and availability indicator - larger font */}
                       <div 
-                        className={`flex-1 text-left ${currentTheme.textColor} text-[20px] font-bold cursor-pointer rounded-xl transition-colors`}
+                        className={`flex-1 text-left ${currentTheme.textColor} text-[20px] font-bold cursor-pointer rounded-xl transition-colors group/username`}
                         onClick={() => setEditingField('username')}
                       >
                         {editingField === 'username' ? (
@@ -464,7 +464,7 @@ export default function ProfileBuilder() {
                               type="text"
                               value={profileData.username}
                               onChange={(e) => handleFieldEdit('username', e.target.value)}
-                              className={`w-full bg-transparent border-none focus:outline-none text-[20px] font-bold ${currentTheme.inputText} pl-1 caret-indigo-400`}
+                              className={`w-full bg-white/5 border-none focus:outline-none text-[20px] font-bold ${currentTheme.inputText} pl-1 caret-indigo-400 rounded-sm`}
                               placeholder="yourname"
                               onBlur={() => setEditingField(null)}
                               autoFocus
@@ -498,14 +498,17 @@ export default function ProfileBuilder() {
                               </div>
                             )}
                             <div className="absolute right-4 opacity-0 group-hover:opacity-70 transition-opacity group-hover/edit:opacity-100">
-                              <Pencil className="w-3.5 h-3.5 text-white/80" />
+                              <Pencil className="w-3.5 h-3.5 text-white/80 stroke-[1.5]" />
                             </div>
                           </div>
                         )}
                         {!profileData.username && !editingField && (
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                            <div className="bg-white/20 rounded-full p-2 backdrop-blur-md hover:bg-white/30 transition-all duration-200 shadow-sm">
-                              <Pencil className="w-4 h-4 text-white" />
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 group/edit-icon">
+                            <div className="bg-white/10 rounded-full p-1.5 backdrop-blur-md hover:bg-white/20 transition-all duration-200 shadow-sm">
+                              <Pencil className="w-3.5 h-3.5 text-white stroke-[1.5]" />
+                            </div>
+                            <div className="absolute right-0 -top-8 transform translate-x-1/2 bg-black/80 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover/edit-icon:opacity-100 transition-opacity whitespace-nowrap">
+                              Edit username
                             </div>
                           </div>
                         )}
@@ -515,11 +518,11 @@ export default function ProfileBuilder() {
                   
                   {/* Bio - improved typography and contrast */}
                   <div className="relative">
-                    <div className="absolute -top-3 left-3 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-sm z-10">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Bio</span>
+                    <div className="absolute -top-2 left-2 z-10">
+                      <span className="text-[10px] text-gray-400/50 font-medium tracking-wider lowercase font-light">bio</span>
                     </div>
                     <div 
-                      className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.25)] cursor-pointer group hover:border-white/30 transition-all duration-200 font-bold ${editingField === 'bio' ? 'ring-2 ring-indigo-400/50' : ''}`}
+                      className={`relative w-full text-center ${currentTheme.textColor} text-base bg-white/10 backdrop-blur-md p-3.5 rounded-xl border border-white/20 shadow-[0_2px_12px_rgba(0,0,0,0.15)] cursor-pointer group hover:border-white/30 transition-all duration-200 font-bold ${editingField === 'bio' ? 'ring-2 ring-indigo-400/50' : ''} hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)]`}
                       onClick={() => setEditingField('bio')}
                     >
                       {editingField === 'bio' ? (
@@ -527,7 +530,7 @@ export default function ProfileBuilder() {
                           type="text"
                           value={profileData.bio}
                           onChange={(e) => handleFieldEdit('bio', e.target.value)}
-                          className={`w-full text-center bg-transparent border-none focus:outline-none ${currentTheme.inputText} text-[16px] tracking-wide font-bold caret-indigo-400`}
+                          className={`w-full text-center bg-white/5 border-none focus:outline-none ${currentTheme.inputText} text-[16px] tracking-wide font-bold caret-indigo-400 rounded-sm`}
                           placeholder="Add a short trader bio..."
                           onBlur={() => setEditingField(null)}
                           autoFocus
@@ -543,12 +546,15 @@ export default function ProfileBuilder() {
                         </>
                       )}
                       <div className="absolute right-3 bottom-3 opacity-0 group-hover:opacity-70 transition-opacity duration-200">
-                        <Pencil className="w-3.5 h-3.5 text-white/80" />
+                        <Pencil className="w-3 h-3 text-white/80 stroke-[1.5]" />
                       </div>
                       {!profileData.bio && !editingField && (
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                          <div className="bg-white/20 rounded-full p-2 backdrop-blur-md hover:bg-white/30 transition-all duration-200 shadow-sm">
-                            <Pencil className="w-4 h-4 text-white" />
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 group/edit-icon">
+                          <div className="bg-white/10 rounded-full p-1.5 backdrop-blur-md hover:bg-white/20 transition-all duration-200 shadow-sm">
+                            <Pencil className="w-3.5 h-3.5 text-white stroke-[1.5]" />
+                          </div>
+                          <div className="absolute right-0 -top-8 transform translate-x-1/2 bg-black/80 text-white text-xs rounded-full px-2 py-0.5 opacity-0 group-hover/edit-icon:opacity-100 transition-opacity whitespace-nowrap">
+                            Edit bio
                           </div>
                         </div>
                       )}
@@ -557,21 +563,21 @@ export default function ProfileBuilder() {
                   
                   {/* Tags - improved typography and contrast */}
                   <div className="relative">
-                    <div className="absolute -top-3 left-3 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-sm z-10">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Hashtags</span>
+                    <div className="absolute -top-2 left-2 z-10">
+                      <span className="text-[10px] text-gray-400/50 font-medium tracking-wider lowercase font-light">hashtags</span>
                     </div>
-                    <div className={`flex flex-wrap justify-center gap-2 p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.25)] group ${showTagInput ? 'ring-2 ring-indigo-400/50' : ''}`}>
+                    <div className={`flex flex-wrap justify-center gap-2 p-3.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-[0_2px_12px_rgba(0,0,0,0.15)] group ${showTagInput ? 'ring-2 ring-indigo-400/50' : ''} hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:border-white/30 transition-all duration-200`}>
                       {profileData.tags.map((tag, index) => (
                         <div
                           key={index}
-                          className={`px-3.5 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-wide flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm`}
+                          className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-wide flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm`}
                         >
                           <span>{tag}</span>
                           <button
                             onClick={() => handleTagToggle(tag)}
                             className="opacity-50 hover:opacity-100 transition-opacity"
                           >
-                            <X className="w-3.5 h-3.5" />
+                            <X className="w-3 h-3" />
                           </button>
                         </div>
                       ))}
@@ -591,55 +597,64 @@ export default function ProfileBuilder() {
                               setNewTag('');
                             }
                           }}
-                          className={`px-3.5 py-1.5 rounded-lg bg-white/10 ${currentTheme.inputText} text-[16px] tracking-wide border border-dashed border-white/30 w-36 text-center hover:border-white/50 focus:border-white/50 transition-colors duration-200 font-bold shadow-sm caret-indigo-400`}
+                          className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-[16px] tracking-wide border border-dashed border-white/30 w-36 text-center hover:border-white/50 focus:border-white/50 transition-colors duration-200 font-bold shadow-sm caret-indigo-400`}
                           placeholder="#addhashtag"
                         />
                       )}
                     </div>
                   </div>
                   
-                  {/* Stats - with tooltips - improved typography */}
+                  {/* Stats - with tooltips - improved typography - stacked vertically */}
                   <div className="relative">
-                    <div className="absolute -top-3 left-3 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-sm z-10">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Stats</span>
+                    <div className="absolute -top-2 left-2 z-10">
+                      <span className="text-[10px] text-gray-400/50 font-medium tracking-wider lowercase font-light">stats</span>
                     </div>
-                    <div className="p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.25)]">
-                      <div className="flex items-center justify-between">
-                        <div className="text-center flex-1 group relative">
-                          <div className={`text-[20px] font-bold ${currentTheme.textColor}`}>
+                    <div className="p-3.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-[0_2px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:border-white/30 transition-all duration-200 space-y-2.5">
+                      {/* Gain Stat */}
+                      <div className="relative group p-2.5 bg-white/5 rounded-lg border border-white/10 transition-all duration-200 hover:bg-white/10">
+                        <div className="flex items-center justify-between">
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-tight font-bold`}>
+                            Gain
+                            <span className="ml-0.5 opacity-70"><Info className="w-2.5 h-2.5 inline" /></span>
+                          </div>
+                          <div className={`text-[18px] font-bold ${currentTheme.textColor}`}>
                             +0.0%
                           </div>
-                          <div className={`text-[14px] ${currentTheme.textColor} uppercase tracking-tight flex items-center justify-center font-bold mt-0.5`}>
-                            Gain
-                            <span className="ml-0.5 opacity-70"><Info className="w-3 h-3" /></span>
-                          </div>
-                          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                            Your overall portfolio performance
-                          </div>
                         </div>
-                        <div className="text-center flex-1 group relative">
-                          <div className={`text-[20px] font-bold ${currentTheme.textColor}`}>
+                        <div className="absolute -top-8 left-0 bg-black/90 text-white text-xs rounded px-2 py-1 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 whitespace-nowrap">
+                          Your overall portfolio performance
+                        </div>
+                      </div>
+                      
+                      {/* Win Rate Stat */}
+                      <div className="relative group p-2.5 bg-white/5 rounded-lg border border-white/10 transition-all duration-200 hover:bg-white/10">
+                        <div className="flex items-center justify-between">
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-tight font-bold`}>
+                            Win Rate
+                            <span className="ml-0.5 opacity-70"><Info className="w-2.5 h-2.5 inline" /></span>
+                          </div>
+                          <div className={`text-[18px] font-bold ${currentTheme.textColor}`}>
                             0%
                           </div>
-                          <div className={`text-[14px] ${currentTheme.textColor} uppercase tracking-tight flex items-center justify-center font-bold mt-0.5`}>
-                            Win Rate
-                            <span className="ml-0.5 opacity-70"><Info className="w-3 h-3" /></span>
-                          </div>
-                          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                            Percentage of winning trades
-                          </div>
                         </div>
-                        <div className="text-center flex-1 group relative">
-                          <div className={`text-[20px] font-bold ${currentTheme.textColor}`}>
+                        <div className="absolute -top-8 left-0 bg-black/90 text-white text-xs rounded px-2 py-1 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 whitespace-nowrap">
+                          Percentage of winning trades
+                        </div>
+                      </div>
+                      
+                      {/* Risk-Reward Stat */}
+                      <div className="relative group p-2.5 bg-white/5 rounded-lg border border-white/10 transition-all duration-200 hover:bg-white/10">
+                        <div className="flex items-center justify-between">
+                          <div className={`text-xs ${currentTheme.textColor} uppercase tracking-tight font-bold`}>
+                            Avg R:R
+                            <span className="ml-0.5 opacity-70"><Info className="w-2.5 h-2.5 inline" /></span>
+                          </div>
+                          <div className={`text-[18px] font-bold ${currentTheme.textColor}`}>
                             0.0
                           </div>
-                          <div className={`text-[14px] ${currentTheme.textColor} uppercase tracking-tight flex items-center justify-center font-bold mt-0.5`}>
-                            Avg R:R
-                            <span className="ml-0.5 opacity-70"><Info className="w-3 h-3" /></span>
-                          </div>
-                          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                            Average risk-to-reward ratio
-                          </div>
+                        </div>
+                        <div className="absolute -top-8 left-0 bg-black/90 text-white text-xs rounded px-2 py-1 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 whitespace-nowrap">
+                          Average risk-to-reward ratio
                         </div>
                       </div>
                     </div>
@@ -647,18 +662,18 @@ export default function ProfileBuilder() {
                   
                   {/* Theme Selection - interactive hover preview - improved spacing and interaction */}
                   <div className="relative">
-                    <div className="absolute -top-3 left-3 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-sm z-10">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Theme</span>
+                    <div className="absolute -top-2 left-2 z-10">
+                      <span className="text-[10px] text-gray-400/50 font-medium tracking-wider lowercase font-light">theme</span>
                     </div>
-                    <div className="flex justify-center gap-3 pt-5 pb-3">
+                    <div className="flex justify-center gap-3 pt-4 pb-2">
                       {THEMES.map((theme) => (
                         <button
                           key={theme.id}
                           onClick={() => setProfileData({ ...profileData, theme: theme.id })}
                           onMouseEnter={() => profileData.theme !== theme.id && setProfileData({ ...profileData, theme: theme.id })}
                           onMouseLeave={() => profileData.theme !== theme.id && setProfileData({ ...profileData, theme: currentTheme.id })}
-                          className={`relative w-12 h-12 rounded-full overflow-hidden transition-all duration-200 hover:scale-115 hover:shadow-lg ${
-                            profileData.theme === theme.id ? 'ring-2 ring-white/80 scale-110 shadow-md' : ''
+                          className={`relative w-11 h-11 rounded-full overflow-hidden transition-all duration-200 hover:scale-110 hover:shadow-[0_0_12px_rgba(255,255,255,0.3)] ${
+                            profileData.theme === theme.id ? 'ring-2 ring-white scale-115 shadow-[0_0_15px_rgba(255,255,255,0.4)] z-10' : ''
                           }`}
                         >
                           <div className={`absolute inset-0 ${theme.bgGradient}`} />
@@ -676,29 +691,31 @@ export default function ProfileBuilder() {
                   </div>
                   
                   {/* Footer - simplified and consistent with brand */}
-                  <div className="pt-2 text-center">
-                    <div className={`text-sm font-bold ${currentTheme.textColor}`}>
-                      Made with <span className="text-[#00E396]">#Tradr</span>
+                  <div className="pt-1 text-center">
+                    <div className={`text-xs font-medium ${currentTheme.textColor}/60`}>
+                      powered by tradr
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            {/* Add soft shadow to entire profile card */}
+            <div className="absolute inset-0 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)] -z-10"></div>
           </div>
           
-          {/* Simplified sharing section */}
-          <div className="flex items-center justify-between bg-neutral-900 border border-neutral-800 rounded-md px-3 py-3 mb-5">
+          {/* Simplified sharing section - pill-style container */}
+          <div className="flex items-center justify-between bg-neutral-900/50 border border-neutral-800/50 rounded-full px-4 py-2.5 mb-5 backdrop-blur-sm shadow-sm">
             <div className="flex items-center gap-2">
-              <LinkIcon className="w-4 h-4 text-neutral-500" />
+              <LinkIcon className="w-3.5 h-3.5 text-neutral-500" />
               <span className="text-neutral-400 text-sm font-medium">tradr.co/{profileData.username || "username"}</span>
             </div>
             <button 
               onClick={handleCopyLink}
-              className="text-neutral-500 hover:text-neutral-300 transition-colors"
+              className="text-neutral-500 hover:text-neutral-300 transition-colors p-1.5"
             >
-              <Copy className="w-4 h-4" />
+              <Copy className="w-3.5 h-3.5" />
               {showCopied && (
-                <div className="absolute transform translate-y-2 bg-green-600/90 text-white text-xs rounded-full px-2 py-0.5">
+                <div className="absolute transform -translate-y-8 bg-green-600/90 text-white text-xs rounded-full px-2 py-0.5">
                   Copied
                 </div>
               )}
