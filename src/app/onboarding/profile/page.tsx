@@ -328,7 +328,7 @@ export default function ProfileBuilder() {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`www.tradr.co/${profileData.username}`);
+    navigator.clipboard.writeText(`tradr.co/@${profileData.username}`);
     setShowCopied(true);
     setTimeout(() => setShowCopied(false), 2000);
   };
@@ -609,7 +609,7 @@ export default function ProfileBuilder() {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="container max-w-2xl mx-auto px-4 py-4">
+      <div className="container max-w-2xl mx-auto px-4 py-6">
         <div className="text-center mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Build your profile</h1>
           <p className="text-base md:text-lg text-gray-400">Make it beautiful.</p>
@@ -655,8 +655,16 @@ export default function ProfileBuilder() {
                 )}
               </div>
               <div className="text-xs text-gray-500 flex items-center mt-1">
-                <Trophy className="w-3 h-3 mr-1" />
-                <span>Level 1 Trader</span>
+                <span>tradr.co/@{profileData.username || "username"}</span>
+                <button 
+                  onClick={handleCopyLink}
+                  className="ml-1 text-gray-400 hover:text-white transition-colors"
+                >
+                  <Copy className="w-3 h-3" />
+                </button>
+                {showCopied && (
+                  <span className="ml-1 text-green-400 text-2xs">copied!</span>
+                )}
               </div>
               <button 
                 className={`absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full 
@@ -736,14 +744,9 @@ export default function ProfileBuilder() {
               <div className={`text-sm font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
-              </div>
             </div>
-
-          {/* Powered by text */}
-          <div className={`text-center text-xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
-            powered by tradr
-              </div>
-            </div>
+          </div>
+        </div>
 
         {/* Theme selector - adjusted size */}
         <div className="mt-5 mb-4">
@@ -772,11 +775,11 @@ export default function ProfileBuilder() {
           </div>
         </div>
         
-        {/* Buttons - adjusted spacing */}
-        <div className="mt-5 flex flex-col items-center gap-4">
+        {/* Buttons - side by side */}
+        <div className="mt-5 grid grid-cols-2 gap-4">
           <motion.button
             onClick={handleContinue}
-            className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
+            className="py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -785,7 +788,7 @@ export default function ProfileBuilder() {
           
           <motion.button
             onClick={handlePreviewShare}
-            className="w-full py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
+            className="py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -1401,8 +1404,9 @@ export default function ProfileBuilder() {
                           @{profileData.username || "username"}
                         </div>
                         <div className="flex items-center text-xs text-gray-400">
-                          <Trophy className="w-3 h-3 mr-1" />
-                          <span>Level {profileData.level} Trader</span>
+                          <span>tradr.co/@{profileData.username || "username"}</span>
+                          <Copy className="w-3 h-3 ml-1 cursor-pointer hover:text-white" onClick={handleCopyLink} />
+                          {showCopied && <span className="ml-1 text-green-400 text-2xs">copied!</span>}
                         </div>
                       </div>
                     </div>
@@ -1449,6 +1453,11 @@ export default function ProfileBuilder() {
                           {profileData.stats.maxDD.toFixed(1)}
                         </div>
                       </div>
+                    </div>
+                    
+                    {/* Powered by text for preview only */}
+                    <div className={`text-center text-xs mt-3 ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
+                      powered by tradr
                     </div>
                   </div>
                 </div>
