@@ -293,9 +293,8 @@ export default function ProfileBuilder() {
   };
 
   const handleAddTag = () => {
-    if (newTag && profileData.tags.length < 5) {
-      const emoji = '📈'; // In a real app, you'd have emoji suggestions
-      const formattedTag = `${emoji} ${newTag.toLowerCase()}`;
+    if (newTag && profileData.tags.length < 3) {
+      const formattedTag = newTag.toLowerCase();
       setProfileData({
         ...profileData,
         tags: [...profileData.tags, formattedTag]
@@ -377,8 +376,8 @@ export default function ProfileBuilder() {
   };
 
   const handleAddTagFromSuggestion = (suggestion: TagSuggestion) => {
-    if (profileData.tags.length < 5) {
-      const formattedTag = `📈 ${suggestion.text}`;
+    if (profileData.tags.length < 3) {
+      const formattedTag = suggestion.text;
       setProfileData(prev => ({
         ...prev,
         tags: [...prev.tags, formattedTag]
@@ -405,33 +404,9 @@ export default function ProfileBuilder() {
     }
   };
   
-  // Add a function to handle tag input with space/comma delimiters
+  // Simplified tag input handler
   const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const lastChar = value[value.length - 1];
-    
-    // If ends with space or comma, treat as tag submission
-    if ((lastChar === ' ' || lastChar === ',') && value.trim().length > 1) {
-      const newTagValue = value.slice(0, -1).trim();
-      if (newTagValue && profileData.tags.length < 5) {
-        // Add tag with emoji
-        const emoji = '📈';
-        const formattedTag = `${emoji} ${newTagValue}`;
-        
-        // Check if tag doesn't already exist
-        if (!profileData.tags.includes(formattedTag)) {
-          setProfileData(prev => ({
-            ...prev,
-            tags: [...prev.tags, formattedTag]
-          }));
-        }
-        
-        // Clear input
-        setNewTag('');
-      }
-    } else {
-      setNewTag(value);
-    }
+    setNewTag(e.target.value);
   };
 
   // Handle field focus to show appropriate tip
@@ -488,175 +463,133 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
 
-      {/* Main content - full-screen profile preview */}
-      <div className="container max-w-7xl mx-auto p-6">
-        {/* Live Preview */}
-        <div className="w-full flex flex-col">
-          <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Live Profile Preview</h2>
-          </div>
-          <div className="text-sm text-purple-300/80 mb-4">{currentTip}</div>
-          
-          {/* Phone mockup container */}
-          <div className="bg-black rounded-[40px] p-3 shadow-xl mx-auto w-[330px] border border-gray-800">
-            {/* Status bar */}
-            <div className="flex justify-between items-center px-4 h-6 text-xs text-gray-400">
-              <span>9:41</span>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4"><CustomSignalIcon className="w-full h-full" /></div>
-                <div className="w-4 h-4"><CustomWifiIcon className="w-full h-full" /></div>
-                <div className="w-4 h-4"><CustomBatteryIcon className="w-full h-full" /></div>
-              </div>
-            </div>
-            
-            {/* Phone screen content */}
+      {/* Main content */}
+      <div className="container max-w-2xl mx-auto p-6">
+        {/* Profile card */}
+        <div 
+          className={`w-full mx-auto p-6 rounded-2xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
+        >
+          {/* Avatar & Username */}
+          <div className="flex items-center gap-3 mb-4 relative">
             <div 
-              className={`bg-[#121218] rounded-[32px] overflow-hidden shadow-inner h-[600px] flex flex-col relative
-                        ${editingField === 'username' ? 'ring-2 ring-purple-500/50' : ''}
-                        ${editingField === 'bio' ? 'ring-2 ring-purple-500/50' : ''}
-                        ${editingField === 'tags' ? 'ring-2 ring-purple-500/50' : ''}
-                        ${editingField === 'theme' ? 'ring-2 ring-purple-500/50' : ''}`}
+              className="w-16 h-16 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
+              onClick={handleAvatarClick}
             >
-              {/* Profile header */}
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center">
-                    <User className="w-4 h-4 text-purple-100" />
-                  </div>
-                  <span className="font-semibold">Profile</span>
-                </div>
-                <Share2 className="w-5 h-5 text-gray-400" />
+              {profileData.avatar ? (
+                <Image src={profileData.avatar} alt="Avatar" layout="fill" objectFit="cover" />
+              ) : (
+                <User className="w-8 h-8" />
+              )}
+              <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
+                <Camera className="w-6 h-6 text-white" />
               </div>
-              
-              {/* Profile card */}
-              <div className={`m-4 p-5 rounded-2xl shadow-lg bg-black/60 backdrop-filter backdrop-blur-sm border border-gray-800
-                               ${editingField ? 'shadow-[0_0_20px_rgba(139,92,246,0.15)]' : ''}`}>
-                {/* Avatar & Username */}
-                <div className="flex items-center gap-3 mb-4 relative group">
-                  <div 
-                    className="w-16 h-16 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
-                    onClick={handleAvatarClick}
-                  >
-                    {profileData.avatar ? (
-                      <Image src={profileData.avatar} alt="Avatar" layout="fill" objectFit="cover" />
-                    ) : (
-                      <User className="w-8 h-8" />
-                    )}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                      <Camera className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
-                  <input 
-                    type="file"
-                    ref={fileInputRef}
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                  <div className="flex-grow relative">
-                    <div className={`text-lg leading-tight ${currentTheme.textColor}`}>
-                      <span className="opacity-60">@</span>{profileData.username}
-                    </div>
-                    <div className="text-xs text-gray-500 flex items-center mt-1">
-                      <Trophy className="w-3 h-3 mr-1" />
-                      <span>Level 1 Trader</span>
-                    </div>
-                    <button 
-                      className="absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
-                      onClick={() => setActiveEditDrawer('username')}
-                    >
-                      <Pencil className="w-3.5 h-3.5 text-purple-400" />
-                    </button>
-                  </div>
-                </div>
-                
-                {/* Bio */}
-                <div className="mb-4 text-sm leading-relaxed relative group">
-                  {profileData.bio || "No bio yet..."}
-                  <button 
-                    className="absolute right-0 top-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => setActiveEditDrawer('bio')}
-                  >
-                    <Pencil className="w-3.5 h-3.5 text-purple-400" />
-                  </button>
-                </div>
-                
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4 relative group">
-                  {profileData.tags.map((tag, i) => (
-                    <div key={i} className={`px-2 py-1 rounded-md text-xs ${currentTheme.textColor} bg-gray-800/70`}>
-                      {tag}
-                    </div>
-                  ))}
-                  {profileData.tags.length === 0 && (
-                    <div className="text-xs text-gray-500">No tags yet...</div>
-                  )}
-                  <button 
-                    className="absolute right-0 top-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => setActiveEditDrawer('tags')}
-                  >
-                    <Pencil className="w-3.5 h-3.5 text-purple-400" />
-                  </button>
-                </div>
-                
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  <div className="bg-gray-800/70 p-2 rounded-md">
-                    <div className="text-xs text-gray-400">Gain</div>
-                    <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
-                      {profileData.stats.performance.toFixed(2)}%
-                    </div>
-                  </div>
-                  <div className="bg-gray-800/70 p-2 rounded-md">
-                    <div className="text-xs text-gray-400">Win Rate</div>
-                    <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
-                      {profileData.stats.winRate.toFixed(2)}%
-                    </div>
-                  </div>
-                  <div className="bg-gray-800/70 p-2 rounded-md">
-                    <div className="text-xs text-gray-400">Avg R:R</div>
-                    <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
-                      {profileData.stats.maxDD.toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Theme selector/indicator */}
-                <div className="relative group">
-                  <div className="flex justify-center gap-2">
-                    {THEMES.map((theme) => (
-                      <div 
-                        key={theme.id}
-                        className={`w-6 h-6 rounded-full ${theme.bgGradient} 
-                                   ${profileData.theme === theme.id ? 'ring-2 ring-white scale-110' : 'opacity-60'}`}
-                      />
-                    ))}
-                  </div>
-                  <button 
-                    className="absolute right-0 top-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => setActiveEditDrawer('theme')}
-                  >
-                    <Pencil className="w-3.5 h-3.5 text-purple-400" />
-                  </button>
-                </div>
-                
-                {/* Powered by text */}
-                <div className="text-center mt-3 text-xs text-gray-500">
-                  powered by tradr
-                </div>
+            </div>
+            <input 
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            <div className="flex-grow relative">
+              <div className={`text-lg leading-tight ${currentTheme.textColor}`}>
+                <span className="opacity-60">@</span>{profileData.username || "username"}
+              </div>
+              <div className="text-xs text-gray-500 flex items-center mt-1">
+                <Trophy className="w-3 h-3 mr-1" />
+                <span>Level 1 Trader</span>
+              </div>
+              <button 
+                className="absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+                onClick={() => setActiveEditDrawer('username')}
+              >
+                <Pencil className="w-3.5 h-3.5 text-purple-400" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Bio */}
+          <div className="mb-4 text-sm leading-relaxed relative">
+            <div className={`${currentTheme.textColor}`}>
+              {profileData.bio || "Write your bio"}
+            </div>
+            <button 
+              className="absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+              onClick={() => setActiveEditDrawer('bio')}
+            >
+              <Pencil className="w-3.5 h-3.5 text-purple-400" />
+            </button>
+          </div>
+          
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-4 relative">
+            {profileData.tags.map((tag, i) => (
+              <div key={i} className={`px-2 py-1 rounded-md text-xs ${currentTheme.textColor} ${currentTheme.inputBg}`}>
+                {tag}
+              </div>
+            ))}
+            {profileData.tags.length < 3 && (
+              <button 
+                onClick={() => setActiveEditDrawer('tags')} 
+                className={`px-2 py-1 rounded-md text-xs flex items-center gap-1 ${currentTheme.inputBg} ${currentTheme.textColor}`}
+              >
+                <Plus className="w-3 h-3" /> Add hashtag
+              </button>
+            )}
+            <button 
+              className="absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+              onClick={() => setActiveEditDrawer('tags')}
+            >
+              <Pencil className="w-3.5 h-3.5 text-purple-400" />
+            </button>
+          </div>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
+              <div className="text-xs text-gray-400">Gain</div>
+              <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+                {profileData.stats.performance.toFixed(2)}%
+              </div>
+            </div>
+            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
+              <div className="text-xs text-gray-400">Win Rate</div>
+              <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+                {profileData.stats.winRate.toFixed(2)}%
+              </div>
+            </div>
+            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
+              <div className="text-xs text-gray-400">Avg R:R</div>
+              <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+                {profileData.stats.maxDD.toFixed(2)}
               </div>
             </div>
           </div>
           
-          {/* Main CTA button */}
-          <div className="mt-8 text-center">
-            <button
-              onClick={handleContinue}
-              className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition shadow-lg shadow-purple-900/30 inline-flex items-center justify-center"
-            >
-              Save Changes
-              <Check className="w-5 h-5 ml-2" />
-            </button>
+          {/* Powered by text */}
+          <div className="text-center mt-3 text-xs text-gray-500">
+            powered by tradr
+          </div>
+        </div>
+        
+        {/* Theme selector */}
+        <div className="mt-6 mb-4">
+          <div className="flex flex-wrap justify-center gap-3">
+            {THEMES.map((theme) => (
+              <button
+                key={theme.id}
+                onClick={() => setProfileData({...profileData, theme: theme.id})}
+                className={`relative p-4 rounded-md flex items-center justify-center transition-all 
+                           ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
+              >
+                {profileData.theme === theme.id && (
+                  <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
+                    <Check className="w-3 h-3" />
+                  </div>
+                )}
+                <Palette className="w-6 h-6 text-white" />
+              </button>
+            ))}
           </div>
         </div>
       </div>
@@ -706,14 +639,11 @@ export default function ProfileBuilder() {
                         autoFocus
                       />
                     </div>
-                    {!usernameAvailable && (
-                      <p className="text-red-500 text-xs">Username is not available</p>
-                    )}
                     <button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
                     >
-                      Save Username
+                      Save Changes
                     </button>
                   </div>
                 )}
@@ -725,21 +655,21 @@ export default function ProfileBuilder() {
                       value={profileData.bio}
                       onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
                       className="bg-gray-800 text-gray-200 rounded-md py-3 px-3 w-full h-28 border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
-                      placeholder="Write a short trader bio..."
+                      placeholder="Write your bio"
                       autoFocus
                     />
                     <button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
                     >
-                      Save Bio
+                      Save Changes
                     </button>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'tags' && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white">Edit Tags</h3>
+                    <h3 className="text-lg font-semibold text-white">Edit Hashtags</h3>
                     <div className="bg-gray-800 rounded-md border border-gray-700 p-3">
                       <div className="flex flex-wrap gap-2 mb-2">
                         {profileData.tags.map((tag, i) => (
@@ -754,21 +684,23 @@ export default function ProfileBuilder() {
                           </div>
                         ))}
                       </div>
-                      <input
-                        type="text"
-                        value={newTag}
-                        onChange={handleTagInput}
-                        className="bg-transparent text-gray-300 w-full border-none focus:outline-none mt-2"
-                        placeholder="Type hashtag and press space"
-                        autoFocus
-                      />
+                      {profileData.tags.length < 3 && (
+                        <input
+                          type="text"
+                          value={newTag}
+                          onChange={handleTagInput}
+                          className="bg-transparent text-gray-300 w-full border-none focus:outline-none mt-2"
+                          placeholder="Add a hashtag"
+                          autoFocus
+                        />
+                      )}
                     </div>
-                    <p className="text-xs text-gray-500">Limited to 5 tags</p>
+                    <p className="text-xs text-gray-500">{profileData.tags.length}/3 tags used</p>
                     <button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
                     >
-                      Save Tags
+                      Save Changes
                     </button>
                   </div>
                 )}
@@ -797,7 +729,7 @@ export default function ProfileBuilder() {
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
                     >
-                      Save Theme
+                      Save Changes
                     </button>
                   </div>
                 )}
@@ -806,13 +738,6 @@ export default function ProfileBuilder() {
           </>
         )}
       </AnimatePresence>
-      
-      {/* Confetti effect */}
-      {showConfetti && (
-        <div className="fixed inset-0 pointer-events-none z-50">
-          {/* Confetti would be triggered here */}
-        </div>
-      )}
     </div>
   );
 }
