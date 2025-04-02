@@ -612,7 +612,7 @@ export default function ProfileBuilder() {
       <div className="container max-w-2xl mx-auto px-4 py-4">
         <div className="text-center mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Build your profile</h1>
-          <p className="text-base md:text-lg text-gray-400">Customize your trader persona</p>
+          <p className="text-base md:text-lg text-gray-400">Make it beautiful.</p>
         </div>
         
         {/* Profile card - adjusted height */}
