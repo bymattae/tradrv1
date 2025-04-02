@@ -584,7 +584,13 @@ export default function ProfileBuilder() {
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-medium">Back</span>
         </Link>
-        <div className="w-5"></div> {/* Empty div for flex spacing */}
+        
+        {/* Step indicators moved to header */}
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+        </div>
       </header>
 
       {/* Updating toast notification */}
@@ -605,14 +611,8 @@ export default function ProfileBuilder() {
       {/* Main content */}
       <div className="container max-w-2xl mx-auto px-4 py-4">
         <div className="text-center mb-6">
-          {/* Step indicators */}
-          <div className="flex justify-center items-center gap-2 mb-4">
-            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-          </div>
-          <h1 className="text-2xl font-bold text-white">Build your profile</h1>
-          <p className="text-gray-400 text-sm">Customize your trader persona</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Build your profile</h1>
+          <p className="text-base md:text-lg text-gray-400">Customize your trader persona</p>
         </div>
         
         {/* Profile card - adjusted height */}
