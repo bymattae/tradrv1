@@ -421,8 +421,8 @@ export default function ProfileBuilder() {
         {/* Simple navigation */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
           <Link href="/onboarding" className="text-white">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
           <button 
             onClick={() => setIsPreviewOpen(true)}
             className="text-xs text-gray-400 flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-md"
@@ -437,8 +437,8 @@ export default function ProfileBuilder() {
           {/* Add dynamic helper text above profile card */}
           <div className="text-neutral-400 text-sm text-center mb-3 px-4">
             {helperText}
-          </div>
-          
+            </div>
+
           {/* Keep the profile card exactly as is */}
           <div className="max-w-sm mx-auto mb-5">
             <div className="rounded-2xl overflow-hidden">
@@ -458,7 +458,7 @@ export default function ProfileBuilder() {
                   <div className="relative mb-3">
                     <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Username
-                    </div>
+                </div>
                     <div className="flex items-center gap-3 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md transition-all duration-200 hover:border-white/30 group hover:shadow-[inset_0px_0px_8px_rgba(255,255,255,0.1)]">
                       {/* Profile Picture - enhanced */}
                       <div
@@ -477,16 +477,16 @@ export default function ProfileBuilder() {
                         ) : (
                           <div className="h-full w-full flex items-center justify-center bg-white/15">
                             <Camera className={`w-5 h-5 ${currentTheme.textColor} drop-shadow-[0_0_3px_rgba(255,255,255,0.5)]`} />
-                          </div>
+              </div>
                         )}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-all duration-200 ease-in-out bg-black/30 transform group-hover/avatar:scale-100 scale-95">
                           <div className="flex flex-col items-center justify-center">
                             <Camera className="w-4 h-4 text-white mb-0.5" />
                             <span className="text-[10px] text-white font-medium">Upload</span>
-                          </div>
-                        </div>
-                      </div>
-                      
+                </div>
+              </div>
+            </div>
+
                       {/* Username with @ symbol and availability indicator - larger font */}
                       <div 
                         className={`flex-1 text-left ${currentTheme.textColor} text-[20px] font-bold cursor-pointer rounded-xl transition-colors group/username hover:opacity-90`}
@@ -495,9 +495,9 @@ export default function ProfileBuilder() {
                         {editingField === 'username' ? (
                           <div className="flex items-center relative">
                             <span className={`text-[20px] ${currentTheme.textColor}/90 font-bold`}>@</span>
-                            <input
-                              type="text"
-                              value={profileData.username}
+                    <input
+                      type="text"
+                      value={profileData.username}
                               onChange={(e) => handleFieldEdit('username', e.target.value)}
                               className={`w-full bg-white/5 border-none focus:outline-none text-[20px] font-bold ${currentTheme.inputText} pl-1 caret-indigo-400 rounded-sm`}
                               placeholder="yourname"
@@ -538,74 +538,85 @@ export default function ProfileBuilder() {
                             </div>
                           </div>
                         )}
-                      </div>
-                    </div>
+                </div>
+              </div>
                   </div>
                   
                   {/* Bio - improved typography and contrast */}
                   <div className="relative mb-3">
                     <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Bio
-                    </div>
+            </div>
                     <div 
                       className={`relative w-full text-center ${currentTheme.textColor} text-base bg-black/20 p-4 rounded-xl border border-white/20 shadow-md cursor-pointer group hover:border-white/30 transition-all duration-200 font-bold ${editingField === 'bio' ? 'ring-1 ring-white/50' : ''} hover:shadow-[inset_0px_0px_8px_rgba(255,255,255,0.1)]`}
-                      onClick={() => setEditingField('bio')}
-                    >
-                      {editingField === 'bio' ? (
-                        <input
-                          type="text"
-                          value={profileData.bio}
-                          onChange={(e) => handleFieldEdit('bio', e.target.value)}
+                    onClick={() => setEditingField('bio')}
+                  >
+                    {editingField === 'bio' ? (
+                      <input
+                        type="text"
+                        value={profileData.bio}
+                        onChange={(e) => handleFieldEdit('bio', e.target.value)}
                           className={`w-full text-center bg-white/5 border-none focus:outline-none ${currentTheme.inputText} text-[16px] tracking-normal font-bold caret-indigo-400 rounded-sm`}
                           placeholder="FX scalper based in Thailand. Catch me on EU pairs."
-                          onBlur={() => setEditingField(null)}
-                          autoFocus
-                        />
-                      ) : (
-                        <>
+                        onBlur={() => setEditingField(null)}
+                        autoFocus
+                      />
+                    ) : (
+                      <>
                           <p className="text-[16px] tracking-normal">
                             {profileData.bio || (
                               <span className="opacity-70">FX scalper based in Thailand. Catch me on EU pairs.</span>
                             )}
                           </p>
-                        </>
-                      )}
+                      </>
+                    )}
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center bg-white/10 ${currentTheme.textColor}`}>
                           <Pencil className="w-3 h-3 text-current" />
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                  
+                </div>
+              </div>
+            </div>
+
                   {/* Tags - improved typography and contrast */}
                   <div className="relative mb-3">
                     <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Hashtags
                     </div>
                     <div 
-                      className={`flex flex-wrap justify-center gap-2 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md group ${showTagInput ? 'ring-1 ring-white/50' : ''} hover:border-white/30 transition-all duration-200 hover:shadow-[inset_0px_0px_8px_rgba(255,255,255,0.1)]`}
+                      className={`flex items-center justify-center p-4 bg-black/20 rounded-xl border border-white/20 shadow-md group ${showTagInput ? 'ring-1 ring-white/50' : ''} hover:border-white/30 transition-all duration-200 hover:shadow-[inset_0px_0px_8px_rgba(255,255,255,0.1)]`}
                       onClick={() => setEditingField('tag')}
                     >
-                      {profileData.tags.map((tag, index) => (
-                        <div
-                          key={index}
-                          className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm`}
-                        >
-                          <span>{tag}</span>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleTagToggle(tag);
-                            }}
-                            className="opacity-50 hover:opacity-100 transition-opacity"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
+                      {profileData.tags.length > 0 && (
+                        <div className="flex flex-wrap justify-center gap-2 w-full">
+                          {profileData.tags.map((tag, index) => (
+                            <div
+                              key={index}
+                              className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm`}
+                            >
+                              <span>{tag}</span>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleTagToggle(tag);
+                                }}
+                                className="opacity-50 hover:opacity-100 transition-opacity"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                      {profileData.tags.length < 3 && (
-                        <div className="flex items-center">
+                      )}
+                      
+                      {profileData.tags.length === 0 && !showTagInput && (
+                        <div className={`w-full text-center ${currentTheme.textColor}/40 text-[16px] tracking-wide font-medium font-jetbrains`}>
+                          #liquiditygrabs   #fundedtrader   #eurusd
+                        </div>
+                      )}
+                      
+                      {showTagInput && (
+                        <div className="flex items-center w-full">
                           <input
                             type="text"
                             value={newTag}
@@ -619,32 +630,26 @@ export default function ProfileBuilder() {
                               setEditingField('tag');
                             }}
                             onBlur={() => {
-                              setShowTagInput(false);
-                              setEditingField(null);
+                              if (!newTag.trim()) {
+                                setShowTagInput(false);
+                                setEditingField(null);
+                              }
                             }}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && newTag.trim()) {
                                 handleAddTag();
                                 setNewTag('');
+                                if (profileData.tags.length >= 2) {
+                                  setShowTagInput(false);
+                                  setEditingField(null);
+                                }
                               }
                             }}
-                            className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-[16px] tracking-normal border border-dashed border-white/30 w-36 text-center hover:border-white/50 focus:border-white/50 transition-colors duration-200 font-bold shadow-inner shadow-black/20 caret-indigo-400`}
-                            placeholder={profileData.tags.length === 0 ? "#liquiditygrabs" : "#addhashtag"}
+                            className={`w-full px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-[16px] border border-dashed border-white/30 text-center hover:border-white/50 focus:border-white/50 transition-colors duration-200 font-bold shadow-inner shadow-black/20 caret-indigo-400`}
+                            placeholder="#addhashtag"
+                            autoFocus
                           />
                         </div>
-                      )}
-                      {profileData.tags.length === 0 && !showTagInput && (
-                        <>
-                          <div className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm opacity-70`}>
-                            <span>📈 #liquiditygrabs</span>
-                          </div>
-                          <div className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm opacity-70`}>
-                            <span>🛡️ #fundedtrader</span>
-                          </div>
-                          <div className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm opacity-70`}>
-                            <span>📊 #r:r</span>
-                          </div>
-                        </>
                       )}
                     </div>
                   </div>
@@ -664,11 +669,11 @@ export default function ProfileBuilder() {
                               <Info className="w-3 h-3 text-white/70" />
                               <div className="absolute -top-2 left-0 w-40 bg-black text-white text-xs rounded-md py-1.5 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 transform -translate-y-full">
                                 Your overall portfolio performance
-                              </div>
-                            </div>
-                          </div>
+                </div>
+              </div>
+            </div>
                           <div className={`text-[18px] font-medium font-jetbrains ${currentTheme.textColor}`}>
-                            +0.0%
+                        +0.0%
                           </div>
                         </div>
                       </div>
@@ -684,11 +689,11 @@ export default function ProfileBuilder() {
                                 Percentage of winning trades
                               </div>
                             </div>
-                          </div>
+                    </div>
                           <div className={`text-[18px] font-medium font-jetbrains ${currentTheme.textColor}`}>
-                            0%
-                          </div>
-                        </div>
+                        0%
+                      </div>
+                    </div>
                       </div>
                       
                       {/* Risk-Reward Stat */}
@@ -701,16 +706,16 @@ export default function ProfileBuilder() {
                               <div className="absolute -top-2 left-0 w-40 bg-black text-white text-xs rounded-md py-1.5 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 transform -translate-y-full">
                                 Average risk-to-reward ratio
                               </div>
-                            </div>
-                          </div>
+                    </div>
+                  </div>
                           <div className={`text-[18px] font-medium font-jetbrains ${currentTheme.textColor}`}>
                             0.0
                           </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                  
+                </div>
+              </div>
+            </div>
+
                   {/* Theme Selection - Add a soft divider line before Theme section */}
                   <div className="relative mt-6 mb-3">
                     <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-5"></div>
@@ -719,27 +724,27 @@ export default function ProfileBuilder() {
                       <span className="ml-2 text-[9px] text-white/50 normal-case">This will be used for your card + share image</span>
                     </div>
                     <div className="flex justify-center gap-3 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md shadow-inner shadow-black/20">
-                      {THEMES.map((theme) => (
-                        <button
-                          key={theme.id}
-                          onClick={() => setProfileData({ ...profileData, theme: theme.id })}
+                    {THEMES.map((theme) => (
+                      <button
+                        key={theme.id}
+                        onClick={() => setProfileData({ ...profileData, theme: theme.id })}
                           onMouseEnter={() => profileData.theme !== theme.id && setProfileData({ ...profileData, theme: theme.id })}
                           onMouseLeave={() => profileData.theme !== theme.id && setProfileData({ ...profileData, theme: currentTheme.id })}
                           className={`relative w-11 h-11 rounded-full overflow-hidden transition-all duration-300 hover:scale-110 ${
                             profileData.theme === theme.id ? 'ring-2 ring-white scale-115 shadow-md z-10' : ''
-                          }`}
-                        >
-                          <div className={`absolute inset-0 ${theme.bgGradient}`} />
+                        }`}
+                      >
+                        <div className={`absolute inset-0 ${theme.bgGradient}`} />
                           <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent" />
                           {profileData.theme === theme.id && (
                             <div className="absolute inset-0 flex items-center justify-center animate-fadeIn">
                               <div className={`bg-black/20 rounded-full p-1.5 transition-transform duration-300 animate-scaleIn`}>
                                 <Check className={`w-3.5 h-3.5 text-white`} />
                               </div>
-                            </div>
+                        </div>
                           )}
-                        </button>
-                      ))}
+                      </button>
+                    ))}
                     </div>
                   </div>
                   
@@ -754,8 +759,8 @@ export default function ProfileBuilder() {
             </div>
             {/* Add soft shadow to entire profile card */}
             <div className="absolute inset-0 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)] -z-10"></div>
-          </div>
-          
+            </div>
+
           {/* Simplified sharing section - pill-style container */}
           <div className="flex items-center justify-between bg-neutral-900/50 border border-neutral-800/50 rounded-full px-4 py-2.5 mb-5 backdrop-blur-sm shadow-sm">
             <div className="flex items-center gap-2">
