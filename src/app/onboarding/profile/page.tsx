@@ -621,11 +621,14 @@ export default function ProfileBuilder() {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="container max-w-2xl mx-auto px-6 py-8">
-        {/* Centered header */}
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-white mb-1">Build your profile</h1>
-          <p className="text-lg text-gray-400">Make it beautiful.</p>
+      <div className="container max-w-2xl mx-auto px-6 py-12">
+        {/* Centered header with more space above */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold font-press-start text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 mb-3">
+            Build your profile
+          </h1>
+          <div className="h-px w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 rounded-full mb-3"></div>
+          <p className="text-lg text-gray-400 font-press-start tracking-tighter">Make it beautiful.</p>
         </div>
         
         {/* Profile card */}
@@ -767,38 +770,42 @@ export default function ProfileBuilder() {
         </div>
 
         {/* Theme selector with consistent spacing */}
-        <div className="mb-6">
+        <div className="mb-8">
+          <div className="text-center mb-3">
+            <h3 className="text-sm font-press-start text-white mb-2">SELECT YOUR THEME</h3>
+            <div className="h-px w-20 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400"></div>
+          </div>
           <div className="flex flex-wrap justify-center gap-3">
             {THEMES.map((theme) => (
               <button
                 key={theme.id}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
                 className={`relative w-12 h-12 rounded-full transition-all 
-                           ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'}`}
+                           ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-110' : 'opacity-70 hover:opacity-100'}`}
               />
             ))}
           </div>
         </div>
         
-        {/* Buttons with consistent spacing */}
+        {/* Buttons with consistent spacing and more retro styling */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <motion.button
             onClick={handlePreviewShare}
-            className="py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-sm transition-all flex items-center justify-center gap-2"
+            className="py-3 border-2 border-purple-600 hover:border-purple-500 text-white font-press-start text-xs rounded-lg transition-all flex items-center justify-center gap-2 bg-[#0F0918] hover:bg-[#170F2A]"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
             <Eye className="w-4 h-4" />
-            Preview
+            PREVIEW
           </motion.button>
           
           <motion.button
             onClick={handleContinue}
-            className="py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-sm transition-all flex items-center justify-center gap-2"
+            className="py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-press-start text-xs rounded-lg transition-all flex items-center justify-center gap-2"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
-            Continue
+            CONTINUE
             <ArrowRight className="w-4 h-4" />
           </motion.button>
         </div>
