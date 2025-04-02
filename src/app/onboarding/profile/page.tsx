@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User, Signal as SignalIcon, Wifi as WifiIcon, Battery as BatteryIcon } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -503,9 +503,9 @@ export default function ProfileBuilder() {
             <div className="flex justify-between items-center px-4 h-6 text-xs text-gray-400">
               <span>9:41</span>
               <div className="flex items-center gap-1">
-                <div className="w-4 h-4"><SignalIcon className="w-full h-full" /></div>
-                <div className="w-4 h-4"><WifiIcon className="w-full h-full" /></div>
-                <div className="w-4 h-4"><BatteryIcon className="w-full h-full" /></div>
+                <div className="w-4 h-4"><CustomSignalIcon className="w-full h-full" /></div>
+                <div className="w-4 h-4"><CustomWifiIcon className="w-full h-full" /></div>
+                <div className="w-4 h-4"><CustomBatteryIcon className="w-full h-full" /></div>
               </div>
             </div>
             
@@ -818,7 +818,7 @@ export default function ProfileBuilder() {
 }
 
 // Just for the mockup - we'd import these from Lucide in a real app
-function SignalIcon({className = "w-6 h-6"}: {className?: string}) {
+function CustomSignalIcon({className = "w-6 h-6"}: {className?: string}) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M16.5 12.5v-1a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1M8 18h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -828,7 +828,7 @@ function SignalIcon({className = "w-6 h-6"}: {className?: string}) {
   );
 }
 
-function WifiIcon({className = "w-6 h-6"}: {className?: string}) {
+function CustomWifiIcon({className = "w-6 h-6"}: {className?: string}) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 19.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"/>
@@ -837,7 +837,7 @@ function WifiIcon({className = "w-6 h-6"}: {className?: string}) {
   );
 }
 
-function BatteryIcon({className = "w-6 h-6"}: {className?: string}) {
+function CustomBatteryIcon({className = "w-6 h-6"}: {className?: string}) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
