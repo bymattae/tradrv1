@@ -209,9 +209,9 @@ export default function ProfileBuilder() {
     streak: 0,
     lastSynced: null,
     stats: {
-      performance: 42.8,
-      winRate: 68,
-      maxDD: 8
+      performance: 0,
+      winRate: 0,
+      maxDD: 0
     },
     hasConnectedStrategy: false,
     verifiedAccounts: {
@@ -707,7 +707,12 @@ export default function ProfileBuilder() {
           </div>
           
           {/* Stats - Add subtle outline and fix colors */}
-          <div className="grid grid-cols-3 gap-2 mb-4 border border-gray-700/30 p-3 rounded-lg">
+          <div className="grid grid-cols-3 gap-2 mb-4 border border-gray-700/30 p-3 rounded-lg relative group">
+            <div className="absolute inset-0 w-full h-full bg-black/10 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help z-10">
+              <div className="bg-gray-900/90 text-white text-xs px-3 py-2 rounded shadow-lg max-w-[90%] text-center">
+                You can add your strategy in the next step
+              </div>
+            </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className={`text-xs ${currentTheme.inputText}`}>Gain</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
@@ -765,12 +770,12 @@ export default function ProfileBuilder() {
         <div className="mt-6 flex justify-center">
           <motion.button
             onClick={handlePreviewShare}
-            className="px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg shadow-lg flex items-center gap-2 transition-all"
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg shadow-lg flex items-center gap-1.5 transition-all text-sm"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <Eye className="w-5 h-5" />
-            Preview Profile
+            <Eye className="w-4 h-4" />
+            Preview
           </motion.button>
         </div>
       </div>
@@ -1354,6 +1359,10 @@ export default function ProfileBuilder() {
             >
               <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
                 <div className={`p-6 ${previewBackground === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+                  <div className="text-center mb-4">
+                    <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
+                  </div>
+                  
                   {/* Preview content here */}
                   <div className={`p-4 rounded-xl shadow-lg ${currentTheme.bgGradient}`}>
                     {/* User header */}
@@ -1396,10 +1405,18 @@ export default function ProfileBuilder() {
                           #{tag}
                         </div>
                       ))}
+                      {profileData.tags.length === 0 && (
+                        <div className="text-xs text-gray-400">Add hashtags to showcase your style</div>
+                      )}
                     </div>
                     
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-2 mt-4">
+                    <div className="grid grid-cols-3 gap-2 mt-4 relative group">
+                      <div className="absolute inset-0 w-full h-full bg-black/10 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help z-10">
+                        <div className="bg-gray-900/90 text-white text-xs px-3 py-2 rounded shadow-lg max-w-[90%] text-center">
+                          You can add your strategy in the next step
+                        </div>
+                      </div>
                       <div className={`p-2 rounded ${currentTheme.inputBg}`}>
                         <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>Perf</div>
                         <div className={`font-mono font-medium ${currentTheme.textColor}`}>
@@ -1424,6 +1441,10 @@ export default function ProfileBuilder() {
                 
                 {/* Modal footer with buttons */}
                 <div className="p-4 border-t border-gray-800 flex flex-col gap-3">
+                  <div className="text-center mb-2">
+                    <h3 className="text-lg font-bold text-white">Looks good!</h3>
+                  </div>
+                  
                   <button 
                     onClick={() => {
                       setIsPreviewOpen(false);
@@ -1431,10 +1452,10 @@ export default function ProfileBuilder() {
                     }}
                     className="w-full py-3 text-white bg-green-600 hover:bg-green-500 rounded-md transition-colors font-medium text-center"
                   >
-                    Looks Good!
+                    Complete Profile
                   </button>
                   
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mt-2">
                     <button 
                       onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
                       className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
