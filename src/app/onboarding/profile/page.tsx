@@ -179,7 +179,7 @@ export default function ProfileBuilder() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
-  const [editingField, setEditingField] = useState<'username' | 'bio' | 'tag' | null>(null);
+  const [editingField, setEditingField] = useState<'username' | 'bio' | 'tag' | 'theme' | null>(null);
   const [newTag, setNewTag] = useState('');
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
   const [profileStrength, setProfileStrength] = useState(0);
