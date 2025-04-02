@@ -585,7 +585,12 @@ export default function ProfileBuilder() {
           <span className="text-sm font-medium">Back</span>
         </Link>
         
-        <div></div>
+        {/* Step indicators moved to header */}
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+        </div>
       </header>
 
       {/* Updating toast notification */}
@@ -606,14 +611,14 @@ export default function ProfileBuilder() {
       {/* Main content */}
       <div className="container max-w-2xl mx-auto px-6 py-8">
         {/* Clean, left-aligned header similar to Event Exploration example */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-3xl font-bold text-white mb-1">Build your profile</h1>
           <p className="text-lg text-gray-400">Make it beautiful.</p>
         </div>
         
-        {/* Profile card - adjusted height */}
+        {/* Profile card */}
         <div 
-          className={`w-full mx-auto p-5 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
+          className={`w-full mx-auto p-5 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor} mb-6`}
         >
           {/* Avatar & Username - adjusted sizing */}
           <div className="flex items-center gap-3 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
@@ -744,8 +749,8 @@ export default function ProfileBuilder() {
           </div>
         </div>
 
-        {/* Theme selector - adjusted size */}
-        <div className="mt-5 mb-4">
+        {/* Theme selector with consistent spacing */}
+        <div className="mb-6">
           <div className="flex flex-wrap justify-center gap-3">
             {THEMES.map((theme) => (
               <button
@@ -771,8 +776,8 @@ export default function ProfileBuilder() {
           </div>
         </div>
         
-        {/* Buttons - side by side */}
-        <div className="mt-5 grid grid-cols-2 gap-4">
+        {/* Buttons with consistent spacing */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
           <motion.button
             onClick={handlePreviewShare}
             className="py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-sm transition-all flex items-center justify-center gap-2"
@@ -1451,11 +1456,6 @@ export default function ProfileBuilder() {
                           {profileData.stats.maxDD.toFixed(1)}
                         </div>
                       </div>
-                    </div>
-                    
-                    {/* Powered by text for preview only */}
-                    <div className={`text-center text-xs mt-3 ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
-                      powered by tradr
                     </div>
                   </div>
                 </div>
