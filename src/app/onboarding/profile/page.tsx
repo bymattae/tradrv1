@@ -576,17 +576,6 @@ export default function ProfileBuilder() {
                     </div>
                   </div>
                   
-                  {/* Share link */}
-                  <div className="flex items-center justify-between py-2 px-3 bg-gray-800/50 rounded-md text-sm">
-                    <div className="text-gray-400">tradr.co/{profileData.username}</div>
-                    <button 
-                      onClick={handleCopyLink}
-                      className="text-purple-400 hover:text-purple-300 transition"
-                    >
-                      <Copy className="w-4 h-4" />
-                    </button>
-                  </div>
-                  
                   {/* Powered by text */}
                   <div className="text-center mt-3 text-xs text-gray-500">
                     powered by tradr
