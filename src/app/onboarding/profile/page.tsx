@@ -764,13 +764,11 @@ export default function ProfileBuilder() {
                     <Check className="w-2.5 h-2.5" />
                   </div>
                 )}
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                  {theme.id === 'black' && <Moon className={`w-4 h-4 text-white`} />}
-                  {theme.id === 'gold' && <Gem className={`w-4 h-4 text-black`} />}
-                  {theme.id === 'lavender' && <FlowerIcon className={`w-4 h-4 text-white`} />}
-                  {theme.id === 'space-grey' && <CircleIcon className={`w-4 h-4 text-white`} />}
-                  {theme.id === 'rose-gold' && <HeartIcon className={`w-4 h-4 text-black`} />}
-                </div>
+                {theme.id === 'black' && <Moon className={`w-5 h-5 text-white/90`} />}
+                {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black/90`} />}
+                {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white/90`} />}
+                {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white/90`} />}
+                {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black/90`} />}
               </button>
             ))}
           </div>
@@ -1256,35 +1254,23 @@ export default function ProfileBuilder() {
                     
                     <div className="grid grid-cols-5 gap-3 p-2">
                       {THEMES.map((theme) => (
-                        <motion.button
+                        <button
                           key={theme.id}
                           onClick={() => setProfileData({...profileData, theme: theme.id})}
-                          className={`relative w-16 h-16 rounded-full flex items-center justify-center ${theme.bgGradient} 
-                                     ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
-                          whileHover={{ 
-                            scale: 1.05,
-                            boxShadow: "0 0 10px rgba(145, 71, 255, 0.5)",
-                          }}
-                          whileTap={{ scale: 0.95 }}
+                          className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all 
+                                     ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
                         >
                           {profileData.theme === theme.id && (
-                            <motion.div 
-                              className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5"
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            >
-                              <Check className="w-3 h-3" />
-                            </motion.div>
+                            <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
+                              <Check className="w-2.5 h-2.5" />
+                            </div>
                           )}
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                            {theme.id === 'black' && <Moon className={`w-6 h-6 text-white`} />}
-                            {theme.id === 'gold' && <Gem className={`w-6 h-6 text-black`} />}
-                            {theme.id === 'lavender' && <FlowerIcon className={`w-6 h-6 text-white`} />}
-                            {theme.id === 'space-grey' && <CircleIcon className={`w-6 h-6 text-white`} />}
-                            {theme.id === 'rose-gold' && <HeartIcon className={`w-6 h-6 text-black`} />}
-                          </div>
-                        </motion.button>
+                          {theme.id === 'black' && <Moon className={`w-5 h-5 text-white/90`} />}
+                          {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black/90`} />}
+                          {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white/90`} />}
+                          {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white/90`} />}
+                          {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black/90`} />}
+                        </button>
                       ))}
                     </div>
 
