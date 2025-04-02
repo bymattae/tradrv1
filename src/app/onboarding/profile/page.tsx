@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { Space_Grotesk, JetBrains_Mono, Press_Start_2P } from 'next/font/google';
 import { useToast } from '@/components/ui/use-toast';
 
 interface Theme {
@@ -72,6 +72,12 @@ const spaceGrotesk = Space_Grotesk({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains',
+});
+
+const pressStart2P = Press_Start_2P({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-press-start',
 });
 
 const THEMES: Theme[] = [
@@ -240,6 +246,7 @@ export default function ProfileBuilder() {
   const [isTyping, setIsTyping] = useState(false);
   const [showLevelUpToast, setShowLevelUpToast] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isUsernameVerified, setIsUsernameVerified] = useState(false);
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -490,11 +497,16 @@ export default function ProfileBuilder() {
     setUsernameSuggestions(suggestions);
   };
 
-  // Enhance save field handler with additional animations
+  // Update username save handling to set verified status
   const handleSaveField = () => {
     setIsUpdating(true);
     setJustSaved(activeEditDrawer);
     setShowSavedAnimation(true);
+    
+    // Add verification badge for username
+    if (activeEditDrawer === 'username' && profileData.username.length >= 3) {
+      setIsUsernameVerified(true);
+    }
     
     // Check for first bio save
     if (activeEditDrawer === 'bio' && firstBioSave && profileData.bio.trim().length > 0) {
@@ -577,7 +589,7 @@ export default function ProfileBuilder() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-space-grotesk`}>
+    <div className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} font-space-grotesk`}>
       {/* Header */}
       <header className="px-6 py-4 border-b border-gray-800 flex items-center justify-between bg-black shadow-lg">
         <Link href="/onboarding" className="text-white hover:text-gray-300 transition flex items-center gap-2">
@@ -651,6 +663,11 @@ export default function ProfileBuilder() {
             <div className="flex-grow relative">
               <div className={`text-base font-semibold leading-tight ${currentTheme.textColor} flex items-center`}>
                 <span className="opacity-60">@</span>{profileData.username || "username"}
+                {isUsernameVerified && (
+                  <span className="ml-1.5 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-[8px] px-1.5 py-0.5 rounded-sm font-press-start flex items-center">
+                    <Check className="w-2 h-2 mr-0.5" /> VERIFIED
+                  </span>
+                )}
                 {justSaved === 'username' && (
                   <Check className={`ml-2 w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' || currentTheme.id === 'lavender' ? 'text-black' : 'text-white'}`} />
                 )}
@@ -805,7 +822,7 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
       
-      {/* Sliding Bottom Drawer - Enhanced with improved visuals */}
+      {/* Sliding Bottom Drawer - Updated with darker theme */}
       <AnimatePresence>
         {activeEditDrawer && (
           <>
@@ -818,13 +835,13 @@ export default function ProfileBuilder() {
               onClick={() => setActiveEditDrawer(null)}
             />
             
-            {/* Drawer */}
+            {/* Drawer - Updated to match page theme */}
             <motion.div 
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md rounded-t-2xl shadow-lg border border-gray-800 border-b-0 max-h-[70vh] overflow-auto"
+              className="fixed bottom-0 left-0 right-0 z-50 bg-[#0a0a0e] backdrop-blur-md rounded-t-2xl shadow-lg border border-gray-800 border-b-0 max-h-[70vh] overflow-auto"
             >
               <div className="flex justify-center py-2">
                 <div className="w-10 h-1 bg-gray-700 rounded-full"></div>
@@ -834,7 +851,7 @@ export default function ProfileBuilder() {
                 {activeEditDrawer === 'username' && (
                   <div className="space-y-4">
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold text-white">claim your handle</h3>
+                      <h3 className="text-xl font-semibold font-press-start text-white">claim your handle</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">your profile link will be tradr.co/<span className="text-blue-400">{profileData.username || 'username'}</span></p>
                       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
@@ -980,7 +997,7 @@ export default function ProfileBuilder() {
                 {activeEditDrawer === 'bio' && (
                   <div className="space-y-4">
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold text-white">craft your trader bio</h3>
+                      <h3 className="text-xl font-semibold font-press-start text-white">craft your trader bio</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">keep it sharp — this is your badge.</p>
                       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
@@ -1089,7 +1106,7 @@ export default function ProfileBuilder() {
                 {activeEditDrawer === 'tags' && (
                   <div className="space-y-4">
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold text-white">add your hashtags</h3>
+                      <h3 className="text-xl font-semibold font-press-start text-white">add your hashtags</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">choose up to 3 tags that match your style.</p>
                       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
@@ -1236,7 +1253,7 @@ export default function ProfileBuilder() {
                 {activeEditDrawer === 'theme' && (
                   <div className="space-y-4">
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold text-white">choose your theme</h3>
+                      <h3 className="text-xl font-semibold font-press-start text-white">choose your theme</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">pick a color that defines your style.</p>
                       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
@@ -1323,7 +1340,7 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
 
-      {/* Preview Modal */}
+      {/* Preview Modal - Updated to show verification */}
       <AnimatePresence>
         {isPreviewOpen && (
           <>
@@ -1344,7 +1361,7 @@ export default function ProfileBuilder() {
               <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
                 <div className={`p-6 ${previewBackground === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
                   <div className="text-center mb-4">
-                    <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
+                    <h2 className="text-xl font-bold font-press-start text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
                   </div>
                   
                   {/* Preview content here */}
@@ -1367,8 +1384,13 @@ export default function ProfileBuilder() {
                         )}
                       </div>
                       <div>
-                        <div className={`font-bold text-lg ${currentTheme.textColor}`}>
+                        <div className={`font-bold text-lg ${currentTheme.textColor} flex items-center`}>
                           @{profileData.username || "username"}
+                          {isUsernameVerified && (
+                            <span className="ml-1.5 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-[8px] px-1.5 py-0.5 rounded-sm font-press-start flex items-center">
+                              <Check className="w-2 h-2 mr-0.5" /> VERIFIED
+                            </span>
+                          )}
                         </div>
                         <div className="flex items-center text-xs text-gray-400">
                           <span>tradr.co/@{profileData.username || "username"}</span>
