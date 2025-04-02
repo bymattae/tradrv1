@@ -604,9 +604,14 @@ export default function ProfileBuilder() {
 
       {/* Main content */}
       <div className="container max-w-2xl mx-auto p-6">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Build your profile</h1>
-          <p className="text-gray-400 mt-2">Customize your trader persona with the options below</p>
+        <div className="text-center mb-10">
+          <div className="inline-flex justify-center items-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold text-white mb-1">Build your profile</h1>
+          <p className="text-gray-400 text-lg">Customize your trader persona</p>
         </div>
         
         {/* Profile card */}
