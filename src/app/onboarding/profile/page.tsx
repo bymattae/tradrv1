@@ -579,11 +579,12 @@ export default function ProfileBuilder() {
   return (
     <div className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-space-grotesk`}>
       {/* Header */}
-      <header className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
-        <Link href="/onboarding" className="text-gray-400 hover:text-white transition">
+      <header className="px-6 py-4 border-b border-purple-800/30 flex items-center justify-between bg-gradient-to-r from-purple-900/90 via-indigo-900 to-purple-900/90 shadow-lg backdrop-blur-sm">
+        <Link href="/onboarding" className="text-white hover:text-purple-300 transition flex items-center gap-2">
           <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-medium">Back</span>
         </Link>
-        <h1 className="text-lg font-medium">Profile Editor</h1>
+        <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300">Profile Creator</h1>
         <div className="w-5"></div> {/* Empty div for flex spacing */}
       </header>
 
@@ -604,6 +605,11 @@ export default function ProfileBuilder() {
 
       {/* Main content */}
       <div className="container max-w-2xl mx-auto p-6">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Build your profile</h1>
+          <p className="text-gray-400 mt-2">Customize your trader persona with the options below</p>
+        </div>
+        
         {/* Profile card */}
         <div 
           className={`w-full mx-auto p-6 rounded-2xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
@@ -1310,6 +1316,139 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
     </div>
+
+    {/* Preview Modal */}
+    <AnimatePresence>
+      {isPreviewOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            onClick={() => setIsPreviewOpen(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed inset-0 flex items-center justify-center z-50 p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
+              {/* Modal header with title */}
+              <div className="p-4 border-b border-gray-800 bg-gradient-to-r from-purple-900 via-indigo-800 to-purple-900">
+                <h2 className="text-xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300">
+                  Build your profile
+                </h2>
+              </div>
+              
+              <div className={`p-6 ${previewBackground === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+                {/* Preview content here */}
+                <div className={`p-4 rounded-xl shadow-lg ${currentTheme.bgGradient}`}>
+                  {/* User header */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20">
+                      {profileData.avatar ? (
+                        <Image 
+                          src={profileData.avatar} 
+                          alt="Avatar" 
+                          width={56}
+                          height={56}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                          <User className="w-6 h-6 text-gray-400" />
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <div className={`font-bold text-lg ${currentTheme.textColor}`}>
+                        @{profileData.username || "username"}
+                      </div>
+                      <div className="flex items-center text-xs text-gray-400">
+                        <Trophy className="w-3 h-3 mr-1" />
+                        <span>Level {profileData.level} Trader</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Bio */}
+                  <div className={`mb-3 text-sm ${currentTheme.textColor}`}>
+                    {profileData.bio || "Your bio will appear here..."}
+                  </div>
+                  
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {profileData.tags.map((tag, i) => (
+                      <div key={i} className={`text-xs px-2 py-1 rounded-full ${currentTheme.inputBg} ${currentTheme.textColor}`}>
+                        #{tag}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-2 mt-4">
+                    <div className={`p-2 rounded ${currentTheme.inputBg}`}>
+                      <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>Wins</div>
+                      <div className={`font-mono font-medium ${currentTheme.textColor}`}>
+                        {profileData.stats.wins}
+                      </div>
+                    </div>
+                    <div className={`p-2 rounded ${currentTheme.inputBg}`}>
+                      <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>Trades</div>
+                      <div className={`font-mono font-medium ${currentTheme.textColor}`}>
+                        {profileData.stats.trades}
+                      </div>
+                    </div>
+                    <div className={`p-2 rounded ${currentTheme.inputBg}`}>
+                      <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>Earnings</div>
+                      <div className={`font-mono font-medium ${currentTheme.textColor}`}>
+                        ${profileData.stats.earnings}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Modal footer with buttons */}
+              <div className="p-4 border-t border-gray-800 flex justify-between items-center">
+                <button 
+                  onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
+                  className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
+                >
+                  {previewBackground === 'dark' ? (
+                    <><Sun className="w-4 h-4" /> Light</>
+                  ) : (
+                    <><Moon className="w-4 h-4" /> Dark</>
+                  )}
+                </button>
+                
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => setIsPreviewOpen(false)}
+                    className="px-4 py-2 text-sm text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+                  >
+                    Close
+                  </button>
+                  <button 
+                    onClick={handleCopyLink}
+                    className="px-4 py-2 text-sm text-white bg-purple-600 hover:bg-purple-500 rounded-md transition-colors flex items-center gap-1"
+                  >
+                    {showCopied ? (
+                      <><Check className="w-4 h-4" /> Copied!</>
+                    ) : (
+                      <><Copy className="w-4 h-4" /> Copy Link</>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
