@@ -609,7 +609,7 @@ export default function ProfileBuilder() {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="container max-w-2xl mx-auto px-4 py-6">
+      <div className="container max-w-2xl mx-auto px-4 py-8">
         <div className="text-center mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Build your profile</h1>
           <p className="text-lg md:text-xl text-gray-400">Make it beautiful.</p>
@@ -779,20 +779,22 @@ export default function ProfileBuilder() {
         <div className="mt-5 grid grid-cols-2 gap-4">
           <motion.button
             onClick={handlePreviewShare}
-            className="py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
+            className="py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-sm transition-all flex items-center justify-center gap-2"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
+            <Eye className="w-4 h-4" />
             Preview
           </motion.button>
           
           <motion.button
             onClick={handleContinue}
-            className="py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
+            className="py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-sm transition-all flex items-center justify-center gap-2"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
             Continue
+            <ArrowRight className="w-4 h-4" />
           </motion.button>
         </div>
       </div>
