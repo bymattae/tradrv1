@@ -191,6 +191,8 @@ export default function ProfileBuilder() {
   const [showCopied, setShowCopied] = useState(false);
   const [showXPAnimation, setShowXPAnimation] = useState<{ amount: number; isVisible: boolean }>({ amount: 0, isVisible: false });
   const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
+  const [activeEditDrawer, setActiveEditDrawer] = useState<'username' | 'bio' | 'tags' | 'theme' | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
     username: '',
     avatar: null,
@@ -452,6 +454,14 @@ export default function ProfileBuilder() {
     }
   }, [editingField]);
 
+  const handleSaveField = () => {
+    setIsUpdating(true);
+    setTimeout(() => {
+      setIsUpdating(false);
+      setActiveEditDrawer(null);
+    }, 1000);
+  };
+
   return (
     <div className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-space-grotesk`}>
       {/* Header */}
@@ -463,241 +473,339 @@ export default function ProfileBuilder() {
         <div className="w-5"></div> {/* Empty div for flex spacing */}
       </header>
 
-      {/* Main content - two panel layout */}
+      {/* Updating toast notification */}
+      <AnimatePresence>
+        {isUpdating && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gray-800/90 text-purple-300 px-4 py-2 rounded-lg shadow-lg backdrop-blur-sm text-sm font-medium flex items-center gap-2"
+          >
+            <span className="animate-pulse">●</span>
+            Live preview updating...
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main content - full-screen profile preview */}
       <div className="container max-w-7xl mx-auto p-6">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Panel: Live Preview */}
-          <div className="w-full lg:w-1/2 flex flex-col">
-            <div className="mb-2 flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Live Profile Preview</h2>
+        {/* Live Preview */}
+        <div className="w-full flex flex-col">
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Live Profile Preview</h2>
+          </div>
+          <div className="text-sm text-purple-300/80 mb-4">{currentTip}</div>
+          
+          {/* Phone mockup container */}
+          <div className="bg-black rounded-[40px] p-3 shadow-xl mx-auto w-[330px] border border-gray-800">
+            {/* Status bar */}
+            <div className="flex justify-between items-center px-4 h-6 text-xs text-gray-400">
+              <span>9:41</span>
+              <div className="flex items-center gap-1">
+                <div className="w-4 h-4"><SignalIcon className="w-full h-full" /></div>
+                <div className="w-4 h-4"><WifiIcon className="w-full h-full" /></div>
+                <div className="w-4 h-4"><BatteryIcon className="w-full h-full" /></div>
+              </div>
             </div>
-            <div className="text-sm text-purple-300/80 mb-4">{currentTip}</div>
             
-            {/* Phone mockup container */}
-            <div className="bg-black rounded-[40px] p-3 shadow-xl mx-auto w-[330px] border border-gray-800">
-              {/* Status bar */}
-              <div className="flex justify-between items-center px-4 h-6 text-xs text-gray-400">
-                <span>9:41</span>
-                <div className="flex items-center gap-1">
-                  <div className="w-4 h-4"><SignalIcon className="w-full h-full" /></div>
-                  <div className="w-4 h-4"><WifiIcon className="w-full h-full" /></div>
-                  <div className="w-4 h-4"><BatteryIcon className="w-full h-full" /></div>
+            {/* Phone screen content */}
+            <div 
+              className={`bg-[#121218] rounded-[32px] overflow-hidden shadow-inner h-[600px] flex flex-col relative
+                        ${editingField === 'username' ? 'ring-2 ring-purple-500/50' : ''}
+                        ${editingField === 'bio' ? 'ring-2 ring-purple-500/50' : ''}
+                        ${editingField === 'tags' ? 'ring-2 ring-purple-500/50' : ''}
+                        ${editingField === 'theme' ? 'ring-2 ring-purple-500/50' : ''}`}
+            >
+              {/* Profile header */}
+              <div className="p-4 border-b border-gray-800 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center">
+                    <User className="w-4 h-4 text-purple-100" />
+                  </div>
+                  <span className="font-semibold">Profile</span>
                 </div>
+                <Share2 className="w-5 h-5 text-gray-400" />
               </div>
               
-              {/* Phone screen content */}
-              <div 
-                className={`bg-[#121218] rounded-[32px] overflow-hidden shadow-inner h-[600px] flex flex-col relative
-                          ${editingField === 'username' ? 'ring-2 ring-purple-500/50' : ''}
-                          ${editingField === 'bio' ? 'ring-2 ring-purple-500/50' : ''}
-                          ${editingField === 'tags' ? 'ring-2 ring-purple-500/50' : ''}
-                          ${editingField === 'theme' ? 'ring-2 ring-purple-500/50' : ''}`}
-              >
-                {/* Profile header */}
-                <div className="p-4 border-b border-gray-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center">
-                      <User className="w-4 h-4 text-purple-100" />
+              {/* Profile card */}
+              <div className={`m-4 p-5 rounded-2xl shadow-lg bg-black/60 backdrop-filter backdrop-blur-sm border border-gray-800
+                               ${editingField ? 'shadow-[0_0_20px_rgba(139,92,246,0.15)]' : ''}`}>
+                {/* Avatar & Username */}
+                <div className="flex items-center gap-3 mb-4 relative group">
+                  <div 
+                    className="w-16 h-16 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
+                    onClick={handleAvatarClick}
+                  >
+                    {profileData.avatar ? (
+                      <Image src={profileData.avatar} alt="Avatar" layout="fill" objectFit="cover" />
+                    ) : (
+                      <User className="w-8 h-8" />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <Camera className="w-6 h-6 text-white" />
                     </div>
-                    <span className="font-semibold">Profile</span>
                   </div>
-                  <Share2 className="w-5 h-5 text-gray-400" />
+                  <input 
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                  <div className="flex-grow relative">
+                    <div className={`text-lg leading-tight ${currentTheme.textColor}`}>
+                      <span className="opacity-60">@</span>{profileData.username}
+                    </div>
+                    <div className="text-xs text-gray-500 flex items-center mt-1">
+                      <Trophy className="w-3 h-3 mr-1" />
+                      <span>Level 1 Trader</span>
+                    </div>
+                    <button 
+                      className="absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+                      onClick={() => setActiveEditDrawer('username')}
+                    >
+                      <Pencil className="w-3.5 h-3.5 text-purple-400" />
+                    </button>
+                  </div>
                 </div>
                 
-                {/* Profile card */}
-                <div className={`m-4 p-5 rounded-2xl shadow-lg bg-black/60 backdrop-filter backdrop-blur-sm border border-gray-800
-                                 ${editingField ? 'shadow-[0_0_20px_rgba(139,92,246,0.15)]' : ''}`}>
-                  {/* Avatar & Username */}
-                  <div className={`flex items-center gap-3 mb-4 ${editingField === 'username' ? 'bg-purple-500/10 p-2 rounded-lg transition-colors duration-300' : ''}`}>
-                    <div className="w-16 h-16 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500">
-                      {profileData.avatar ? (
-                        <Image src={profileData.avatar} alt="Avatar" layout="fill" objectFit="cover" />
-                      ) : (
-                        <User className="w-8 h-8" />
-                      )}
+                {/* Bio */}
+                <div className="mb-4 text-sm leading-relaxed relative group">
+                  {profileData.bio || "No bio yet..."}
+                  <button 
+                    className="absolute right-0 top-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => setActiveEditDrawer('bio')}
+                  >
+                    <Pencil className="w-3.5 h-3.5 text-purple-400" />
+                  </button>
+                </div>
+                
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-4 relative group">
+                  {profileData.tags.map((tag, i) => (
+                    <div key={i} className={`px-2 py-1 rounded-md text-xs ${currentTheme.textColor} bg-gray-800/70`}>
+                      {tag}
                     </div>
-                    <div>
-                      <div className={`text-lg leading-tight ${currentTheme.textColor}`}>
-                        <span className="opacity-60">@</span>{profileData.username}
-                      </div>
-                      <div className="text-xs text-gray-500 flex items-center mt-1">
-                        <Trophy className="w-3 h-3 mr-1" />
-                        <span>Level 1 Trader</span>
-                      </div>
+                  ))}
+                  {profileData.tags.length === 0 && (
+                    <div className="text-xs text-gray-500">No tags yet...</div>
+                  )}
+                  <button 
+                    className="absolute right-0 top-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => setActiveEditDrawer('tags')}
+                  >
+                    <Pencil className="w-3.5 h-3.5 text-purple-400" />
+                  </button>
+                </div>
+                
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  <div className="bg-gray-800/70 p-2 rounded-md">
+                    <div className="text-xs text-gray-400">Gain</div>
+                    <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+                      {profileData.stats.performance.toFixed(2)}%
                     </div>
                   </div>
-                  
-                  {/* Bio */}
-                  <div className={`mb-4 text-sm leading-relaxed ${editingField === 'bio' ? 'bg-purple-500/10 p-2 rounded-lg transition-colors duration-300' : ''}`}>
-                    {profileData.bio || "No bio yet..."}
+                  <div className="bg-gray-800/70 p-2 rounded-md">
+                    <div className="text-xs text-gray-400">Win Rate</div>
+                    <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+                      {profileData.stats.winRate.toFixed(2)}%
+                    </div>
                   </div>
-                  
-                  {/* Tags */}
-                  <div className={`flex flex-wrap gap-2 mb-4 ${editingField === 'tags' ? 'bg-purple-500/10 p-2 rounded-lg transition-colors duration-300' : ''}`}>
-                    {profileData.tags.map((tag, i) => (
-                      <div key={i} className={`px-2 py-1 rounded-md text-xs ${currentTheme.textColor} bg-gray-800/70`}>
-                        {tag}
-                      </div>
+                  <div className="bg-gray-800/70 p-2 rounded-md">
+                    <div className="text-xs text-gray-400">Avg R:R</div>
+                    <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+                      {profileData.stats.maxDD.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Theme selector/indicator */}
+                <div className="relative group">
+                  <div className="flex justify-center gap-2">
+                    {THEMES.map((theme) => (
+                      <div 
+                        key={theme.id}
+                        className={`w-6 h-6 rounded-full ${theme.bgGradient} 
+                                   ${profileData.theme === theme.id ? 'ring-2 ring-white scale-110' : 'opacity-60'}`}
+                      />
                     ))}
                   </div>
-                  
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-2 mb-4">
-                    <div className="bg-gray-800/70 p-2 rounded-md">
-                      <div className="text-xs text-gray-400">Gain</div>
-                      <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
-                        {profileData.stats.performance.toFixed(2)}%
-                      </div>
-                    </div>
-                    <div className="bg-gray-800/70 p-2 rounded-md">
-                      <div className="text-xs text-gray-400">Win Rate</div>
-                      <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
-                        {profileData.stats.winRate.toFixed(2)}%
-                      </div>
-                    </div>
-                    <div className="bg-gray-800/70 p-2 rounded-md">
-                      <div className="text-xs text-gray-400">Avg R:R</div>
-                      <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
-                        {profileData.stats.maxDD.toFixed(2)}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Theme selector/indicator */}
-                  <div className={`mb-4 ${editingField === 'theme' ? 'bg-purple-500/10 p-2 rounded-lg transition-colors duration-300' : ''}`}>
-                    <div className="flex justify-center gap-2">
-                      {THEMES.map((theme) => (
-                        <div 
-                          key={theme.id}
-                          className={`w-6 h-6 rounded-full ${theme.bgGradient} 
-                                     ${profileData.theme === theme.id ? 'ring-2 ring-white scale-110' : 'opacity-60'}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Powered by text */}
-                  <div className="text-center mt-3 text-xs text-gray-500">
-                    powered by tradr
-                  </div>
+                  <button 
+                    className="absolute right-0 top-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => setActiveEditDrawer('theme')}
+                  >
+                    <Pencil className="w-3.5 h-3.5 text-purple-400" />
+                  </button>
+                </div>
+                
+                {/* Powered by text */}
+                <div className="text-center mt-3 text-xs text-gray-500">
+                  powered by tradr
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Right Panel: Edit Form */}
-          <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
-            <h2 className="text-xl font-semibold mb-6">Edit Your Profile</h2>
-            
-            <div className="space-y-6">
-              {/* Username field */}
-              <div className="space-y-2">
-                <label className="text-xs uppercase text-gray-500 font-medium tracking-wider">Username</label>
-                <div className="flex">
-                  <div className="bg-gray-800/50 px-3 flex items-center border-r border-gray-700 rounded-l-md">
-                    <span className="text-gray-400">@</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={profileData.username}
-                    onChange={(e) => {
-                      setProfileData({...profileData, username: e.target.value});
-                      setUsernameAvailable(true); // Simplified for the example
-                    }}
-                    onFocus={() => setEditingField('username')}
-                    onBlur={() => setEditingField(null)}
-                    className="bg-gray-800/50 text-gray-200 rounded-r-md py-2 px-3 w-full border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-                    placeholder="username"
-                  />
-                </div>
-                {!usernameAvailable && (
-                  <p className="text-red-500 text-xs">Username is not available</p>
-                )}
-              </div>
-              
-              {/* Bio field */}
-              <div className="space-y-2">
-                <label className="text-xs uppercase text-gray-500 font-medium tracking-wider">Bio</label>
-                <textarea
-                  value={profileData.bio}
-                  onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
-                  onFocus={() => setEditingField('bio')}
-                  onBlur={() => setEditingField(null)}
-                  className="bg-gray-800/50 text-gray-200 rounded-md py-2 px-3 w-full h-20 border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
-                  placeholder="Write a short trader bio..."
-                />
-              </div>
-              
-              {/* Hashtags field */}
-              <div className="space-y-2">
-                <label className="text-xs uppercase text-gray-500 font-medium tracking-wider">Hashtags</label>
-                <div className="bg-gray-800/50 rounded-md border border-gray-700 p-3 focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {profileData.tags.map((tag, i) => (
-                      <div key={i} className="bg-gray-700/50 text-gray-300 px-2 py-1 rounded flex items-center space-x-1">
-                        <span>{tag}</span>
-                        <button
-                          onClick={() => handleTagToggle(tag)}
-                          className="text-gray-400 hover:text-red-400"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                  <input
-                    type="text"
-                    value={newTag}
-                    onChange={handleTagInput}
-                    onFocus={() => setEditingField('tags')}
-                    onBlur={() => setTimeout(() => setEditingField(null), 100)}
-                    className="bg-transparent text-gray-300 w-full border-none focus:outline-none"
-                    placeholder="Type hashtag and press space"
-                  />
-                </div>
-                <p className="text-xs text-gray-500">Limited to 5 tags</p>
-              </div>
-              
-              {/* Theme selector */}
-              <div className="space-y-2">
-                <label className="text-xs uppercase text-gray-500 font-medium tracking-wider">Theme</label>
-                <div 
-                  className="grid grid-cols-5 gap-3"
-                  onFocus={() => setEditingField('theme')}
-                  onBlur={() => setEditingField(null)}
-                >
-                  {THEMES.map((theme) => (
-                    <button
-                      key={theme.id}
-                      onClick={() => setProfileData({...profileData, theme: theme.id})}
-                      className={`relative p-4 rounded-md flex items-center justify-center transition-all 
-                                 ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
-                    >
-                      {profileData.theme === theme.id && (
-                        <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
-                          <Check className="w-3 h-3" />
-                        </div>
-                      )}
-                      <Palette className="w-6 h-6 text-white" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Save button */}
-              <div className="pt-4">
-                <button
-                  onClick={handleContinue}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg shadow-purple-900/30 flex items-center justify-center"
-                >
-                  Save Changes
-                  <Check className="w-5 h-5 ml-2" />
-                </button>
-              </div>
-            </div>
+          {/* Main CTA button */}
+          <div className="mt-8 text-center">
+            <button
+              onClick={handleContinue}
+              className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition shadow-lg shadow-purple-900/30 inline-flex items-center justify-center"
+            >
+              Save Changes
+              <Check className="w-5 h-5 ml-2" />
+            </button>
           </div>
         </div>
       </div>
+      
+      {/* Sliding Bottom Drawer */}
+      <AnimatePresence>
+        {activeEditDrawer && (
+          <>
+            {/* Overlay */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black z-40"
+              onClick={() => setActiveEditDrawer(null)}
+            />
+            
+            {/* Drawer */}
+            <motion.div 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md rounded-t-2xl shadow-lg border border-gray-800 border-b-0 max-h-[70vh] overflow-auto"
+            >
+              <div className="flex justify-center py-2">
+                <div className="w-10 h-1 bg-gray-700 rounded-full"></div>
+              </div>
+              
+              <div className="p-6">
+                {activeEditDrawer === 'username' && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Edit Username</h3>
+                    <div className="flex">
+                      <div className="bg-gray-800 px-3 flex items-center border-r border-gray-700 rounded-l-md">
+                        <span className="text-gray-400">@</span>
+                      </div>
+                      <input
+                        type="text"
+                        value={profileData.username}
+                        onChange={(e) => {
+                          setProfileData({...profileData, username: e.target.value});
+                          setUsernameAvailable(true);
+                        }}
+                        className="bg-gray-800 text-gray-200 rounded-r-md py-3 px-3 w-full border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                        placeholder="username"
+                        autoFocus
+                      />
+                    </div>
+                    {!usernameAvailable && (
+                      <p className="text-red-500 text-xs">Username is not available</p>
+                    )}
+                    <button
+                      onClick={handleSaveField}
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                    >
+                      Save Username
+                    </button>
+                  </div>
+                )}
+                
+                {activeEditDrawer === 'bio' && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Edit Bio</h3>
+                    <textarea
+                      value={profileData.bio}
+                      onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
+                      className="bg-gray-800 text-gray-200 rounded-md py-3 px-3 w-full h-28 border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
+                      placeholder="Write a short trader bio..."
+                      autoFocus
+                    />
+                    <button
+                      onClick={handleSaveField}
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                    >
+                      Save Bio
+                    </button>
+                  </div>
+                )}
+                
+                {activeEditDrawer === 'tags' && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Edit Tags</h3>
+                    <div className="bg-gray-800 rounded-md border border-gray-700 p-3">
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {profileData.tags.map((tag, i) => (
+                          <div key={i} className="bg-gray-700 text-gray-300 px-2 py-1 rounded flex items-center space-x-1">
+                            <span>{tag}</span>
+                            <button
+                              onClick={() => handleTagToggle(tag)}
+                              className="text-gray-400 hover:text-red-400"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      <input
+                        type="text"
+                        value={newTag}
+                        onChange={handleTagInput}
+                        className="bg-transparent text-gray-300 w-full border-none focus:outline-none mt-2"
+                        placeholder="Type hashtag and press space"
+                        autoFocus
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500">Limited to 5 tags</p>
+                    <button
+                      onClick={handleSaveField}
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                    >
+                      Save Tags
+                    </button>
+                  </div>
+                )}
+                
+                {activeEditDrawer === 'theme' && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Choose Theme</h3>
+                    <div className="grid grid-cols-5 gap-3">
+                      {THEMES.map((theme) => (
+                        <button
+                          key={theme.id}
+                          onClick={() => setProfileData({...profileData, theme: theme.id})}
+                          className={`relative p-4 rounded-md flex items-center justify-center transition-all 
+                                     ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
+                        >
+                          {profileData.theme === theme.id && (
+                            <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
+                              <Check className="w-3 h-3" />
+                            </div>
+                          )}
+                          <Palette className="w-6 h-6 text-white" />
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={handleSaveField}
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                    >
+                      Save Theme
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       
       {/* Confetti effect */}
       {showConfetti && (
@@ -710,7 +818,7 @@ export default function ProfileBuilder() {
 }
 
 // Just for the mockup - we'd import these from Lucide in a real app
-function Signal({className = "w-6 h-6"}: {className?: string}) {
+function SignalIcon({className = "w-6 h-6"}: {className?: string}) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M16.5 12.5v-1a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1M8 18h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -720,7 +828,7 @@ function Signal({className = "w-6 h-6"}: {className?: string}) {
   );
 }
 
-function Wifi({className = "w-6 h-6"}: {className?: string}) {
+function WifiIcon({className = "w-6 h-6"}: {className?: string}) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 19.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"/>
@@ -729,7 +837,7 @@ function Wifi({className = "w-6 h-6"}: {className?: string}) {
   );
 }
 
-function Battery({className = "w-6 h-6"}: {className?: string}) {
+function BatteryIcon({className = "w-6 h-6"}: {className?: string}) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
