@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Space_Grotesk, JetBrains_Mono, Press_Start_2P } from 'next/font/google';
+import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { useToast } from '@/components/ui/use-toast';
 
 interface Theme {
@@ -71,12 +71,6 @@ const spaceGrotesk = Space_Grotesk({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains',
-});
-
-const pressStart2P = Press_Start_2P({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-press-start',
 });
 
 const THEMES: Theme[] = [
@@ -604,9 +598,9 @@ export default function ProfileBuilder() {
     }
   };
 
-  return (
-    <motion.div 
-      className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} font-space-grotesk`}
+    return (
+            <motion.div 
+      className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-space-grotesk`}
       initial="initial"
       animate="animate"
       exit="exit"
@@ -649,26 +643,20 @@ export default function ProfileBuilder() {
 
       {/* Main content */}
       <div className="container max-w-2xl mx-auto px-6 py-12">
-        {/* Centered header with more space above */}
+        {/* Centered header with more space above - simplified styling */}
         <motion.div 
           className="text-center mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold font-press-start text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 mb-3">
+          <h1 className="text-3xl font-bold text-white mb-2">
             Build your profile
           </h1>
-          <motion.div 
-            className="h-px w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 rounded-full mb-3"
-            initial={{ width: 0 }}
-            animate={{ width: 128 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          ></motion.div>
-          <p className="text-lg text-gray-400 font-press-start tracking-tighter">Make it beautiful.</p>
+          <p className="text-lg text-gray-400">Make it beautiful.</p>
         </motion.div>
         
-        {/* Profile card */}
+        {/* Profile card - clean styling */}
         <motion.div 
           className={`w-full mx-auto p-5 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor} mb-6`}
           variants={cardVariants}
@@ -707,7 +695,7 @@ export default function ProfileBuilder() {
               <div className={`text-base font-semibold leading-tight ${currentTheme.textColor} flex items-center`}>
                 <span className="opacity-60">@</span>{profileData.username || "username"}
                 {isUsernameVerified && (
-                  <span className="ml-1.5 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-[8px] px-1.5 py-0.5 rounded-sm font-press-start flex items-center">
+                  <span className="ml-1.5 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-sm font-medium flex items-center">
                     <Check className="w-2 h-2 mr-0.5" /> VERIFIED
                   </span>
                 )}
@@ -729,13 +717,13 @@ export default function ProfileBuilder() {
               </div>
               <button 
                 className={`absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full 
-                           ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
+                         ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
                 onClick={() => setActiveEditDrawer('username')}
               >
                 <Pencil className={`w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
               </button>
-              </div>
             </div>
+          </div>
 
           {/* Bio - adjusted space */}
           <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
@@ -805,11 +793,11 @@ export default function ProfileBuilder() {
               <div className={`text-sm font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
+              </div>
             </div>
-          </div>
         </motion.div>
 
-        {/* Theme selector with consistent spacing */}
+        {/* Theme selector with cleaner spacing */}
         <motion.div 
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -817,8 +805,7 @@ export default function ProfileBuilder() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <div className="text-center mb-3">
-            <h3 className="text-sm font-press-start text-white mb-2">SELECT YOUR THEME</h3>
-            <div className="h-px w-20 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400"></div>
+            <h3 className="text-sm font-medium text-white tracking-wide uppercase mb-3">Select your theme</h3>
           </div>
           <motion.div 
             className="flex flex-wrap justify-center gap-3" 
@@ -840,7 +827,7 @@ export default function ProfileBuilder() {
           </motion.div>
         </motion.div>
         
-        {/* Buttons with consistent spacing and more retro styling */}
+        {/* Buttons with clean styling */}
         <motion.div 
           className="grid grid-cols-2 gap-4 mb-6"
           initial={{ opacity: 0, y: 20 }}
@@ -849,25 +836,25 @@ export default function ProfileBuilder() {
         >
           <motion.button
             onClick={handlePreviewShare}
-            className="py-3 border-2 border-purple-600 hover:border-purple-500 text-white font-press-start text-xs rounded-lg transition-all flex items-center justify-center gap-2 bg-[#0F0918] hover:bg-[#170F2A]"
+            className="py-3 border-2 border-purple-600 hover:border-purple-500 text-white font-medium text-sm rounded-lg transition-all flex items-center justify-center gap-2 bg-[#0F0918] hover:bg-[#170F2A]"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
             <Eye className="w-4 h-4" />
-            PREVIEW
+            Preview
           </motion.button>
           
           <motion.button
             onClick={handleContinue}
-            className="py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-press-start text-xs rounded-lg transition-all flex items-center justify-center gap-2"
+            className="py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-medium text-sm rounded-lg transition-all flex items-center justify-center gap-2"
             whileHover={{ scale: 1.03, boxShadow: "0 0 15px rgba(138, 75, 255, 0.5)" }}
             whileTap={{ scale: 0.97 }}
           >
-            CONTINUE
+            Continue
             <ArrowRight className="w-4 h-4" />
           </motion.button>
         </motion.div>
-      </div>
+            </div>
 
       {/* Add Level Up Toast notification */}
       <AnimatePresence>
@@ -887,7 +874,7 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
       
-      {/* Sliding Bottom Drawer - Updated with darker theme */}
+      {/* Sliding Bottom Drawer - Updated with cleaner styling */}
       <AnimatePresence>
         {activeEditDrawer && (
           <>
@@ -900,7 +887,7 @@ export default function ProfileBuilder() {
               onClick={() => setActiveEditDrawer(null)}
             />
             
-            {/* Drawer - Updated to match page theme */}
+            {/* Drawer - Updated with cleaner styling */}
             <motion.div 
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -915,10 +902,9 @@ export default function ProfileBuilder() {
               <div className="p-6">
                 {activeEditDrawer === 'username' && (
                   <div className="space-y-4">
-                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold font-press-start text-white">claim your handle</h3>
+                    <div className="pb-3 mb-3 border-b border-gray-800/80">
+                      <h3 className="text-xl font-semibold text-white">Claim your handle</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">your profile link will be tradr.co/<span className="text-blue-400">{profileData.username || 'username'}</span></p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
                     
                     <div className="relative group">
@@ -1061,10 +1047,9 @@ export default function ProfileBuilder() {
                 
                 {activeEditDrawer === 'bio' && (
                   <div className="space-y-4">
-                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold font-press-start text-white">craft your trader bio</h3>
+                    <div className="pb-3 mb-3 border-b border-gray-800/80">
+                      <h3 className="text-xl font-semibold text-white">Craft your trader bio</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">keep it sharp — this is your badge.</p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
 
                     <div className="relative group">
@@ -1170,10 +1155,9 @@ export default function ProfileBuilder() {
                 
                 {activeEditDrawer === 'tags' && (
                   <div className="space-y-4">
-                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold font-press-start text-white">add your hashtags</h3>
+                    <div className="pb-3 mb-3 border-b border-gray-800/80">
+                      <h3 className="text-xl font-semibold text-white">Add your hashtags</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">choose up to 3 tags that match your style.</p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
 
                     <div className="flex justify-center mb-4">
@@ -1317,10 +1301,9 @@ export default function ProfileBuilder() {
                 
                 {activeEditDrawer === 'theme' && (
                   <div className="space-y-4">
-                    <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
-                      <h3 className="text-xl font-semibold font-press-start text-white">choose your theme</h3>
+                    <div className="pb-3 mb-3 border-b border-gray-800/80">
+                      <h3 className="text-xl font-semibold text-white">Choose your theme</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">pick a color that defines your style.</p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
                     
                     <div className="grid grid-cols-5 gap-3 p-2">
@@ -1405,7 +1388,7 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
 
-      {/* Preview Modal - Updated to show verification */}
+      {/* Preview Modal - Updated with cleaner styling */}
       <AnimatePresence>
         {isPreviewOpen && (
           <>
@@ -1426,10 +1409,10 @@ export default function ProfileBuilder() {
               <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
                 <div className={`p-6 ${previewBackground === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
                   <div className="text-center mb-4">
-                    <h2 className="text-xl font-bold font-press-start text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
+                    <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
                   </div>
                   
-                  {/* Preview content here */}
+                  {/* Preview content with cleaner styling */}
                   <div className={`p-4 rounded-xl shadow-lg ${currentTheme.bgGradient}`}>
                     {/* User header */}
                     <div className="flex items-center gap-3 mb-3">
@@ -1452,7 +1435,7 @@ export default function ProfileBuilder() {
                         <div className={`font-bold text-lg ${currentTheme.textColor} flex items-center`}>
                           @{profileData.username || "username"}
                           {isUsernameVerified && (
-                            <span className="ml-1.5 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-[8px] px-1.5 py-0.5 rounded-sm font-press-start flex items-center">
+                            <span className="ml-1.5 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-sm font-medium flex items-center">
                               <Check className="w-2 h-2 mr-0.5" /> VERIFIED
                             </span>
                           )}
