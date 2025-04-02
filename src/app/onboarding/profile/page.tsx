@@ -766,8 +766,8 @@ export default function ProfileBuilder() {
           </div>
         </div>
         
-        {/* Preview Profile Button */}
-        <div className="mt-6 flex justify-center">
+        {/* Preview Profile Button and Looks Good CTA */}
+        <div className="mt-6 flex flex-col items-center gap-3">
           <motion.button
             onClick={handlePreviewShare}
             className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg shadow-lg flex items-center gap-1.5 transition-all text-sm"
@@ -776,6 +776,15 @@ export default function ProfileBuilder() {
           >
             <Eye className="w-4 h-4" />
             Preview
+          </motion.button>
+          
+          <motion.button
+            onClick={handleContinue}
+            className="px-10 py-3 bg-green-600 hover:bg-green-500 text-white font-medium rounded-lg shadow-lg transition-all"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Looks Good!
           </motion.button>
         </div>
       </div>
@@ -1440,40 +1449,24 @@ export default function ProfileBuilder() {
                 </div>
                 
                 {/* Modal footer with buttons */}
-                <div className="p-4 border-t border-gray-800 flex flex-col gap-3">
-                  <div className="text-center mb-2">
-                    <h3 className="text-lg font-bold text-white">Looks good!</h3>
-                  </div>
-                  
+                <div className="p-4 border-t border-gray-800 flex justify-between items-center">
                   <button 
-                    onClick={() => {
-                      setIsPreviewOpen(false);
-                      router.push('/onboarding/complete');
-                    }}
-                    className="w-full py-3 text-white bg-green-600 hover:bg-green-500 rounded-md transition-colors font-medium text-center"
+                    onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
+                    className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
                   >
-                    Complete Profile
+                    {previewBackground === 'dark' ? (
+                      <><Sun className="w-4 h-4" /> Light</>
+                    ) : (
+                      <><Moon className="w-4 h-4" /> Dark</>
+                    )}
                   </button>
                   
-                  <div className="flex justify-between items-center mt-2">
-                    <button 
-                      onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
-                      className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
-                    >
-                      {previewBackground === 'dark' ? (
-                        <><Sun className="w-4 h-4" /> Light</>
-                      ) : (
-                        <><Moon className="w-4 h-4" /> Dark</>
-                      )}
-                    </button>
-                    
-                    <button 
-                      onClick={() => setIsPreviewOpen(false)}
-                      className="text-sm text-gray-400 hover:text-white"
-                    >
-                      Close
-                    </button>
-                  </div>
+                  <button 
+                    onClick={() => setIsPreviewOpen(false)}
+                    className="px-4 py-2 text-sm text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
             </motion.div>
