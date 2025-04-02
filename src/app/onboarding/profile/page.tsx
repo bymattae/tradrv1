@@ -756,20 +756,9 @@ export default function ProfileBuilder() {
               <button
                 key={theme.id}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
-                className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all 
-                           ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
-              >
-                {profileData.theme === theme.id && (
-                  <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
-                    <Check className="w-2.5 h-2.5" />
-                  </div>
-                )}
-                {theme.id === 'black' && <Moon className={`w-5 h-5 text-white/90`} />}
-                {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black/90`} />}
-                {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white/90`} />}
-                {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white/90`} />}
-                {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black/90`} />}
-              </button>
+                className={`relative w-12 h-12 rounded-full transition-all 
+                           ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'}`}
+              />
             ))}
           </div>
         </div>
@@ -1257,20 +1246,9 @@ export default function ProfileBuilder() {
                         <button
                           key={theme.id}
                           onClick={() => setProfileData({...profileData, theme: theme.id})}
-                          className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all 
-                                     ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
-                        >
-                          {profileData.theme === theme.id && (
-                            <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
-                              <Check className="w-2.5 h-2.5" />
-                            </div>
-                          )}
-                          {theme.id === 'black' && <Moon className={`w-5 h-5 text-white/90`} />}
-                          {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black/90`} />}
-                          {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white/90`} />}
-                          {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white/90`} />}
-                          {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black/90`} />}
-                        </button>
+                          className={`relative w-12 h-12 rounded-full transition-all 
+                                     ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'}`}
+                        />
                       ))}
                     </div>
 
