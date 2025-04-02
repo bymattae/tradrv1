@@ -6,7 +6,6 @@ import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, 
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import confetti from 'canvas-confetti';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Space_Grotesk, JetBrains_Mono, Press_Start_2P } from 'next/font/google';
@@ -278,12 +277,6 @@ export default function ProfileBuilder() {
     // Trigger confetti when all items are complete
     if (strength === 100 && !showConfetti) {
       setShowConfetti(true);
-      confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#A259FF', '#6B4EFF', '#241654']
-      });
       setTimeout(() => setShowConfetti(false), 2000);
     }
   }, [profileData, checklist, showConfetti]);
@@ -376,11 +369,6 @@ export default function ProfileBuilder() {
 
   const handlePreviewShare = () => {
     setIsPreviewOpen(true);
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
   };
 
   const currentTheme = THEMES.find(t => t.id === profileData.theme) || THEMES[0];
@@ -497,6 +485,42 @@ export default function ProfileBuilder() {
     setUsernameSuggestions(suggestions);
   };
 
+  // Page animation variants
+  const pageVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.5 } },
+    exit: { opacity: 0 }
+  };
+
+  // Card animation variants
+  const cardVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.5,
+        delay: 0.2
+      } 
+    }
+  };
+
+  // Staggered item animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0 }
+  };
+
   // Update username save handling to set verified status
   const handleSaveField = () => {
     setIsUpdating(true);
@@ -513,14 +537,6 @@ export default function ProfileBuilder() {
       setFirstBioSave(false);
       setShowLevelUpToast(true);
       setTimeout(() => setShowLevelUpToast(false), 3000);
-      
-      // Trigger confetti for first bio save
-      confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ['#A259FF', '#6B4EFF', '#241654']
-      });
     }
     
     // Play sound if enabled
@@ -589,9 +605,20 @@ export default function ProfileBuilder() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} font-space-grotesk`}>
-      {/* Header */}
-      <header className="px-6 py-4 border-b border-gray-800 flex items-center justify-between bg-black shadow-lg">
+    <motion.div 
+      className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} font-space-grotesk`}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
+      {/* Header with animation */}
+      <motion.header 
+        className="px-6 py-4 border-b border-gray-800 flex items-center justify-between bg-black shadow-lg"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <Link href="/onboarding" className="text-white hover:text-gray-300 transition flex items-center gap-2">
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-medium">Back</span>
@@ -603,7 +630,7 @@ export default function ProfileBuilder() {
           <div className="w-2 h-2 rounded-full bg-gray-400"></div>
           <div className="w-2 h-2 rounded-full bg-gray-400"></div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Updating toast notification */}
       <AnimatePresence>
@@ -623,17 +650,30 @@ export default function ProfileBuilder() {
       {/* Main content */}
       <div className="container max-w-2xl mx-auto px-6 py-12">
         {/* Centered header with more space above */}
-        <div className="text-center mb-8">
+        <motion.div 
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1 className="text-3xl font-bold font-press-start text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 mb-3">
             Build your profile
           </h1>
-          <div className="h-px w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 rounded-full mb-3"></div>
+          <motion.div 
+            className="h-px w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 rounded-full mb-3"
+            initial={{ width: 0 }}
+            animate={{ width: 128 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          ></motion.div>
           <p className="text-lg text-gray-400 font-press-start tracking-tighter">Make it beautiful.</p>
-        </div>
+        </motion.div>
         
         {/* Profile card */}
-        <div 
+        <motion.div 
           className={`w-full mx-auto p-5 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor} mb-6`}
+          variants={cardVariants}
+          initial="initial"
+          animate="animate"
         >
           {/* Avatar & Username - adjusted sizing */}
           <div className="flex items-center gap-3 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
@@ -767,33 +807,51 @@ export default function ProfileBuilder() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Theme selector with consistent spacing */}
-        <div className="mb-8">
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <div className="text-center mb-3">
             <h3 className="text-sm font-press-start text-white mb-2">SELECT YOUR THEME</h3>
             <div className="h-px w-20 mx-auto bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400"></div>
           </div>
-          <div className="flex flex-wrap justify-center gap-3">
-            {THEMES.map((theme) => (
-              <button
+          <motion.div 
+            className="flex flex-wrap justify-center gap-3" 
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+          >
+            {THEMES.map((theme, index) => (
+              <motion.button
                 key={theme.id}
+                variants={itemVariants}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
                 className={`relative w-12 h-12 rounded-full transition-all 
-                           ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-110' : 'opacity-70 hover:opacity-100'}`}
+                          ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-110' : 'opacity-70 hover:opacity-100'}`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               />
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         
         {/* Buttons with consistent spacing and more retro styling */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <motion.div 
+          className="grid grid-cols-2 gap-4 mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           <motion.button
             onClick={handlePreviewShare}
             className="py-3 border-2 border-purple-600 hover:border-purple-500 text-white font-press-start text-xs rounded-lg transition-all flex items-center justify-center gap-2 bg-[#0F0918] hover:bg-[#170F2A]"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
             <Eye className="w-4 h-4" />
             PREVIEW
@@ -802,13 +860,13 @@ export default function ProfileBuilder() {
           <motion.button
             onClick={handleContinue}
             className="py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-press-start text-xs rounded-lg transition-all flex items-center justify-center gap-2"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03, boxShadow: "0 0 15px rgba(138, 75, 255, 0.5)" }}
+            whileTap={{ scale: 0.97 }}
           >
             CONTINUE
             <ArrowRight className="w-4 h-4" />
           </motion.button>
-        </div>
+        </motion.div>
       </div>
 
       {/* Add Level Up Toast notification */}
@@ -1478,7 +1536,7 @@ export default function ProfileBuilder() {
           </>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
