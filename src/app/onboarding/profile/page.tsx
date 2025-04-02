@@ -603,41 +603,41 @@ export default function ProfileBuilder() {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="container max-w-2xl mx-auto p-6">
-        <div className="text-center mb-10">
+      <div className="container max-w-2xl mx-auto px-4 py-2">
+        <div className="text-center mb-4">
           {/* Step indicators */}
-          <div className="flex justify-center items-center gap-2 mb-6">
+          <div className="flex justify-center items-center gap-2 mb-3">
             <div className="w-2 h-2 rounded-full bg-blue-500"></div>
             <div className="w-2 h-2 rounded-full bg-gray-400"></div>
             <div className="w-2 h-2 rounded-full bg-gray-400"></div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-1">Build your profile</h1>
-          <p className="text-gray-400 text-lg">Customize your trader persona</p>
+          <h1 className="text-2xl font-bold text-white">Build your profile</h1>
+          <p className="text-gray-400 text-sm">Customize your trader persona</p>
         </div>
         
-        {/* Profile card */}
+        {/* Profile card - reduced padding */}
         <div 
-          className={`w-full mx-auto p-6 rounded-2xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
+          className={`w-full mx-auto p-4 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
         >
-          {/* Avatar & Username - Add subtle outline */}
-          <div className="flex items-center gap-3 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
+          {/* Avatar & Username - reduced sizing */}
+          <div className="flex items-center gap-2 mb-3 relative border border-gray-700/30 p-2 rounded-lg">
             <div 
-              className="w-16 h-16 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
+              className="w-12 h-12 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
               onClick={handleAvatarClick}
             >
               {profileData.avatar ? (
                 <Image 
                   src={profileData.avatar as string} 
                   alt="Avatar" 
-                  width={64}
-                  height={64}
+                  width={48}
+                  height={48}
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <User className="w-8 h-8" />
+                <User className="w-6 h-6" />
               )}
               <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
-                <Camera className="w-6 h-6 text-white" />
+                <Camera className="w-4 h-4 text-white" />
               </div>
             </div>
             <input 
@@ -648,13 +648,13 @@ export default function ProfileBuilder() {
               onChange={handleFileChange}
             />
             <div className="flex-grow relative">
-              <div className={`text-lg font-semibold leading-tight ${currentTheme.textColor} flex items-center`}>
+              <div className={`text-base font-semibold leading-tight ${currentTheme.textColor} flex items-center`}>
                 <span className="opacity-60">@</span>{profileData.username || "username"}
                 {justSaved === 'username' && (
-                  <Check className={`ml-2 w-4 h-4 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' || currentTheme.id === 'lavender' ? 'text-black' : 'text-white'}`} />
+                  <Check className={`ml-2 w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' || currentTheme.id === 'lavender' ? 'text-black' : 'text-white'}`} />
                 )}
               </div>
-              <div className="text-xs text-gray-500 flex items-center mt-1">
+              <div className="text-xs text-gray-500 flex items-center">
                 <Trophy className="w-3 h-3 mr-1" />
                 <span>Level 1 Trader</span>
               </div>
@@ -663,13 +663,13 @@ export default function ProfileBuilder() {
                            ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
                 onClick={() => setActiveEditDrawer('username')}
               >
-                <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+                <Pencil className={`w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
               </button>
               </div>
             </div>
 
-          {/* Bio - Add subtle outline */}
-          <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
+          {/* Bio - reduced padding */}
+          <div className="mb-3 text-xs leading-relaxed relative border border-gray-700/30 p-2 rounded-lg">
             <div className={`${currentTheme.textColor} font-medium`}>
               {profileData.bio || "Write your bio"}
                 </div>
@@ -678,12 +678,12 @@ export default function ProfileBuilder() {
                          ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
               onClick={() => setActiveEditDrawer('bio')}
             >
-              <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+              <Pencil className={`w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
             </button>
               </div>
           
-          {/* Tags - Add subtle outline */}
-          <div className="flex flex-wrap gap-2 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
+          {/* Tags - reduced padding */}
+          <div className="flex flex-wrap gap-1 mb-3 relative border border-gray-700/30 p-2 rounded-lg">
             {profileData.tags.map((tag, i) => (
               <div key={i} className={`px-2 py-1 rounded-md text-xs font-medium ${currentTheme.textColor} ${currentTheme.inputBg} flex items-center`}>
                 {tag}
@@ -708,75 +708,75 @@ export default function ProfileBuilder() {
                          ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
               onClick={() => setActiveEditDrawer('tags')}
             >
-              <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+              <Pencil className={`w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
             </button>
           </div>
           
-          {/* Stats - Add subtle outline and fix colors */}
-          <div className="grid grid-cols-3 gap-2 mb-4 border border-gray-700/30 p-3 rounded-lg relative group">
+          {/* Stats - reduced padding */}
+          <div className="grid grid-cols-3 gap-2 mb-2 border border-gray-700/30 p-2 rounded-lg relative group">
             <div className="absolute inset-0 w-full h-full bg-black/10 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help z-10">
-              <div className="bg-gray-900/90 text-white text-xs px-3 py-2 rounded shadow-lg max-w-[90%] text-center">
+              <div className="bg-gray-900/90 text-white text-xs px-2 py-1 rounded shadow-lg max-w-[90%] text-center">
                 You can add your strategy in the next step
               </div>
             </div>
-            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
-              <div className={`text-xs ${currentTheme.inputText}`}>Gain</div>
-              <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
+            <div className={`${currentTheme.inputBg} p-1 rounded-md`}>
+              <div className={`text-2xs ${currentTheme.inputText}`}>Gain</div>
+              <div className={`text-xs font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.performance.toFixed(2)}%
                   </div>
             </div>
-            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
-              <div className={`text-xs ${currentTheme.inputText}`}>Win Rate</div>
-              <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
+            <div className={`${currentTheme.inputBg} p-1 rounded-md`}>
+              <div className={`text-2xs ${currentTheme.inputText}`}>Win Rate</div>
+              <div className={`text-xs font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.winRate.toFixed(2)}%
                   </div>
                 </div>
-            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
-              <div className={`text-xs ${currentTheme.inputText}`}>Avg R:R</div>
-              <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
+            <div className={`${currentTheme.inputBg} p-1 rounded-md`}>
+              <div className={`text-2xs ${currentTheme.inputText}`}>Avg R:R</div>
+              <div className={`text-xs font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
               </div>
             </div>
 
           {/* Powered by text */}
-          <div className={`text-center mt-3 text-xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
+          <div className={`text-center text-2xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
             powered by tradr
               </div>
             </div>
 
-        {/* Theme selector - Make fully circular */}
-        <div className="mt-6 mb-4">
-          <div className="flex flex-wrap justify-center gap-3">
+        {/* Theme selector - reduced size */}
+        <div className="mt-3 mb-2">
+          <div className="flex flex-wrap justify-center gap-2">
             {THEMES.map((theme) => (
                         <button
                 key={theme.id}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
-                className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all 
+                className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all 
                            ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
               >
                 {profileData.theme === theme.id && (
                   <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
-                    <Check className="w-3 h-3" />
+                    <Check className="w-2 h-2" />
                   </div>
                 )}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                  {theme.id === 'black' && <Moon className={`w-5 h-5 text-white`} />}
-                  {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black`} />}
-                  {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white`} />}
-                  {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white`} />}
-                  {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black`} />}
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
+                  {theme.id === 'black' && <Moon className={`w-3 h-3 text-white`} />}
+                  {theme.id === 'gold' && <Gem className={`w-3 h-3 text-black`} />}
+                  {theme.id === 'lavender' && <FlowerIcon className={`w-3 h-3 text-white`} />}
+                  {theme.id === 'space-grey' && <CircleIcon className={`w-3 h-3 text-white`} />}
+                  {theme.id === 'rose-gold' && <HeartIcon className={`w-3 h-3 text-black`} />}
                 </div>
               </button>
             ))}
           </div>
         </div>
         
-        {/* Preview Profile Button and Looks Good CTA */}
-        <div className="mt-10 flex flex-col items-center gap-4">
+        {/* Buttons - reduced vertical spacing */}
+        <div className="mt-4 flex flex-col items-center gap-3">
           <motion.button
             onClick={handleContinue}
-            className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-base transition-all"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -785,18 +785,12 @@ export default function ProfileBuilder() {
           
           <motion.button
             onClick={handlePreviewShare}
-            className="w-full py-3.5 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-base transition-all"
+            className="w-full py-2.5 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
             Preview
           </motion.button>
-
-          <div className="text-center mt-2">
-            <button className="text-gray-500 text-sm">
-              Maybe later
-            </button>
-          </div>
         </div>
       </div>
 
@@ -848,8 +842,8 @@ export default function ProfileBuilder() {
                   <div className="space-y-4">
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">claim your handle</h3>
-                      <p className="text-[#C5C5C5] text-sm mt-1">your profile link will be tradr.co/<span className="text-purple-400">{profileData.username || 'username'}</span></p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                      <p className="text-[#C5C5C5] text-sm mt-1">your profile link will be tradr.co/<span className="text-blue-400">{profileData.username || 'username'}</span></p>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
                     
                     <div className="relative group">
@@ -866,7 +860,7 @@ export default function ProfileBuilder() {
                           onFocus={() => setUsernameInputFocused(true)}
                           onBlur={() => setUsernameInputFocused(false)}
                           className={`bg-gray-800 text-gray-200 rounded-r-md py-4 px-4 w-full border border-gray-700 focus:outline-none transition-all duration-300 ${
-                            usernameInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
+                            usernameInputFocused ? 'ring-2 ring-blue-500/50 border-blue-500' : ''
                           }`}
                           placeholder="username"
                           autoFocus
@@ -925,18 +919,18 @@ export default function ProfileBuilder() {
                       className={`w-full font-medium py-3 px-4 rounded-md transition-all shadow-lg overflow-hidden relative ${
                         usernameStatus === 'unavailable' || profileData.username.length < 3
                           ? 'bg-gray-600 cursor-not-allowed'
-                          : 'bg-purple-600 hover:bg-purple-500'
+                          : 'bg-blue-600 hover:bg-blue-500'
                       }`}
                       whileTap={{ scale: 0.98 }}
                       whileHover={
                         usernameStatus !== 'unavailable' && profileData.username.length >= 3
-                          ? { boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)" }
+                          ? { boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }
                           : {}
                       }
                     >
                       {usernameStatus !== 'unavailable' && profileData.username.length >= 3 && (
                         <motion.div 
-                          className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"
                           initial={{ x: "-100%" }}
                           whileHover={{ x: "0%" }}
                           transition={{ duration: 0.4 }}
@@ -964,7 +958,7 @@ export default function ProfileBuilder() {
                         <button 
                           onClick={() => setSoundEnabled(!soundEnabled)}
                           className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
-                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                            soundEnabled ? 'text-blue-400 bg-blue-900/30' : 'text-gray-500 hover:text-gray-300'
                           }`}
                         >
                           {soundEnabled ? (
@@ -995,7 +989,7 @@ export default function ProfileBuilder() {
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">craft your trader bio</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">keep it sharp — this is your badge.</p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
 
                     <div className="relative group">
@@ -1005,7 +999,7 @@ export default function ProfileBuilder() {
                         onFocus={() => setBioInputFocused(true)}
                         onBlur={() => setBioInputFocused(false)}
                         className={`bg-gray-800 text-gray-200 rounded-md py-4 px-4 w-full h-32 border border-gray-700 focus:outline-none resize-none transition-all duration-300 ${
-                          bioInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
+                          bioInputFocused ? 'ring-2 ring-blue-500/50 border-blue-500' : ''
                         }`}
                         placeholder="write your bio"
                         autoFocus
@@ -1014,7 +1008,7 @@ export default function ProfileBuilder() {
                       {/* Typing animation border */}
                       {isTyping && (
                         <motion.div 
-                          className="absolute bottom-0 left-0 h-[2px] bg-purple-500"
+                          className="absolute bottom-0 left-0 h-[2px] bg-blue-500"
                           initial={{ width: "0%" }}
                           animate={{ width: "100%" }}
                           transition={{ duration: 1.2 }}
@@ -1039,14 +1033,14 @@ export default function ProfileBuilder() {
 
                     <motion.button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden group"
+                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden group"
                       whileTap={{ scale: 0.98 }}
                       whileHover={{
-                        boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)",
+                        boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
                       }}
                     >
                       <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                        className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"
                         initial={{ x: "-100%" }}
                         whileHover={{ x: "0%" }}
                         transition={{ duration: 0.4 }}
@@ -1073,7 +1067,7 @@ export default function ProfileBuilder() {
                         <button 
                           onClick={() => setSoundEnabled(!soundEnabled)}
                           className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
-                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                            soundEnabled ? 'text-blue-400 bg-blue-900/30' : 'text-gray-500 hover:text-gray-300'
                           }`}
                         >
                           {soundEnabled ? (
@@ -1104,7 +1098,7 @@ export default function ProfileBuilder() {
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">add your hashtags</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">choose up to 3 tags that match your style.</p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
 
                     <div className="flex justify-center mb-4">
@@ -1114,7 +1108,7 @@ export default function ProfileBuilder() {
                             key={index} 
                             className={`w-10 h-10 rounded-md flex items-center justify-center transition-all ${
                               index < profileData.tags.length 
-                                ? 'bg-purple-600 scale-110' 
+                                ? 'bg-blue-600 scale-110' 
                                 : 'bg-gray-700/50'
                             }`}
                           >
@@ -1137,13 +1131,13 @@ export default function ProfileBuilder() {
                               initial={{ scale: 0.8, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               exit={{ scale: 0.8, opacity: 0 }}
-                              className="bg-purple-900/30 text-purple-200 px-3 py-1.5 rounded-md flex items-center space-x-1 border border-purple-800/30"
+                              className="bg-blue-900/30 text-blue-200 px-3 py-1.5 rounded-md flex items-center space-x-1 border border-blue-800/30"
                               layout
                             >
                               <span className="mr-1">#{tag}</span>
                               <button
                                 onClick={() => handleTagToggle(tag)}
-                                className="text-purple-400 hover:text-red-400 ml-1 p-0.5 rounded-full hover:bg-gray-700/50"
+                                className="text-blue-400 hover:text-red-400 ml-1 p-0.5 rounded-full hover:bg-gray-700/50"
                               >
                                 <X className="w-3 h-3" />
                               </button>
@@ -1161,7 +1155,7 @@ export default function ProfileBuilder() {
                             onFocus={() => setTagInputFocused(true)}
                             onBlur={() => setTagInputFocused(false)}
                             className={`bg-gray-800 text-gray-200 rounded-md py-3 px-4 w-full border border-gray-700 focus:outline-none transition-all duration-300 ${
-                              tagInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
+                              tagInputFocused ? 'ring-2 ring-blue-500/50 border-blue-500' : ''
                             }`}
                             placeholder="type and press enter to add"
                             autoFocus
@@ -1170,7 +1164,7 @@ export default function ProfileBuilder() {
                             onClick={handleTagAddWithAnimation}
                             disabled={!newTag.trim()}
                             className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 rounded-full transition-all ${
-                              newTag.trim() ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-700 cursor-not-allowed'
+                              newTag.trim() ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-700 cursor-not-allowed'
                             }`}
                           >
                             <Plus className="w-4 h-4 text-white" />
@@ -1180,20 +1174,20 @@ export default function ProfileBuilder() {
                     </div>
                     <div className="text-xs text-[#C5C5C5] mt-2 flex items-center justify-center bg-gray-800/40 py-2 px-3 rounded-md">
                       <span className="mr-1">press</span>
-                      <span className="bg-purple-900/40 px-2 py-0.5 rounded text-purple-300 font-mono">Enter</span>
+                      <span className="bg-blue-900/40 px-2 py-0.5 rounded text-blue-300 font-mono">Enter</span>
                       <span className="ml-1">to add a hashtag</span>
                     </div>
 
                     <motion.button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden"
+                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden group"
                       whileTap={{ scale: 0.98 }}
                       whileHover={{
-                        boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)",
+                        boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
                       }}
                     >
                       <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                        className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"
                         initial={{ x: "-100%" }}
                         whileHover={{ x: "0%" }}
                         transition={{ duration: 0.4 }}
@@ -1220,7 +1214,7 @@ export default function ProfileBuilder() {
                         <button 
                           onClick={() => setSoundEnabled(!soundEnabled)}
                           className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
-                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                            soundEnabled ? 'text-blue-400 bg-blue-900/30' : 'text-gray-500 hover:text-gray-300'
                           }`}
                         >
                           {soundEnabled ? (
@@ -1251,7 +1245,7 @@ export default function ProfileBuilder() {
                     <div className="pb-4 mb-2 border-b border-gray-800/80 relative overflow-hidden">
                       <h3 className="text-xl font-semibold text-white">choose your theme</h3>
                       <p className="text-[#C5C5C5] text-sm mt-1">pick a color that defines your style.</p>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
                     </div>
                     
                     <div className="grid grid-cols-5 gap-3 p-2">
@@ -1294,14 +1288,14 @@ export default function ProfileBuilder() {
 
                     <motion.button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden"
+                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded-md transition-all shadow-lg relative overflow-hidden group"
                       whileTap={{ scale: 0.98 }}
                       whileHover={{
-                        boxShadow: "0 0 15px rgba(145, 71, 255, 0.5)",
+                        boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
                       }}
                     >
                       <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800"
+                        className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"
                         initial={{ x: "-100%" }}
                         whileHover={{ x: "0%" }}
                         transition={{ duration: 0.4 }}
@@ -1328,7 +1322,7 @@ export default function ProfileBuilder() {
                         <button 
                           onClick={() => setSoundEnabled(!soundEnabled)}
                           className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition-all ${
-                            soundEnabled ? 'text-purple-400 bg-purple-900/30' : 'text-gray-500 hover:text-gray-300'
+                            soundEnabled ? 'text-blue-400 bg-blue-900/30' : 'text-gray-500 hover:text-gray-300'
                           }`}
                         >
                           {soundEnabled ? (
