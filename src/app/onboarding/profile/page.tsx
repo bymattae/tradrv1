@@ -605,8 +605,9 @@ export default function ProfileBuilder() {
 
       {/* Main content */}
       <div className="container max-w-2xl mx-auto px-4 py-8">
-        <div className="text-center mb-10">
-          <h1 className="text-2xl md:text-3xl font-bold text-blue-500 mb-2">Build your profile</h1>
+        {/* More structured header with deliberate spacing */}
+        <div className="flex flex-col items-center justify-center mb-10 p-4 bg-black/30 rounded-xl border border-gray-800/30 backdrop-blur-sm">
+          <h1 className="text-2xl md:text-3xl font-bold text-blue-500 mb-1">Build your profile</h1>
           <p className="text-xl md:text-2xl text-white/90">Make it beautiful.</p>
         </div>
         
