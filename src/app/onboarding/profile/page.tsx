@@ -603,10 +603,10 @@ export default function ProfileBuilder() {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="container max-w-2xl mx-auto px-4 py-2">
-        <div className="text-center mb-4">
+      <div className="container max-w-2xl mx-auto px-4 py-4">
+        <div className="text-center mb-6">
           {/* Step indicators */}
-          <div className="flex justify-center items-center gap-2 mb-3">
+          <div className="flex justify-center items-center gap-2 mb-4">
             <div className="w-2 h-2 rounded-full bg-blue-500"></div>
             <div className="w-2 h-2 rounded-full bg-gray-400"></div>
             <div className="w-2 h-2 rounded-full bg-gray-400"></div>
@@ -615,22 +615,22 @@ export default function ProfileBuilder() {
           <p className="text-gray-400 text-sm">Customize your trader persona</p>
         </div>
         
-        {/* Profile card - reduced padding */}
+        {/* Profile card - adjusted height */}
         <div 
-          className={`w-full mx-auto p-4 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
+          className={`w-full mx-auto p-5 rounded-xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
         >
-          {/* Avatar & Username - reduced sizing */}
-          <div className="flex items-center gap-2 mb-3 relative border border-gray-700/30 p-2 rounded-lg">
+          {/* Avatar & Username - adjusted sizing */}
+          <div className="flex items-center gap-3 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
             <div 
-              className="w-12 h-12 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
+              className="w-14 h-14 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
               onClick={handleAvatarClick}
             >
               {profileData.avatar ? (
                 <Image 
                   src={profileData.avatar as string} 
                   alt="Avatar" 
-                  width={48}
-                  height={48}
+                  width={56}
+                  height={56}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -651,10 +651,10 @@ export default function ProfileBuilder() {
               <div className={`text-base font-semibold leading-tight ${currentTheme.textColor} flex items-center`}>
                 <span className="opacity-60">@</span>{profileData.username || "username"}
                 {justSaved === 'username' && (
-                  <Check className={`ml-2 w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' || currentTheme.id === 'lavender' ? 'text-black' : 'text-white'}`} />
+                  <Check className={`ml-2 w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' || currentTheme.id === 'lavender' ? 'text-black' : 'text-white'}`} />
                 )}
               </div>
-              <div className="text-xs text-gray-500 flex items-center">
+              <div className="text-xs text-gray-500 flex items-center mt-1">
                 <Trophy className="w-3 h-3 mr-1" />
                 <span>Level 1 Trader</span>
               </div>
@@ -668,8 +668,8 @@ export default function ProfileBuilder() {
               </div>
             </div>
 
-          {/* Bio - reduced padding */}
-          <div className="mb-3 text-xs leading-relaxed relative border border-gray-700/30 p-2 rounded-lg">
+          {/* Bio - adjusted space */}
+          <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
             <div className={`${currentTheme.textColor} font-medium`}>
               {profileData.bio || "Write your bio"}
                 </div>
@@ -682,8 +682,8 @@ export default function ProfileBuilder() {
             </button>
               </div>
           
-          {/* Tags - reduced padding */}
-          <div className="flex flex-wrap gap-1 mb-3 relative border border-gray-700/30 p-2 rounded-lg">
+          {/* Tags - adjusted space */}
+          <div className="flex flex-wrap gap-2 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
             {profileData.tags.map((tag, i) => (
               <div key={i} className={`px-2 py-1 rounded-md text-xs font-medium ${currentTheme.textColor} ${currentTheme.inputBg} flex items-center`}>
                 {tag}
@@ -712,71 +712,71 @@ export default function ProfileBuilder() {
             </button>
           </div>
           
-          {/* Stats - reduced padding */}
-          <div className="grid grid-cols-3 gap-2 mb-2 border border-gray-700/30 p-2 rounded-lg relative group">
+          {/* Stats - adjusted space */}
+          <div className="grid grid-cols-3 gap-2 mb-3 border border-gray-700/30 p-3 rounded-lg relative group">
             <div className="absolute inset-0 w-full h-full bg-black/10 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help z-10">
               <div className="bg-gray-900/90 text-white text-xs px-2 py-1 rounded shadow-lg max-w-[90%] text-center">
                 You can add your strategy in the next step
               </div>
             </div>
-            <div className={`${currentTheme.inputBg} p-1 rounded-md`}>
+            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className={`text-2xs ${currentTheme.inputText}`}>Gain</div>
-              <div className={`text-xs font-jetbrains font-medium ${currentTheme.inputText}`}>
+              <div className={`text-sm font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.performance.toFixed(2)}%
                   </div>
             </div>
-            <div className={`${currentTheme.inputBg} p-1 rounded-md`}>
+            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className={`text-2xs ${currentTheme.inputText}`}>Win Rate</div>
-              <div className={`text-xs font-jetbrains font-medium ${currentTheme.inputText}`}>
+              <div className={`text-sm font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.winRate.toFixed(2)}%
                   </div>
                 </div>
-            <div className={`${currentTheme.inputBg} p-1 rounded-md`}>
+            <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className={`text-2xs ${currentTheme.inputText}`}>Avg R:R</div>
-              <div className={`text-xs font-jetbrains font-medium ${currentTheme.inputText}`}>
+              <div className={`text-sm font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
               </div>
             </div>
 
           {/* Powered by text */}
-          <div className={`text-center text-2xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
+          <div className={`text-center text-xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
             powered by tradr
               </div>
             </div>
 
-        {/* Theme selector - reduced size */}
-        <div className="mt-3 mb-2">
-          <div className="flex flex-wrap justify-center gap-2">
+        {/* Theme selector - adjusted size */}
+        <div className="mt-5 mb-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {THEMES.map((theme) => (
-                        <button
+              <button
                 key={theme.id}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
-                className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all 
+                className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all 
                            ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
               >
                 {profileData.theme === theme.id && (
                   <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
-                    <Check className="w-2 h-2" />
+                    <Check className="w-2.5 h-2.5" />
                   </div>
                 )}
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                  {theme.id === 'black' && <Moon className={`w-3 h-3 text-white`} />}
-                  {theme.id === 'gold' && <Gem className={`w-3 h-3 text-black`} />}
-                  {theme.id === 'lavender' && <FlowerIcon className={`w-3 h-3 text-white`} />}
-                  {theme.id === 'space-grey' && <CircleIcon className={`w-3 h-3 text-white`} />}
-                  {theme.id === 'rose-gold' && <HeartIcon className={`w-3 h-3 text-black`} />}
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
+                  {theme.id === 'black' && <Moon className={`w-4 h-4 text-white`} />}
+                  {theme.id === 'gold' && <Gem className={`w-4 h-4 text-black`} />}
+                  {theme.id === 'lavender' && <FlowerIcon className={`w-4 h-4 text-white`} />}
+                  {theme.id === 'space-grey' && <CircleIcon className={`w-4 h-4 text-white`} />}
+                  {theme.id === 'rose-gold' && <HeartIcon className={`w-4 h-4 text-black`} />}
                 </div>
               </button>
             ))}
           </div>
         </div>
         
-        {/* Buttons - reduced vertical spacing */}
-        <div className="mt-4 flex flex-col items-center gap-3">
+        {/* Buttons - adjusted spacing */}
+        <div className="mt-5 flex flex-col items-center gap-4">
           <motion.button
             onClick={handleContinue}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
+            className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -785,7 +785,7 @@ export default function ProfileBuilder() {
           
           <motion.button
             onClick={handlePreviewShare}
-            className="w-full py-2.5 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
+            className="w-full py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
