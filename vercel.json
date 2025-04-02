@@ -1,9 +1,14 @@
 {
+  "name": "tradrv1",
   "version": 2,
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": {
+        "buildCommand": "next build",
+        "outputDirectory": ".next"
+      }
     }
   ],
   "routes": [
@@ -14,6 +19,12 @@
   ],
   "github": {
     "enabled": true,
-    "silent": false
+    "silent": false,
+    "autoJobCancelation": true
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
   }
 } 
