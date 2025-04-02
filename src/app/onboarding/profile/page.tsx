@@ -230,6 +230,7 @@ export default function ProfileBuilder() {
   const [filteredSuggestions, setFilteredSuggestions] = useState<TagSuggestion[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
   const { toast } = useToast();
+  const [helperText, setHelperText] = useState<string>('tap any field to edit your profile.');
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -392,6 +393,23 @@ export default function ProfileBuilder() {
     }
   };
 
+  const getHelperTextForField = (field: string | null) => {
+    switch(field) {
+      case 'username':
+        return 'your username is public — make it unique and memorable.';
+      case 'bio':
+        return 'write like it\'s your Twitter bio — short and spicy.';
+      case 'tag':
+        return 'choose tags that match your style or niche.';
+      default:
+        return 'tap any field to edit your profile.';
+    }
+  };
+
+  useEffect(() => {
+    setHelperText(getHelperTextForField(editingField));
+  }, [editingField]);
+
   return (
     <div className={`min-h-screen bg-black ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-space-grotesk`}>
       {/* Simple header - matching reference */}
@@ -403,8 +421,8 @@ export default function ProfileBuilder() {
         {/* Simple navigation */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
           <Link href="/onboarding" className="text-white">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
           <button 
             onClick={() => setIsPreviewOpen(true)}
             className="text-xs text-gray-400 flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-md"
@@ -412,10 +430,15 @@ export default function ProfileBuilder() {
             <Search className="w-3 h-3" />
             Live preview
           </button>
-            </div>
+        </div>
 
         {/* Main content - simplified */}
         <div className="p-5">
+          {/* Add dynamic helper text above profile card */}
+          <div className="text-neutral-400 text-sm text-center mb-3 px-4">
+            {helperText}
+          </div>
+          
           {/* Keep the profile card exactly as is */}
           <div className="max-w-sm mx-auto mb-5">
             <div className="rounded-2xl overflow-hidden">
@@ -515,11 +538,6 @@ export default function ProfileBuilder() {
                             </div>
                           </div>
                         )}
-                        {!profileData.username && !editingField && (
-                          <div className="text-xs text-indigo-300/70 mt-1.5 ml-1 font-medium">
-                            {FIELD_HELP.username}
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -539,7 +557,7 @@ export default function ProfileBuilder() {
                           value={profileData.bio}
                           onChange={(e) => handleFieldEdit('bio', e.target.value)}
                           className={`w-full text-center bg-white/5 border-none focus:outline-none ${currentTheme.inputText} text-[16px] tracking-normal font-bold caret-indigo-400 rounded-sm`}
-                          placeholder="Add a short trader bio..."
+                          placeholder="FX scalper based in Thailand. Catch me on EU pairs."
                           onBlur={() => setEditingField(null)}
                           autoFocus
                         />
@@ -547,15 +565,10 @@ export default function ProfileBuilder() {
                         <>
                           <p className="text-[16px] tracking-normal">
                             {profileData.bio || (
-                              <span className="opacity-70">Add a short trader bio...</span>
+                              <span className="opacity-70">FX scalper based in Thailand. Catch me on EU pairs.</span>
                             )}
                           </p>
                         </>
-                      )}
-                      {!profileData.bio && !editingField && (
-                        <div className="text-xs text-indigo-300/70 mt-1.5 font-medium">
-                          {FIELD_HELP.bio}
-                        </div>
                       )}
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center bg-white/10 ${currentTheme.textColor}`}>
@@ -570,7 +583,10 @@ export default function ProfileBuilder() {
                     <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Hashtags
                     </div>
-                    <div className={`flex flex-wrap justify-center gap-2 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md group ${showTagInput ? 'ring-1 ring-white/50' : ''} hover:border-white/30 transition-all duration-200 hover:shadow-[inset_0px_0px_8px_rgba(255,255,255,0.1)]`}>
+                    <div 
+                      className={`flex flex-wrap justify-center gap-2 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md group ${showTagInput ? 'ring-1 ring-white/50' : ''} hover:border-white/30 transition-all duration-200 hover:shadow-[inset_0px_0px_8px_rgba(255,255,255,0.1)]`}
+                      onClick={() => setEditingField('tag')}
+                    >
                       {profileData.tags.map((tag, index) => (
                         <div
                           key={index}
@@ -578,7 +594,10 @@ export default function ProfileBuilder() {
                         >
                           <span>{tag}</span>
                           <button
-                            onClick={() => handleTagToggle(tag)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleTagToggle(tag);
+                            }}
                             className="opacity-50 hover:opacity-100 transition-opacity"
                           >
                             <X className="w-3 h-3" />
@@ -586,16 +605,23 @@ export default function ProfileBuilder() {
                         </div>
                       ))}
                       {profileData.tags.length < 3 && (
-                        <div className="flex flex-col items-center">
+                        <div className="flex items-center">
                           <input
                             type="text"
                             value={newTag}
                             onChange={(e) => {
                               setNewTag(e.target.value);
                               setShowTagInput(true);
+                              setEditingField('tag');
                             }}
-                            onFocus={() => setShowTagInput(true)}
-                            onBlur={() => setShowTagInput(false)}
+                            onFocus={() => {
+                              setShowTagInput(true);
+                              setEditingField('tag');
+                            }}
+                            onBlur={() => {
+                              setShowTagInput(false);
+                              setEditingField(null);
+                            }}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && newTag.trim()) {
                                 handleAddTag();
@@ -603,14 +629,22 @@ export default function ProfileBuilder() {
                               }
                             }}
                             className={`px-3 py-1.5 rounded-lg bg-white/5 ${currentTheme.inputText} text-[16px] tracking-normal border border-dashed border-white/30 w-36 text-center hover:border-white/50 focus:border-white/50 transition-colors duration-200 font-bold shadow-inner shadow-black/20 caret-indigo-400`}
-                            placeholder="#addhashtag"
+                            placeholder={profileData.tags.length === 0 ? "#liquiditygrabs" : "#addhashtag"}
                           />
-                          {profileData.tags.length === 0 && (
-                            <div className="text-xs text-indigo-300/70 mt-1.5 font-medium">
-                              {FIELD_HELP.tags}
-                            </div>
-                          )}
                         </div>
+                      )}
+                      {profileData.tags.length === 0 && !showTagInput && (
+                        <>
+                          <div className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm opacity-70`}>
+                            <span>📈 #liquiditygrabs</span>
+                          </div>
+                          <div className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm opacity-70`}>
+                            <span>🛡️ #fundedtrader</span>
+                          </div>
+                          <div className={`px-3 py-1.5 rounded-lg ${currentTheme.textColor} text-[16px] tracking-normal flex items-center gap-1.5 bg-white/20 border border-white/20 hover:bg-white/25 transition-colors duration-200 font-bold shadow-sm opacity-70`}>
+                            <span>📊 #r:r</span>
+                          </div>
+                        </>
                       )}
                     </div>
                   </div>
