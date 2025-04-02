@@ -605,10 +605,11 @@ export default function ProfileBuilder() {
       {/* Main content */}
       <div className="container max-w-2xl mx-auto p-6">
         <div className="text-center mb-10">
-          <div className="inline-flex justify-center items-center mb-4">
-            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
-              <User className="w-5 h-5 text-white" />
-            </div>
+          {/* Step indicators */}
+          <div className="flex justify-center items-center gap-2 mb-6">
+            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
           </div>
           <h1 className="text-3xl font-bold text-white mb-1">Build your profile</h1>
           <p className="text-gray-400 text-lg">Customize your trader persona</p>
@@ -772,25 +773,30 @@ export default function ProfileBuilder() {
         </div>
         
         {/* Preview Profile Button and Looks Good CTA */}
-        <div className="mt-6 flex flex-col items-center gap-3">
+        <div className="mt-10 flex flex-col items-center gap-4">
           <motion.button
-            onClick={handlePreviewShare}
-            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg shadow-lg flex items-center gap-1.5 transition-all text-sm"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            onClick={handleContinue}
+            className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-base transition-all"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <Eye className="w-4 h-4" />
-            Preview
+            Continue
           </motion.button>
           
           <motion.button
-            onClick={handleContinue}
-            className="px-10 py-3 bg-green-600 hover:bg-green-500 text-white font-medium rounded-lg shadow-lg transition-all"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            onClick={handlePreviewShare}
+            className="w-full py-3.5 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-base transition-all"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
           >
-            Looks Good!
+            Preview
           </motion.button>
+
+          <div className="text-center mt-2">
+            <button className="text-gray-500 text-sm">
+              Maybe later
+            </button>
+          </div>
         </div>
       </div>
 
