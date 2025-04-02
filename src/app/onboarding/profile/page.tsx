@@ -229,6 +229,13 @@ export default function ProfileBuilder() {
   const { toast } = useToast();
   const [helperText, setHelperText] = useState<string>('tap any field to edit your profile.');
   const [currentTip, setCurrentTip] = useState('customize your profile to make it stand out.');
+  const [showSavedAnimation, setShowSavedAnimation] = useState(false);
+  const [usernameInputFocused, setUsernameInputFocused] = useState(false);
+  const [bioInputFocused, setBioInputFocused] = useState(false);
+  const [tagInputFocused, setTagInputFocused] = useState(false);
+  const [hintIndex, setHintIndex] = useState(0);
+  const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   const checklist = useMemo(() => [
     { id: 'username', label: 'Choose username', isComplete: profileData.username.length >= 3, xpReward: 50 },
@@ -437,13 +444,64 @@ export default function ProfileBuilder() {
     }
   }, [editingField]);
 
+  // Add a bio character limit
+  const bioCharLimit = 120;
+
+  // Bio hints that rotate
+  const bioHints = [
+    "describe your style in a sentence.",
+    "make it sound like your twitter bio.",
+    "what's your trading alter ego?"
+  ];
+
+  // Rotate hints for bio
+  useEffect(() => {
+    if (activeEditDrawer === 'bio') {
+      const interval = setInterval(() => {
+        setHintIndex((prevIndex) => (prevIndex + 1) % bioHints.length);
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [activeEditDrawer]);
+
+  // Generate username suggestions
+  const generateUsernameSuggestions = () => {
+    // Simple suggestion algorithm - in production this would be more sophisticated
+    const prefixes = ['trader', 'fx', 'crypto', 'bull', 'bear'];
+    const suffixes = ['pro', 'master', 'wizard', 'shark', 'guru'];
+    
+    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    const randomNum = Math.floor(Math.random() * 1000);
+    
+    return [
+      `${randomPrefix}${randomSuffix}`,
+      `${randomPrefix}${randomNum}`
+    ];
+  };
+
+  // Handle username suggestion click
+  const handleSuggestUsername = () => {
+    const suggestions = generateUsernameSuggestions();
+    setUsernameSuggestions(suggestions);
+  };
+
+  // Update the save field handler to include animations
   const handleSaveField = () => {
     setIsUpdating(true);
     setJustSaved(activeEditDrawer);
+    setShowSavedAnimation(true);
+    
+    // Play sound if enabled
+    if (soundEnabled) {
+      // Sound would be played here
+    }
+    
     setTimeout(() => {
+      setShowSavedAnimation(false);
       setIsUpdating(false);
       setActiveEditDrawer(null);
-    }, 1000);
+    }, 1200);
     
     // Clear the justSaved state after 3 seconds
     setTimeout(() => {
@@ -451,10 +509,22 @@ export default function ProfileBuilder() {
     }, 3000);
   };
 
-  // Add a function to handle tag addition when pressing Enter
+  // Update tags with animation
+  const handleTagAddWithAnimation = () => {
+    if (newTag && profileData.tags.length < 3) {
+      const formattedTag = newTag.toLowerCase();
+      setProfileData(prev => ({
+        ...profileData,
+        tags: [...prev.tags, formattedTag]
+      }));
+      setNewTag('');
+    }
+  };
+
+  // Handle tag keydown - updated to use the animated version
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && newTag.trim() && profileData.tags.length < 3) {
-      handleAddTag();
+      handleTagAddWithAnimation();
     }
   };
 
@@ -530,14 +600,14 @@ export default function ProfileBuilder() {
               >
                 <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
               </button>
+              </div>
             </div>
-          </div>
-          
+
           {/* Bio - Add subtle outline */}
           <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
             <div className={`${currentTheme.textColor} font-medium`}>
               {profileData.bio || "Write your bio"}
-            </div>
+                      </div>
             <button 
               className={`absolute right-2 top-2 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
                          ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
@@ -545,7 +615,7 @@ export default function ProfileBuilder() {
             >
               <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
             </button>
-          </div>
+                  </div>
           
           {/* Tags - Add subtle outline */}
           <div className="flex flex-wrap gap-2 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
@@ -583,14 +653,14 @@ export default function ProfileBuilder() {
               <div className={`text-xs ${currentTheme.inputText}`}>Gain</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.performance.toFixed(2)}%
-              </div>
+                  </div>
             </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className={`text-xs ${currentTheme.inputText}`}>Win Rate</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.winRate.toFixed(2)}%
-              </div>
-            </div>
+                  </div>
+                </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className={`text-xs ${currentTheme.inputText}`}>Avg R:R</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
@@ -602,14 +672,14 @@ export default function ProfileBuilder() {
           {/* Powered by text */}
           <div className={`text-center mt-3 text-xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
             powered by tradr
-          </div>
-        </div>
-        
+              </div>
+            </div>
+
         {/* Theme selector - Make fully circular */}
         <div className="mt-6 mb-4">
           <div className="flex flex-wrap justify-center gap-3">
             {THEMES.map((theme) => (
-              <button
+                        <button
                 key={theme.id}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
                 className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all 
@@ -629,11 +699,11 @@ export default function ProfileBuilder() {
                 </div>
               </button>
             ))}
-          </div>
-        </div>
-      </div>
-      
-      {/* Sliding Bottom Drawer */}
+                </div>
+              </div>
+            </div>
+
+      {/* Sliding Bottom Drawer - Updated with gamification elements */}
       <AnimatePresence>
         {activeEditDrawer && (
           <>
@@ -661,12 +731,9 @@ export default function ProfileBuilder() {
               <div className="p-6">
                 {activeEditDrawer === 'username' && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white">Edit Username</h3>
-                    <div className="text-sm text-gray-400">
-                      Your profile link will be:
-                      <div className="text-purple-400 mt-1 font-mono text-xs">
-                        www.tradr.co/{profileData.username || 'username'}
-                      </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">claim your handle</h3>
+                      <p className="text-sm text-gray-400">your profile link will be tradr.co/<span className="text-purple-400">{profileData.username || 'username'}</span></p>
                     </div>
                     
                     <div className="relative">
@@ -680,35 +747,63 @@ export default function ProfileBuilder() {
                           onChange={(e) => {
                             setProfileData({...profileData, username: e.target.value});
                           }}
-                          className="bg-gray-800 text-gray-200 rounded-r-md py-3 px-3 w-full border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                          onFocus={() => setUsernameInputFocused(true)}
+                          onBlur={() => setUsernameInputFocused(false)}
+                          className={`bg-gray-800 text-gray-200 rounded-r-md py-3 px-3 w-full border border-gray-700 focus:outline-none transition-all duration-300 ${
+                            usernameInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
+                          }`}
                           placeholder="username"
                           autoFocus
                         />
                       </div>
                       
-                      <div className="mt-2">
-                        {usernameStatus === 'checking' && (
-                          <div className="text-yellow-400 text-xs flex items-center">
-                            <span className="animate-pulse">●</span>
-                            <span className="ml-1">Checking availability...</span>
-                          </div>
-                        )}
-                        {usernameStatus === 'available' && (
-                          <div className="text-green-400 text-xs flex items-center">
-                            <Check className="w-3.5 h-3.5 mr-1" />
-                            <span>@{profileData.username} is available</span>
-                          </div>
-                        )}
-                        {usernameStatus === 'unavailable' && (
-                          <div className="text-red-400 text-xs flex items-center">
-                            <X className="w-3.5 h-3.5 mr-1" />
-                            <span>@{profileData.username} is not available</span>
-                          </div>
-                        )}
+                      <div className="mt-2 flex justify-between items-center">
+                        <div>
+                          {usernameStatus === 'checking' && (
+                            <div className="text-yellow-400 text-xs flex items-center">
+                              <span className="animate-pulse">●</span>
+                              <span className="ml-1">checking availability...</span>
+                            </div>
+                          )}
+                          {usernameStatus === 'available' && (
+                            <div className="text-green-400 text-xs flex items-center">
+                              <Check className="w-3.5 h-3.5 mr-1" />
+                              <span>@{profileData.username} is available — nice pick!</span>
+                            </div>
+                          )}
+                          {usernameStatus === 'unavailable' && (
+                            <div className="text-red-400 text-xs flex items-center">
+                              <X className="w-3.5 h-3.5 mr-1" />
+                              <span>@{profileData.username} is taken — try another one</span>
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={handleSuggestUsername}
+                          className="text-xs flex items-center gap-1 bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded transition"
+                        >
+                          <span role="img" aria-label="lightbulb">💡</span> suggest
+                        </button>
                       </div>
+
+                      {usernameSuggestions.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {usernameSuggestions.map((suggestion, index) => (
+                            <button
+                              key={index}
+                              onClick={() => {
+                                setProfileData({...profileData, username: suggestion});
+                              }}
+                              className="text-xs bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded transition text-purple-300"
+                            >
+                              @{suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     
-                    <button
+                    <motion.button
                       onClick={handleSaveField}
                       disabled={usernameStatus === 'unavailable' || profileData.username.length < 3}
                       className={`w-full font-medium py-3 px-4 rounded-md transition shadow-lg ${
@@ -716,63 +811,171 @@ export default function ProfileBuilder() {
                           ? 'bg-gray-600 cursor-not-allowed'
                           : 'bg-purple-600 hover:bg-purple-700 text-white'
                       }`}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Save Changes
-                    </button>
+                      {showSavedAnimation ? (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex items-center justify-center"
+                        >
+                          <Check className="w-5 h-5 mr-2" />
+                          <span>saved!</span>
+                        </motion.div>
+                      ) : (
+                        'save changes'
+                      )}
+                    </motion.button>
+
+                    <div className="flex justify-end items-center">
+                      <button 
+                        onClick={() => setSoundEnabled(!soundEnabled)}
+                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
+                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
+                        }`}
+                      >
+                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
+                      </button>
+                    </div>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'bio' && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white">Edit Bio</h3>
-                    <textarea
-                      value={profileData.bio}
-                      onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
-                      className="bg-gray-800 text-gray-200 rounded-md py-3 px-3 w-full h-28 border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
-                      placeholder="Write your bio"
-                      autoFocus
-                    />
-                    <button
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">craft your trader bio</h3>
+                      <p className="text-sm text-gray-400">keep it sharp — this is your badge.</p>
+                    </div>
+
+                    <div className="relative">
+                      <textarea
+                        value={profileData.bio}
+                        onChange={(e) => {
+                          if (e.target.value.length <= bioCharLimit) {
+                            setProfileData({...profileData, bio: e.target.value});
+                          }
+                        }}
+                        onFocus={() => setBioInputFocused(true)}
+                        onBlur={() => setBioInputFocused(false)}
+                        className={`bg-gray-800 text-gray-200 rounded-md py-3 px-3 w-full h-28 border border-gray-700 focus:outline-none resize-none transition-all duration-300 ${
+                          bioInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
+                        }`}
+                        placeholder="write your bio"
+                        autoFocus
+                      />
+                      <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                        {profileData.bio.length}/{bioCharLimit}
+                      </div>
+                    </div>
+
+                    <motion.div
+                      key={hintIndex}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.5 }}
+                      className="text-sm text-purple-400/70 italic"
+                    >
+                      {bioHints[hintIndex]}
+                    </motion.div>
+
+                    <motion.button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Save Changes
-                    </button>
+                      {showSavedAnimation ? (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex items-center justify-center"
+                        >
+                          <Check className="w-5 h-5 mr-2" />
+                          <span>saved!</span>
+                        </motion.div>
+                      ) : (
+                        'save changes'
+                      )}
+                    </motion.button>
+
+                    <div className="flex justify-end items-center">
+                      <button 
+                        onClick={() => setSoundEnabled(!soundEnabled)}
+                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
+                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
+                        }`}
+                      >
+                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
+                      </button>
+                    </div>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'tags' && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white">Edit Hashtags</h3>
-                    <div className="bg-gray-800 rounded-md border border-gray-700 p-3">
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {profileData.tags.map((tag, i) => (
-                          <div key={i} className="bg-gray-700 text-gray-300 px-2 py-1 rounded flex items-center space-x-1">
-                            <span>{tag}</span>
-                            <button
-                              onClick={() => handleTagToggle(tag)}
-                              className="text-gray-400 hover:text-red-400"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">add your hashtags</h3>
+                      <p className="text-sm text-gray-400">choose up to 3 tags that match your style.</p>
+                    </div>
+
+                    <div className="flex justify-center mb-2">
+                      <div className="flex gap-2">
+                        {[0, 1, 2].map((index) => (
+                          <div 
+                            key={index} 
+                            className={`w-8 h-8 rounded-md flex items-center justify-center ${
+                              index < profileData.tags.length 
+                                ? 'bg-purple-600' 
+                                : 'bg-gray-700/50'
+                            }`}
+                          >
+                            {index < profileData.tags.length && <Check className="w-4 h-4 text-white" />}
                           </div>
                         ))}
                       </div>
+                    </div>
+
+                    <div className="bg-gray-800 rounded-md border border-gray-700 p-3">
+                      <div className="flex flex-wrap gap-2 mb-2 min-h-[40px]">
+                        <AnimatePresence>
+                          {profileData.tags.map((tag, i) => (
+                            <motion.div 
+                              key={tag}
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0.8, opacity: 0 }}
+                              className="bg-gray-700 text-gray-300 px-2 py-1 rounded flex items-center space-x-1"
+                            >
+                              <span>{tag}</span>
+                              <button
+                                onClick={() => handleTagToggle(tag)}
+                                className="text-gray-400 hover:text-red-400 ml-1"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
+                      </div>
                       {profileData.tags.length < 3 && (
-                        <div className="relative">
+                        <div className="relative mt-2">
                           <input
                             type="text"
                             value={newTag}
                             onChange={handleTagInput}
                             onKeyDown={handleTagKeyDown}
-                            className="bg-transparent text-gray-300 w-full border border-gray-700 rounded p-2 focus:outline-none focus:border-purple-500"
-                            placeholder="Type and press Enter to add"
+                            onFocus={() => setTagInputFocused(true)}
+                            onBlur={() => setTagInputFocused(false)}
+                            className={`bg-transparent text-gray-300 w-full border border-gray-700 rounded p-2 focus:outline-none transition-all duration-300 ${
+                              tagInputFocused ? 'ring-2 ring-purple-500/50 border-purple-500' : ''
+                            }`}
+                            placeholder="type and press enter to add"
                             autoFocus
                           />
                           <button
-                            onClick={handleAddTag}
+                            onClick={handleTagAddWithAnimation}
                             disabled={!newTag.trim()}
-                            className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-full ${
+                            className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-full transition-all ${
                               newTag.trim() ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-700 cursor-not-allowed'
                             }`}
                           >
@@ -781,20 +984,51 @@ export default function ProfileBuilder() {
                         </div>
                       )}
                     </div>
-                    <p className="text-xs text-gray-500">{profileData.tags.length}/3 tags used</p>
-                    <div className="text-xs text-gray-400 mt-1">Press Enter to add a hashtag after typing</div>
-                    <button
+                    <div className="text-xs text-gray-400 mt-1 flex items-center">
+                      <span className="mr-1">press</span>
+                      <span className="bg-gray-800 px-1.5 py-0.5 rounded text-purple-300 font-mono">Enter</span>
+                      <span className="ml-1">to add a hashtag</span>
+                    </div>
+
+                    <motion.button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Save Changes
-                    </button>
+                      {showSavedAnimation ? (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex items-center justify-center"
+                        >
+                          <Check className="w-5 h-5 mr-2" />
+                          <span>saved!</span>
+                        </motion.div>
+                      ) : (
+                        'save changes'
+                      )}
+                    </motion.button>
+
+                    <div className="flex justify-end items-center">
+                      <button 
+                        onClick={() => setSoundEnabled(!soundEnabled)}
+                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
+                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
+                        }`}
+                      >
+                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
+                      </button>
+                    </div>
                   </div>
                 )}
                 
                 {activeEditDrawer === 'theme' && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-white">Choose Theme</h3>
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">choose your theme</h3>
+                      <p className="text-sm text-gray-400">pick a color that defines your style.</p>
+                    </div>
+                    
                     <div className="grid grid-cols-5 gap-3">
                       {THEMES.map((theme) => (
                         <button
@@ -818,12 +1052,36 @@ export default function ProfileBuilder() {
                         </button>
                       ))}
                     </div>
-                    <button
+
+                    <motion.button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Save Changes
-                    </button>
+                      {showSavedAnimation ? (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex items-center justify-center"
+                        >
+                          <Check className="w-5 h-5 mr-2" />
+                          <span>saved!</span>
+                        </motion.div>
+                      ) : (
+                        'save changes'
+                      )}
+                    </motion.button>
+
+                    <div className="flex justify-end items-center">
+                      <button 
+                        onClick={() => setSoundEnabled(!soundEnabled)}
+                        className={`text-xs flex items-center gap-1 px-2 py-1 rounded transition ${
+                          soundEnabled ? 'text-purple-400' : 'text-gray-500'
+                        }`}
+                      >
+                        {soundEnabled ? '🔊' : '🔇'} sound {soundEnabled ? 'on' : 'off'}
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
