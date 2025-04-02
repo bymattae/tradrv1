@@ -605,9 +605,9 @@ export default function ProfileBuilder() {
 
       {/* Main content */}
       <div className="container max-w-2xl mx-auto px-4 py-8">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Build your profile</h1>
-          <p className="text-xl md:text-2xl text-gray-400">Make it beautiful.</p>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Build your profile</h1>
+          <p className="text-xl md:text-2xl text-gray-400 font-medium">Make it beautiful.</p>
         </div>
         
         {/* Profile card - adjusted height */}
