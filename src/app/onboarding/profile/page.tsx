@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User, CircleDot, Gem, FlowerIcon, CircleIcon, HeartIcon } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -591,7 +591,11 @@ export default function ProfileBuilder() {
                   </div>
                 )}
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                  <Palette className={`w-5 h-5 ${theme.id === 'gold' || theme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+                  {theme.id === 'black' && <Moon className={`w-5 h-5 text-white`} />}
+                  {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black`} />}
+                  {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white`} />}
+                  {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white`} />}
+                  {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black`} />}
                 </div>
               </button>
             ))}
@@ -727,7 +731,11 @@ export default function ProfileBuilder() {
                             </div>
                           )}
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
-                            <Palette className={`w-5 h-5 ${theme.id === 'gold' || theme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+                            {theme.id === 'black' && <Moon className={`w-5 h-5 text-white`} />}
+                            {theme.id === 'gold' && <Gem className={`w-5 h-5 text-black`} />}
+                            {theme.id === 'lavender' && <FlowerIcon className={`w-5 h-5 text-white`} />}
+                            {theme.id === 'space-grey' && <CircleIcon className={`w-5 h-5 text-white`} />}
+                            {theme.id === 'rose-gold' && <HeartIcon className={`w-5 h-5 text-black`} />}
                           </div>
                         </button>
                       ))}
