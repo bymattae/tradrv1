@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User, CircleDot, Gem, FlowerIcon, CircleIcon, HeartIcon, Eye } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User, CircleDot, Gem, FlowerIcon, CircleIcon, HeartIcon, Eye, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -612,7 +612,7 @@ export default function ProfileBuilder() {
       <div className="container max-w-2xl mx-auto px-4 py-6">
         <div className="text-center mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Build your profile</h1>
-          <p className="text-base md:text-lg text-gray-400">Make it beautiful.</p>
+          <p className="text-lg md:text-xl text-gray-400">Make it beautiful.</p>
         </div>
         
         {/* Profile card - adjusted height */}
@@ -778,21 +778,21 @@ export default function ProfileBuilder() {
         {/* Buttons - side by side */}
         <div className="mt-5 grid grid-cols-2 gap-4">
           <motion.button
-            onClick={handleContinue}
-            className="py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Continue
-          </motion.button>
-          
-          <motion.button
             onClick={handlePreviewShare}
             className="py-3 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-lg text-center text-sm transition-all"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
             Preview
+          </motion.button>
+          
+          <motion.button
+            onClick={handleContinue}
+            className="py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-center text-sm transition-all"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Continue
           </motion.button>
         </div>
       </div>
