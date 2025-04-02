@@ -421,7 +421,7 @@ export default function ProfileBuilder() {
                 <div className="relative z-10 space-y-5 font-space-grotesk">
                   {/* Username with Avatar - enhanced */}
                   <div className="relative mb-3">
-                    <div className="text-[11px] text-[#b5b5b5] uppercase tracking-wider font-medium ml-2 mb-1">
+                    <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Username
                     </div>
                     <div className="flex items-center gap-3 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md transition-all duration-200 hover:border-white/30 group">
@@ -519,7 +519,7 @@ export default function ProfileBuilder() {
                   
                   {/* Bio - improved typography and contrast */}
                   <div className="relative mb-3">
-                    <div className="text-[11px] text-[#b5b5b5] uppercase tracking-wider font-medium ml-2 mb-1">
+                    <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Bio
                     </div>
                     <div 
@@ -555,7 +555,7 @@ export default function ProfileBuilder() {
                   
                   {/* Tags - improved typography and contrast */}
                   <div className="relative mb-3">
-                    <div className="text-[11px] text-[#b5b5b5] uppercase tracking-wider font-medium ml-2 mb-1">
+                    <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Hashtags
                     </div>
                     <div className={`flex flex-wrap justify-center gap-2 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md group ${showTagInput ? 'ring-1 ring-white/50' : ''} hover:border-white/30 transition-all duration-200`}>
@@ -598,7 +598,7 @@ export default function ProfileBuilder() {
                   
                   {/* Stats - with tooltips - improved typography */}
                   <div className="relative mb-3">
-                    <div className="text-[11px] text-[#b5b5b5] uppercase tracking-wider font-medium ml-2 mb-1">
+                    <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Stats
                     </div>
                     <div className="p-4 bg-black/20 rounded-xl border border-white/20 shadow-md hover:border-white/30 transition-all duration-200 space-y-3">
@@ -660,7 +660,7 @@ export default function ProfileBuilder() {
                   
                   {/* Theme Selection - interactive hover preview - improved spacing and interaction */}
                   <div className="relative mb-3">
-                    <div className="text-[11px] text-[#b5b5b5] uppercase tracking-wider font-medium ml-2 mb-1">
+                    <div className={`text-[11px] ${currentTheme.textColor} uppercase tracking-wider font-medium ml-2 mb-1`}>
                       Theme
                     </div>
                     <div className="flex justify-center gap-3 p-4 bg-black/20 rounded-xl border border-white/20 shadow-md">
