@@ -585,12 +585,7 @@ export default function ProfileBuilder() {
           <span className="text-sm font-medium">Back</span>
         </Link>
         
-        {/* Step indicators moved to header */}
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-        </div>
+        <div></div>
       </header>
 
       {/* Updating toast notification */}
