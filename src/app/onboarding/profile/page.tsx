@@ -187,6 +187,8 @@ export default function ProfileBuilder() {
   const [editingField, setEditingField] = useState<'username' | 'bio' | 'tag' | 'tags' | 'theme' | null>(null);
   const [newTag, setNewTag] = useState('');
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
+  const [usernameStatus, setUsernameStatus] = useState<'available' | 'unavailable' | 'checking' | null>(null);
+  const [justSaved, setJustSaved] = useState<string | null>(null);
   const [profileStrength, setProfileStrength] = useState(0);
   const [showCopied, setShowCopied] = useState(false);
   const [showXPAnimation, setShowXPAnimation] = useState<{ amount: number; isVisible: boolean }>({ amount: 0, isVisible: false });
@@ -271,10 +273,16 @@ export default function ProfileBuilder() {
   useEffect(() => {
     // Simulate username availability check
     if (profileData.username.length >= 3) {
+      setUsernameStatus('checking');
       const timer = setTimeout(() => {
-        setUsernameAvailable(true);
+        // For demonstration, assume most usernames are available except "taken"
+        const isAvailable = profileData.username.toLowerCase() !== 'taken';
+        setUsernameAvailable(isAvailable);
+        setUsernameStatus(isAvailable ? 'available' : 'unavailable');
       }, 500);
       return () => clearTimeout(timer);
+    } else {
+      setUsernameStatus(null);
     }
   }, [profileData.username]);
 
@@ -431,10 +439,23 @@ export default function ProfileBuilder() {
 
   const handleSaveField = () => {
     setIsUpdating(true);
+    setJustSaved(activeEditDrawer);
     setTimeout(() => {
       setIsUpdating(false);
       setActiveEditDrawer(null);
     }, 1000);
+    
+    // Clear the justSaved state after 3 seconds
+    setTimeout(() => {
+      setJustSaved(null);
+    }, 3000);
+  };
+
+  // Add a function to handle tag addition when pressing Enter
+  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newTag.trim() && profileData.tags.length < 3) {
+      handleAddTag();
+    }
   };
 
   return (
@@ -469,8 +490,8 @@ export default function ProfileBuilder() {
         <div 
           className={`w-full mx-auto p-6 rounded-2xl shadow-lg ${currentTheme.bgGradient} backdrop-filter backdrop-blur-sm border ${currentTheme.borderColor}`}
         >
-          {/* Avatar & Username */}
-          <div className="flex items-center gap-3 mb-4 relative">
+          {/* Avatar & Username - Add subtle outline */}
+          <div className="flex items-center gap-3 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
             <div 
               className="w-16 h-16 rounded-full bg-gray-800 relative overflow-hidden flex items-center justify-center text-gray-500 cursor-pointer transition-transform transform hover:scale-105"
               onClick={handleAvatarClick}
@@ -492,8 +513,11 @@ export default function ProfileBuilder() {
               onChange={handleFileChange}
             />
             <div className="flex-grow relative">
-              <div className={`text-lg font-semibold leading-tight ${currentTheme.textColor}`}>
+              <div className={`text-lg font-semibold leading-tight ${currentTheme.textColor} flex items-center`}>
                 <span className="opacity-60">@</span>{profileData.username || "username"}
+                {justSaved === 'username' && (
+                  <Check className={`ml-2 w-4 h-4 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' || currentTheme.id === 'lavender' ? 'text-black' : 'text-white'}`} />
+                )}
               </div>
               <div className="text-xs text-gray-500 flex items-center mt-1">
                 <Trophy className="w-3 h-3 mr-1" />
@@ -509,13 +533,13 @@ export default function ProfileBuilder() {
             </div>
           </div>
           
-          {/* Bio */}
-          <div className="mb-4 text-sm leading-relaxed relative">
+          {/* Bio - Add subtle outline */}
+          <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
             <div className={`${currentTheme.textColor} font-medium`}>
               {profileData.bio || "Write your bio"}
             </div>
             <button 
-              className={`absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
+              className={`absolute right-2 top-2 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
                          ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
               onClick={() => setActiveEditDrawer('bio')}
             >
@@ -523,11 +547,17 @@ export default function ProfileBuilder() {
             </button>
           </div>
           
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4 relative">
+          {/* Tags - Add subtle outline */}
+          <div className="flex flex-wrap gap-2 mb-4 relative border border-gray-700/30 p-3 rounded-lg">
             {profileData.tags.map((tag, i) => (
-              <div key={i} className={`px-2 py-1 rounded-md text-xs font-medium ${currentTheme.textColor} ${currentTheme.inputBg}`}>
+              <div key={i} className={`px-2 py-1 rounded-md text-xs font-medium ${currentTheme.textColor} ${currentTheme.inputBg} flex items-center`}>
                 {tag}
+                <button
+                  onClick={() => handleTagToggle(tag)}
+                  className="ml-1 text-gray-400 hover:text-red-400"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </div>
             ))}
             {profileData.tags.length < 3 && (
@@ -539,7 +569,7 @@ export default function ProfileBuilder() {
               </button>
             )}
             <button 
-              className={`absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
+              className={`absolute right-2 top-2 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
                          ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
               onClick={() => setActiveEditDrawer('tags')}
             >
@@ -547,22 +577,22 @@ export default function ProfileBuilder() {
             </button>
           </div>
           
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-2 mb-4">
+          {/* Stats - Add subtle outline and fix colors */}
+          <div className="grid grid-cols-3 gap-2 mb-4 border border-gray-700/30 p-3 rounded-lg">
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
-              <div className="text-xs text-gray-400">Gain</div>
+              <div className={`text-xs ${currentTheme.inputText}`}>Gain</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.performance.toFixed(2)}%
               </div>
             </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
-              <div className="text-xs text-gray-400">Win Rate</div>
+              <div className={`text-xs ${currentTheme.inputText}`}>Win Rate</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.winRate.toFixed(2)}%
               </div>
             </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
-              <div className="text-xs text-gray-400">Avg R:R</div>
+              <div className={`text-xs ${currentTheme.inputText}`}>Avg R:R</div>
               <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
@@ -575,14 +605,14 @@ export default function ProfileBuilder() {
           </div>
         </div>
         
-        {/* Theme selector */}
+        {/* Theme selector - Make fully circular */}
         <div className="mt-6 mb-4">
           <div className="flex flex-wrap justify-center gap-3">
             {THEMES.map((theme) => (
               <button
                 key={theme.id}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
-                className={`relative p-4 rounded-md flex items-center justify-center transition-all 
+                className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all 
                            ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
               >
                 {profileData.theme === theme.id && (
@@ -632,25 +662,60 @@ export default function ProfileBuilder() {
                 {activeEditDrawer === 'username' && (
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-white">Edit Username</h3>
-                    <div className="flex">
-                      <div className="bg-gray-800 px-3 flex items-center border-r border-gray-700 rounded-l-md">
-                        <span className="text-gray-400">@</span>
+                    <div className="text-sm text-gray-400">
+                      Your profile link will be:
+                      <div className="text-purple-400 mt-1 font-mono text-xs">
+                        www.tradr.co/{profileData.username || 'username'}
                       </div>
-                      <input
-                        type="text"
-                        value={profileData.username}
-                        onChange={(e) => {
-                          setProfileData({...profileData, username: e.target.value});
-                          setUsernameAvailable(true);
-                        }}
-                        className="bg-gray-800 text-gray-200 rounded-r-md py-3 px-3 w-full border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-                        placeholder="username"
-                        autoFocus
-                      />
                     </div>
+                    
+                    <div className="relative">
+                      <div className="flex">
+                        <div className="bg-gray-800 px-3 flex items-center border-r border-gray-700 rounded-l-md">
+                          <span className="text-gray-400">@</span>
+                        </div>
+                        <input
+                          type="text"
+                          value={profileData.username}
+                          onChange={(e) => {
+                            setProfileData({...profileData, username: e.target.value});
+                          }}
+                          className="bg-gray-800 text-gray-200 rounded-r-md py-3 px-3 w-full border border-gray-700 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                          placeholder="username"
+                          autoFocus
+                        />
+                      </div>
+                      
+                      <div className="mt-2">
+                        {usernameStatus === 'checking' && (
+                          <div className="text-yellow-400 text-xs flex items-center">
+                            <span className="animate-pulse">●</span>
+                            <span className="ml-1">Checking availability...</span>
+                          </div>
+                        )}
+                        {usernameStatus === 'available' && (
+                          <div className="text-green-400 text-xs flex items-center">
+                            <Check className="w-3.5 h-3.5 mr-1" />
+                            <span>@{profileData.username} is available</span>
+                          </div>
+                        )}
+                        {usernameStatus === 'unavailable' && (
+                          <div className="text-red-400 text-xs flex items-center">
+                            <X className="w-3.5 h-3.5 mr-1" />
+                            <span>@{profileData.username} is not available</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
                     <button
                       onClick={handleSaveField}
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
+                      disabled={usernameStatus === 'unavailable' || profileData.username.length < 3}
+                      className={`w-full font-medium py-3 px-4 rounded-md transition shadow-lg ${
+                        usernameStatus === 'unavailable' || profileData.username.length < 3
+                          ? 'bg-gray-600 cursor-not-allowed'
+                          : 'bg-purple-600 hover:bg-purple-700 text-white'
+                      }`}
                     >
                       Save Changes
                     </button>
@@ -694,17 +759,30 @@ export default function ProfileBuilder() {
                         ))}
                       </div>
                       {profileData.tags.length < 3 && (
-                        <input
-                          type="text"
-                          value={newTag}
-                          onChange={handleTagInput}
-                          className="bg-transparent text-gray-300 w-full border-none focus:outline-none mt-2"
-                          placeholder="Add a hashtag"
-                          autoFocus
-                        />
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={newTag}
+                            onChange={handleTagInput}
+                            onKeyDown={handleTagKeyDown}
+                            className="bg-transparent text-gray-300 w-full border border-gray-700 rounded p-2 focus:outline-none focus:border-purple-500"
+                            placeholder="Type and press Enter to add"
+                            autoFocus
+                          />
+                          <button
+                            onClick={handleAddTag}
+                            disabled={!newTag.trim()}
+                            className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-full ${
+                              newTag.trim() ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-700 cursor-not-allowed'
+                            }`}
+                          >
+                            <Plus className="w-4 h-4 text-white" />
+                          </button>
+                        </div>
                       )}
                     </div>
                     <p className="text-xs text-gray-500">{profileData.tags.length}/3 tags used</p>
+                    <div className="text-xs text-gray-400 mt-1">Press Enter to add a hashtag after typing</div>
                     <button
                       onClick={handleSaveField}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-md transition shadow-lg"
@@ -722,8 +800,8 @@ export default function ProfileBuilder() {
                         <button
                           key={theme.id}
                           onClick={() => setProfileData({...profileData, theme: theme.id})}
-                          className={`relative p-4 rounded-md flex items-center justify-center transition-all 
-                                     ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
+                          className={`relative w-14 h-14 rounded-full flex items-center justify-center ${theme.bgGradient} 
+                                     ${profileData.theme === theme.id ? 'ring-2 ring-white' : 'opacity-70 hover:opacity-100'}`}
                         >
                           {profileData.theme === theme.id && (
                             <div className="absolute -top-1 -right-1 bg-white text-black rounded-full p-0.5">
