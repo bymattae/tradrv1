@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User, Signal, Wifi, Battery } from 'lucide-react';
+import { ArrowLeft, Camera, Check, X, Link as LinkIcon, Sparkles, Lock, Shield, Copy, Trophy, Star, Tags, BadgeCheck, Sparkle, Zap, Target, Flame, Share, Share2, Info, Download, TrendingUp, Percent, Wallet, Palette, ChevronDown, Plus, Moon, Sun, Pencil, Search, LineChart, AlertCircle, User, Signal as SignalIcon, Wifi as WifiIcon, Battery as BatteryIcon } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -184,7 +184,7 @@ export default function ProfileBuilder() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
-  const [editingField, setEditingField] = useState<'username' | 'bio' | 'tag' | 'theme' | null>(null);
+  const [editingField, setEditingField] = useState<'username' | 'bio' | 'tag' | 'tags' | 'theme' | null>(null);
   const [newTag, setNewTag] = useState('');
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
   const [profileStrength, setProfileStrength] = useState(0);
@@ -479,9 +479,9 @@ export default function ProfileBuilder() {
               <div className="flex justify-between items-center px-4 h-6 text-xs text-gray-400">
                 <span>9:41</span>
                 <div className="flex items-center gap-1">
-                  <div className="w-4 h-4"><Signal className="w-full h-full" /></div>
-                  <div className="w-4 h-4"><Wifi className="w-full h-full" /></div>
-                  <div className="w-4 h-4"><Battery className="w-full h-full" /></div>
+                  <div className="w-4 h-4"><SignalIcon className="w-full h-full" /></div>
+                  <div className="w-4 h-4"><WifiIcon className="w-full h-full" /></div>
+                  <div className="w-4 h-4"><BatteryIcon className="w-full h-full" /></div>
                 </div>
               </div>
               
@@ -689,7 +689,7 @@ export default function ProfileBuilder() {
                           <Check className="w-3 h-3" />
                         </div>
                       )}
-                      <theme.icon className="w-6 h-6 text-white" />
+                      <Palette className="w-6 h-6 text-white" />
                     </button>
                   ))}
                 </div>
