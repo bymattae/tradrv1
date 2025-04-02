@@ -94,7 +94,7 @@ const THEMES: Theme[] = [
     textColor: 'text-[#3a2d1b]',
     borderColor: 'border-[#C5B686]',
     inputBg: 'bg-[#CAB980]/25',
-    inputText: 'text-[#3a2d1b]',
+    inputText: 'text-black',
     placeholderText: 'text-[#3a2d1b]/50',
     shadowColor: 'shadow-[#9E8B55]',
     description: 'Luxurious gold finish'
@@ -130,7 +130,7 @@ const THEMES: Theme[] = [
     textColor: 'text-[#2d1b1b]',
     borderColor: 'border-[#D1A39D]',
     inputBg: 'bg-[#D5A59E]/25',
-    inputText: 'text-[#2d1b1b]',
+    inputText: 'text-black',
     placeholderText: 'text-black/50',
     shadowColor: 'shadow-[#96655F]',
     description: 'Sophisticated rose gold finish'
@@ -492,7 +492,7 @@ export default function ProfileBuilder() {
               onChange={handleFileChange}
             />
             <div className="flex-grow relative">
-              <div className={`text-lg leading-tight ${currentTheme.textColor}`}>
+              <div className={`text-lg font-semibold leading-tight ${currentTheme.textColor}`}>
                 <span className="opacity-60">@</span>{profileData.username || "username"}
               </div>
               <div className="text-xs text-gray-500 flex items-center mt-1">
@@ -500,47 +500,50 @@ export default function ProfileBuilder() {
                 <span>Level 1 Trader</span>
               </div>
               <button 
-                className="absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+                className={`absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full 
+                           ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
                 onClick={() => setActiveEditDrawer('username')}
               >
-                <Pencil className="w-3.5 h-3.5 text-purple-400" />
+                <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
               </button>
             </div>
           </div>
           
           {/* Bio */}
           <div className="mb-4 text-sm leading-relaxed relative">
-            <div className={`${currentTheme.textColor}`}>
+            <div className={`${currentTheme.textColor} font-medium`}>
               {profileData.bio || "Write your bio"}
             </div>
             <button 
-              className="absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+              className={`absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
+                         ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
               onClick={() => setActiveEditDrawer('bio')}
             >
-              <Pencil className="w-3.5 h-3.5 text-purple-400" />
+              <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
             </button>
           </div>
           
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4 relative">
             {profileData.tags.map((tag, i) => (
-              <div key={i} className={`px-2 py-1 rounded-md text-xs ${currentTheme.textColor} ${currentTheme.inputBg}`}>
+              <div key={i} className={`px-2 py-1 rounded-md text-xs font-medium ${currentTheme.textColor} ${currentTheme.inputBg}`}>
                 {tag}
               </div>
             ))}
             {profileData.tags.length < 3 && (
               <button 
                 onClick={() => setActiveEditDrawer('tags')} 
-                className={`px-2 py-1 rounded-md text-xs flex items-center gap-1 ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                className={`px-2 py-1 rounded-md text-xs flex items-center gap-1 ${currentTheme.inputBg} ${currentTheme.textColor} font-medium`}
               >
                 <Plus className="w-3 h-3" /> Add hashtag
               </button>
             )}
             <button 
-              className="absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity"
+              className={`absolute right-0 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full
+                         ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
               onClick={() => setActiveEditDrawer('tags')}
             >
-              <Pencil className="w-3.5 h-3.5 text-purple-400" />
+              <Pencil className={`w-3.5 h-3.5 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
             </button>
           </div>
           
@@ -548,26 +551,26 @@ export default function ProfileBuilder() {
           <div className="grid grid-cols-3 gap-2 mb-4">
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className="text-xs text-gray-400">Gain</div>
-              <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+              <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.performance.toFixed(2)}%
               </div>
             </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className="text-xs text-gray-400">Win Rate</div>
-              <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+              <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.winRate.toFixed(2)}%
               </div>
             </div>
             <div className={`${currentTheme.inputBg} p-2 rounded-md`}>
               <div className="text-xs text-gray-400">Avg R:R</div>
-              <div className={`text-md font-jetbrains font-medium ${currentTheme.textColor}`}>
+              <div className={`text-md font-jetbrains font-medium ${currentTheme.inputText}`}>
                 {profileData.stats.maxDD.toFixed(2)}
               </div>
             </div>
           </div>
           
           {/* Powered by text */}
-          <div className="text-center mt-3 text-xs text-gray-500">
+          <div className={`text-center mt-3 text-xs ${currentTheme.id === 'space-grey' ? 'text-white' : 'text-gray-500'}`}>
             powered by tradr
           </div>
         </div>
@@ -587,7 +590,9 @@ export default function ProfileBuilder() {
                     <Check className="w-3 h-3" />
                   </div>
                 )}
-                <Palette className="w-6 h-6 text-white" />
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
+                  <Palette className={`w-5 h-5 ${theme.id === 'gold' || theme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+                </div>
               </button>
             ))}
           </div>
@@ -721,7 +726,9 @@ export default function ProfileBuilder() {
                               <Check className="w-3 h-3" />
                             </div>
                           )}
-                          <Palette className="w-6 h-6 text-white" />
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.id === 'gold' || theme.id === 'rose-gold' || theme.id === 'lavender' ? 'bg-black/20' : 'bg-white/20'}`}>
+                            <Palette className={`w-5 h-5 ${theme.id === 'gold' || theme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
+                          </div>
                         </button>
                       ))}
                     </div>
