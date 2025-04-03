@@ -1404,26 +1404,29 @@ export default function ProfileBuilder() {
                   </div>
                   
                   {/* Preview content with cleaner styling */}
-                  <div className={`p-4 rounded-xl shadow-lg ${currentTheme.bgGradient}`}>
-                    {/* User header */}
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20">
-                        {profileData.avatar ? (
-                          <Image 
-                            src={profileData.avatar} 
-                            alt="Avatar" 
-                            width={56}
-                            height={56}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-                            <User className="w-6 h-6 text-gray-400" />
-                          </div>
-                        )}
+                  <div className="space-y-6">
+                    {/* Avatar and username section */}
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className={`w-20 h-20 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden`}>
+                          {profileData.avatar ? (
+                            <Image 
+                              src={profileData.avatar} 
+                              alt="Avatar" 
+                              width={80} 
+                              height={80}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <User className={`w-8 h-8 ${currentTheme.textColor} opacity-50`} />
+                          )}
+                        </div>
+                        <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${currentTheme.inputBg} flex items-center justify-center border-2 ${currentTheme.borderColor}`}>
+                          <Camera className={`w-3 h-3 ${currentTheme.textColor}`} />
+                        </div>
                       </div>
                       <div>
-                        <div className={`font-medium text-lg ${currentTheme.textColor} flex items-center gap-2`}>
+                        <div className={`font-medium text-xl ${currentTheme.textColor} flex items-center gap-2`}>
                           @{profileData.username || "username"}
                           {isUsernameVerified && <VerifiedBadge />}
                         </div>
@@ -1434,30 +1437,32 @@ export default function ProfileBuilder() {
                         </div>
                       </div>
                     </div>
-                    
-                    {/* Bio */}
-                    <div className={`mb-3 text-sm ${currentTheme.textColor}`}>
-                      {profileData.bio || "Your bio will appear here..."}
+
+                    {/* Bio section */}
+                    <div className={`${currentTheme.inputBg} p-4 rounded-lg`}>
+                      <p className={`text-base ${currentTheme.textColor}`}>
+                        {profileData.bio || "Your bio will appear here..."}
+                      </p>
                     </div>
-                    
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1 mb-3">
+
+                    {/* Tags section */}
+                    <div className="flex flex-wrap gap-2">
                       {profileData.tags.map((tag, i) => (
                         <div 
                           key={i} 
-                          className={`px-3 py-1 rounded-full text-xs ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                          className={`px-3 py-1.5 rounded-full text-sm ${currentTheme.inputBg} ${currentTheme.textColor}`}
                         >
                           #{tag}
                         </div>
                       ))}
                       {profileData.tags.length === 0 && (
-                        <div className={`text-xs ${currentTheme.textColor} opacity-50`}>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-50`}>
                           Add tags to showcase your trading style
                         </div>
                       )}
                     </div>
-                    
-                    {/* Stats */}
+
+                    {/* Stats section */}
                     <div className="grid grid-cols-3 gap-4">
                       <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
                         <div className={`text-lg font-medium ${currentTheme.textColor}`}>
