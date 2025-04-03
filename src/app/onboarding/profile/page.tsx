@@ -230,7 +230,6 @@ export default function ProfileBuilder() {
   });
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [showHolo, setShowHolo] = useState(false);
-  const [previewBackground, setPreviewBackground] = useState<'dark' | 'light'>('dark');
   const [showTagInput, setShowTagInput] = useState(false);
   const [tagSearch, setTagSearch] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState<TagSuggestion[]>([]);
@@ -1399,7 +1398,7 @@ export default function ProfileBuilder() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
-                <div className={`p-6 ${previewBackground === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+                <div className={`p-6 ${currentTheme.bgGradient}`}>
                   <div className="text-center mb-4">
                     <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
                   </div>
@@ -1411,7 +1410,7 @@ export default function ProfileBuilder() {
                       <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20">
                         {profileData.avatar ? (
                           <Image 
-                            src={profileData.avatar as string}
+                            src={profileData.avatar} 
                             alt="Avatar" 
                             width={56}
                             height={56}
@@ -1444,60 +1443,49 @@ export default function ProfileBuilder() {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1 mb-3">
                       {profileData.tags.map((tag, i) => (
-                        <div key={i} className={`text-xs px-2 py-1 rounded-full ${currentTheme.inputBg} ${currentTheme.textColor}`}>
+                        <div 
+                          key={i} 
+                          className={`px-3 py-1 rounded-full text-xs ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                        >
                           #{tag}
                         </div>
                       ))}
                       {profileData.tags.length === 0 && (
-                        <div className="text-xs text-gray-400">Add hashtags to showcase your style</div>
+                        <div className={`text-xs ${currentTheme.textColor} opacity-50`}>
+                          Add tags to showcase your trading style
+                        </div>
                       )}
                     </div>
                     
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-2 mt-4 relative group">
-                      <div className="absolute inset-0 w-full h-full bg-black/10 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help z-10">
-                        <div className="bg-gray-900/90 text-white text-xs px-3 py-2 rounded shadow-lg max-w-[90%] text-center">
-                          You can add your strategy in the next step
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className={`${currentTheme.inputBg} p-4 rounded-lg text-center`}>
+                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                          {profileData.stats.performance}%
                         </div>
+                        <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Performance</div>
                       </div>
-                      <div className={`p-2 rounded ${currentTheme.inputBg}`}>
-                        <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>Perf</div>
-                        <div className={`font-mono font-medium ${currentTheme.textColor}`}>
-                          {profileData.stats.performance.toFixed(1)}%
+                      <div className={`${currentTheme.inputBg} p-4 rounded-lg text-center`}>
+                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                          {profileData.stats.winRate}%
                         </div>
+                        <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Win Rate</div>
                       </div>
-                      <div className={`p-2 rounded ${currentTheme.inputBg}`}>
-                        <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>Win Rate</div>
-                        <div className={`font-mono font-medium ${currentTheme.textColor}`}>
-                          {profileData.stats.winRate.toFixed(1)}%
+                      <div className={`${currentTheme.inputBg} p-4 rounded-lg text-center`}>
+                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                          {profileData.stats.maxDD}%
                         </div>
-                      </div>
-                      <div className={`p-2 rounded ${currentTheme.inputBg}`}>
-                        <div className={`text-xs opacity-70 ${currentTheme.textColor}`}>R:R</div>
-                        <div className={`font-mono font-medium ${currentTheme.textColor}`}>
-                          {profileData.stats.maxDD.toFixed(1)}
-                        </div>
+                        <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Max DD</div>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Modal footer with buttons */}
-                <div className="p-4 border-t border-gray-800 flex justify-between items-center">
-                  <button 
-                    onClick={() => setPreviewBackground(previewBackground === 'dark' ? 'light' : 'dark')}
-                    className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
-                  >
-                    {previewBackground === 'dark' ? (
-                      <><Sun className="w-4 h-4" /> Light</>
-                    ) : (
-                      <><Moon className="w-4 h-4" /> Dark</>
-                    )}
-                  </button>
-                  
+                <div className={`p-4 border-t ${currentTheme.borderColor}`}>
                   <button 
                     onClick={() => setIsPreviewOpen(false)}
-                    className="px-4 py-2 text-sm text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+                    className={`w-full py-2 rounded-lg ${currentTheme.inputBg} ${currentTheme.textColor} hover:opacity-80 transition-opacity`}
                   >
                     Close
                   </button>
