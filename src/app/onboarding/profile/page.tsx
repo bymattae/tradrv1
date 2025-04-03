@@ -1400,7 +1400,7 @@ export default function ProfileBuilder() {
               <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
                 <div className={`p-6 ${currentTheme.bgGradient}`}>
                   <div className="text-center mb-4">
-                    <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Preview</h2>
+                    <h2 className={`text-xl font-medium ${currentTheme.textColor} tracking-tight`}>Live Preview</h2>
                   </div>
                   
                   {/* Preview content with cleaner styling */}
@@ -1459,20 +1459,20 @@ export default function ProfileBuilder() {
                     
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4">
-                      <div className={`${currentTheme.inputBg} p-4 rounded-lg text-center`}>
-                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                      <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
+                        <div className={`text-lg font-medium ${currentTheme.textColor}`}>
                           {profileData.stats.performance}%
                         </div>
                         <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Performance</div>
                       </div>
-                      <div className={`${currentTheme.inputBg} p-4 rounded-lg text-center`}>
-                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                      <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
+                        <div className={`text-lg font-medium ${currentTheme.textColor}`}>
                           {profileData.stats.winRate}%
                         </div>
                         <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Win Rate</div>
                       </div>
-                      <div className={`${currentTheme.inputBg} p-4 rounded-lg text-center`}>
-                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                      <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
+                        <div className={`text-lg font-medium ${currentTheme.textColor}`}>
                           {profileData.stats.maxDD}%
                         </div>
                         <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Max DD</div>
