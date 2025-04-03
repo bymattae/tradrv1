@@ -663,7 +663,7 @@ export default function ProfileBuilder() {
           <h1 className="text-3xl font-medium text-white mb-2 tracking-tight">
             Build your profile
           </h1>
-          <p className="text-3xl font-medium text-gray-400 tracking-tight">Make it beautiful.</p>
+          <p className="text-lg text-gray-400 font-medium tracking-tight">Make it beautiful.</p>
         </motion.div>
         
         {/* Profile card - clean styling */}
@@ -810,16 +810,16 @@ export default function ProfileBuilder() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="grid grid-cols-3 gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {THEMES.map((theme) => (
               <motion.button
                 key={theme.id}
-                className={`relative aspect-square rounded-xl overflow-hidden group ${
-                  currentTheme.id === theme.id ? 'ring-2 ring-white ring-opacity-50' : ''
+                className={`relative w-12 h-12 rounded-full overflow-hidden group ${
+                  profileData.theme === theme.id ? 'ring-2 ring-white ring-opacity-50' : ''
                 }`}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <div className={`absolute inset-0 ${theme.bgGradient}`} />
               </motion.button>
