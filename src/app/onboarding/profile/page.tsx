@@ -663,7 +663,7 @@ export default function ProfileBuilder() {
           <h1 className="text-3xl font-medium text-white mb-2 tracking-tight">
             Build your profile
           </h1>
-          <p className="text-lg text-gray-400 font-normal">Make it beautiful.</p>
+          <p className="text-3xl font-medium text-gray-400 tracking-tight">Make it beautiful.</p>
         </motion.div>
         
         {/* Profile card - clean styling */}
@@ -808,58 +808,44 @@ export default function ProfileBuilder() {
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="text-center mb-3">
-            <h3 className="text-sm font-medium text-white tracking-wide uppercase mb-3">Select your theme</h3>
-          </div>
-          <motion.div 
-            className="flex flex-wrap justify-center gap-3" 
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-          >
-            {THEMES.map((theme, index) => (
+          <div className="grid grid-cols-3 gap-4">
+            {THEMES.map((theme) => (
               <motion.button
                 key={theme.id}
-                variants={itemVariants}
+                className={`relative aspect-square rounded-xl overflow-hidden group ${
+                  currentTheme.id === theme.id ? 'ring-2 ring-white ring-opacity-50' : ''
+                }`}
                 onClick={() => setProfileData({...profileData, theme: theme.id})}
-                className={`relative w-12 h-12 rounded-full transition-all 
-                          ${theme.bgGradient} ${profileData.theme === theme.id ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-110' : 'opacity-70 hover:opacity-100'}`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              />
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className={`absolute inset-0 ${theme.bgGradient}`} />
+              </motion.button>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
         
         {/* Buttons with clean styling */}
-        <motion.div 
-          className="grid grid-cols-2 gap-4 mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
+        <div className="flex gap-4">
           <motion.button
             onClick={handlePreviewShare}
-            className="py-3 border-2 border-purple-600 hover:border-purple-500 text-white font-medium text-sm rounded-lg transition-all flex items-center justify-center gap-2 bg-[#0F0918] hover:bg-[#170F2A]"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            className="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-xl font-medium tracking-tight text-lg transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <Eye className="w-4 h-4" />
             Preview
           </motion.button>
-          
           <motion.button
             onClick={handleContinue}
-            className="py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-medium text-sm rounded-lg transition-all flex items-center justify-center gap-2"
-            whileHover={{ scale: 1.03, boxShadow: "0 0 15px rgba(138, 75, 255, 0.5)" }}
-            whileTap={{ scale: 0.97 }}
+            className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-medium tracking-tight text-lg transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             Continue
-            <ArrowRight className="w-4 h-4" />
           </motion.button>
-        </motion.div>
+        </div>
             </div>
 
       {/* Add Level Up Toast notification */}
