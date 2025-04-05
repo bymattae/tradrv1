@@ -1425,14 +1425,20 @@ export default function ProfileBuilder() {
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2">
-                      {profileData.tags.map((tag, i) => (
-                        <div 
-                          key={i} 
-                          className={`px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] ${currentTheme.textColor}`}
-                        >
-                          #{tag}
+                      {profileData.tags.length > 0 ? (
+                        profileData.tags.map((tag, i) => (
+                          <div 
+                            key={i} 
+                            className={`px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] ${currentTheme.textColor}`}
+                          >
+                            #{tag}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-[15px] text-[#666666]">
+                          #hashtags will be here
                         </div>
-                      ))}
+                      )}
                     </div>
 
                     {/* Stats */}
