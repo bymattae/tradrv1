@@ -133,11 +133,11 @@ const THEMES: Theme[] = [
 
 // Update the theme glow colors to be more vibrant
 const THEME_GLOW_COLORS: Record<string, string> = {
-  'black': 'rgba(255, 255, 255, 0.15)',
-  'gold': 'rgba(255, 215, 0, 0.3)',
-  'lavender': 'rgba(186, 155, 239, 0.3)',
-  'space-grey': 'rgba(192, 192, 197, 0.25)',
-  'rose-gold': 'rgba(255, 192, 203, 0.3)'
+  'black': 'rgba(255, 255, 255, 0.3)',
+  'gold': 'rgba(255, 215, 0, 0.5)',
+  'lavender': 'rgba(186, 155, 239, 0.5)',
+  'space-grey': 'rgba(192, 192, 197, 0.4)',
+  'rose-gold': 'rgba(255, 192, 203, 0.5)'
 };
 
 const TAG_ICONS: Record<string, LucideIcon> = {
@@ -1395,19 +1395,20 @@ export default function ProfileBuilder() {
                 <div className="relative">
                   {/* Enhanced glow effect */}
                   <motion.div
-                    className="absolute -inset-[3px] rounded-[35px] opacity-100"
+                    className="absolute -inset-[4px] rounded-[36px] opacity-100"
                     style={{
-                      background: `linear-gradient(90deg, transparent, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent)`,
-                      filter: 'blur(12px)',
+                      background: `linear-gradient(90deg, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent, ${THEME_GLOW_COLORS[currentTheme.id]}), 
+                                  linear-gradient(180deg, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent, ${THEME_GLOW_COLORS[currentTheme.id]})`,
+                      filter: 'blur(20px)',
                     }}
                     animate={{
                       scale: [1, 1.02, 1],
-                      opacity: [0.8, 1, 0.8],
-                      backgroundPosition: ['200% 50%', '-200% 50%'],
+                      opacity: [0.7, 1, 0.7],
+                      backgroundPosition: ['200% 200%', '-200% -200%'],
                     }}
                     transition={{
                       backgroundPosition: {
-                        duration: 4,
+                        duration: 5,
                         repeat: Infinity,
                         ease: 'linear',
                       },
