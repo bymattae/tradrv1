@@ -8,8 +8,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { useToast } from '@/components/ui/use-toast';
+
+// Add SF Pro Display font styles
+const styles = {
+  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontFeatureSettings: '"ss01", "ss02", "ss03"'
+};
 
 interface Theme {
   id: string;
@@ -62,18 +67,6 @@ interface TagSuggestion {
   icon: LucideIcon;
   category: string;
 }
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-  weight: ['400', '500', '600', '700']
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
-  weight: ['400', '500', '600']
-});
 
 const THEMES: Theme[] = [
   {
@@ -609,15 +602,17 @@ export default function ProfileBuilder() {
 
     return (
             <motion.div 
-      className={`min-h-screen bg-[#0a0a0e] text-gray-200 ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
+      className="min-h-screen bg-[#0a0a0e] text-gray-200"
+      style={styles}
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageVariants}
     >
-      {/* Header with cleaner font */}
+      {/* Header with SF Pro Display */}
       <motion.header 
         className="px-6 py-4 border-b border-gray-800 flex items-center justify-between bg-black shadow-lg"
+        style={styles}
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -1373,15 +1368,16 @@ export default function ProfileBuilder() {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="fixed inset-0 flex items-center justify-center z-50 p-6"
+              style={styles}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="bg-gray-900/95 rounded-2xl overflow-hidden shadow-2xl max-w-md w-full border-2 border-gray-800">
                 <div className="p-4 border-b border-gray-800 bg-gray-900/80">
-                  <h2 className="text-lg font-medium text-white tracking-tight">Live Preview</h2>
+                  <h2 className="text-lg font-medium text-white tracking-tight" style={styles}>Live Preview</h2>
                 </div>
                 <div className="p-6">
                   <div className={`rounded-xl overflow-hidden shadow-lg border-2 ${currentTheme.borderColor}`}>
-                    <div className={`p-8 ${currentTheme.bgGradient}`}>
+                    <div className={`p-8 ${currentTheme.bgGradient}`} style={styles}>
                       <div className="space-y-8">
                         <div className="flex items-center gap-5">
                           <div className="relative">
