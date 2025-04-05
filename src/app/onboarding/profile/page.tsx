@@ -707,10 +707,12 @@ export default function ProfileBuilder() {
                 <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}>
                   tradr.co/@{profileData.username || "username"}
                 </span>
-                <Copy 
-                  className={`w-3 h-3 ml-1 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} 
-                  onClick={handleCopyLink} 
-                />
+                <button 
+                  onClick={handleCopyLink}
+                  className={`ml-1 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`}
+                >
+                  <Copy className={`w-3 h-3 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} />
+                </button>
                 {showCopied && <span className="ml-1 text-green-400 text-2xs">copied!</span>}
               </div>
               <button 
@@ -1381,7 +1383,7 @@ export default function ProfileBuilder() {
                     <X className="w-4 h-4 text-white/80" />
                   </button>
                 </div>
-                <div className="rounded-[32px] overflow-hidden bg-[#0A0A0A] shadow-2xl">
+                <div className={`rounded-[32px] overflow-hidden shadow-2xl ${currentTheme.bgGradient}`}>
                   <div className="p-8 space-y-7">
                     {/* Avatar and username section */}
                     <div className="space-y-5">
@@ -1399,18 +1401,25 @@ export default function ProfileBuilder() {
                         )}
                       </div>
                       <div>
-                        <div className="text-[28px] text-white flex items-center gap-2 font-medium">
+                        <div className={`text-[28px] flex items-center gap-2 font-medium ${currentTheme.textColor}`}>
                           @{profileData.username || "username"}
                           {isUsernameVerified && <VerifiedBadge />}
                         </div>
-                        <div className="text-[15px] text-[#666666] mt-1">
-                          tradr.co/@{profileData.username || "username"}
+                        <div className="flex items-center text-[15px] text-[#666666] mt-1">
+                          <span>tradr.co/@{profileData.username || "username"}</span>
+                          <button 
+                            onClick={handleCopyLink}
+                            className="ml-2 p-0.5 hover:bg-white/10 rounded transition-colors"
+                          >
+                            <Copy className={`w-3.5 h-3.5 text-[#666666]`} />
+                          </button>
+                          {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
                         </div>
                       </div>
                     </div>
 
                     {/* Bio */}
-                    <div className="text-[17px] text-white leading-[1.4]">
+                    <div className={`text-[17px] leading-[1.4] ${currentTheme.textColor}`}>
                       {profileData.bio || "Your bio will appear here..."}
                     </div>
 
@@ -1419,7 +1428,7 @@ export default function ProfileBuilder() {
                       {profileData.tags.map((tag, i) => (
                         <div 
                           key={i} 
-                          className="px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] text-white"
+                          className={`px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] ${currentTheme.textColor}`}
                         >
                           #{tag}
                         </div>
@@ -1429,7 +1438,7 @@ export default function ProfileBuilder() {
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4">
                       <div className="text-center">
-                        <div className="text-[28px] font-medium text-white">
+                        <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
                           {profileData.stats.performance}%
                         </div>
                         <div className="text-[13px] text-[#666666] mt-1">
@@ -1437,7 +1446,7 @@ export default function ProfileBuilder() {
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="text-[28px] font-medium text-white">
+                        <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
                           {profileData.stats.winRate}%
                         </div>
                         <div className="text-[13px] text-[#666666] mt-1">
@@ -1445,7 +1454,7 @@ export default function ProfileBuilder() {
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="text-[28px] font-medium text-white">
+                        <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
                           {profileData.stats.maxDD}%
                         </div>
                         <div className="text-[13px] text-[#666666] mt-1">
