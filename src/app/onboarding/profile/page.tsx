@@ -1372,6 +1372,15 @@ export default function ProfileBuilder() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="w-[380px]">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-[15px] text-white/80 font-medium">Live Preview</div>
+                  <button 
+                    onClick={() => setIsPreviewOpen(false)}
+                    className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                  >
+                    <X className="w-4 h-4 text-white/80" />
+                  </button>
+                </div>
                 <div className="rounded-[32px] overflow-hidden bg-[#0A0A0A] shadow-2xl">
                   <div className="p-8 space-y-7">
                     {/* Avatar and username section */}
