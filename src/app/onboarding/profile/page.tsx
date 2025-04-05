@@ -1371,39 +1371,37 @@ export default function ProfileBuilder() {
               style={styles}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="max-w-[380px] w-full">
-                <div className={`rounded-2xl overflow-hidden shadow-2xl ${currentTheme.bgGradient}`}>
-                  <div className="p-8 space-y-6">
+              <div className="w-[380px]">
+                <div className="rounded-[32px] overflow-hidden bg-[#0A0A0A] shadow-2xl">
+                  <div className="p-8 space-y-7">
                     {/* Avatar and username section */}
-                    <div className="flex items-center gap-4">
-                      <div className={`w-20 h-20 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden`}>
+                    <div className="space-y-5">
+                      <div className="w-[88px] h-[88px] rounded-full bg-[#141414] flex items-center justify-center overflow-hidden">
                         {profileData.avatar ? (
                           <Image 
                             src={profileData.avatar} 
                             alt="Avatar" 
-                            width={80} 
-                            height={80}
+                            width={88} 
+                            height={88}
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <User className={`w-8 h-8 ${currentTheme.textColor} opacity-50`} />
+                          <User className="w-8 h-8 text-white opacity-50" />
                         )}
                       </div>
                       <div>
-                        <div className={`text-2xl font-medium ${currentTheme.textColor} flex items-center gap-2`}>
+                        <div className="text-[28px] text-white flex items-center gap-2 font-medium">
                           @{profileData.username || "username"}
                           {isUsernameVerified && <VerifiedBadge />}
                         </div>
-                        <div className="flex items-center text-sm mt-1">
-                          <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white/70' : 'text-black/70'}>
-                            tradr.co/@{profileData.username || "username"}
-                          </span>
+                        <div className="text-[15px] text-[#666666] mt-1">
+                          tradr.co/@{profileData.username || "username"}
                         </div>
                       </div>
                     </div>
 
                     {/* Bio */}
-                    <div className={`text-lg ${currentTheme.textColor}`}>
+                    <div className="text-[17px] text-white leading-[1.4]">
                       {profileData.bio || "Your bio will appear here..."}
                     </div>
 
@@ -1412,7 +1410,7 @@ export default function ProfileBuilder() {
                       {profileData.tags.map((tag, i) => (
                         <div 
                           key={i} 
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                          className="px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] text-white"
                         >
                           #{tag}
                         </div>
@@ -1422,22 +1420,28 @@ export default function ProfileBuilder() {
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4">
                       <div className="text-center">
-                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                        <div className="text-[28px] font-medium text-white">
                           {profileData.stats.performance}%
                         </div>
-                        <div className={`text-sm ${currentTheme.textColor} opacity-70`}>Gain</div>
+                        <div className="text-[13px] text-[#666666] mt-1">
+                          Gain
+                        </div>
                       </div>
                       <div className="text-center">
-                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                        <div className="text-[28px] font-medium text-white">
                           {profileData.stats.winRate}%
                         </div>
-                        <div className={`text-sm ${currentTheme.textColor} opacity-70`}>Win Rate</div>
+                        <div className="text-[13px] text-[#666666] mt-1">
+                          Win Rate
+                        </div>
                       </div>
                       <div className="text-center">
-                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                        <div className="text-[28px] font-medium text-white">
                           {profileData.stats.maxDD}%
                         </div>
-                        <div className={`text-sm ${currentTheme.textColor} opacity-70`}>Avg R:R</div>
+                        <div className="text-[13px] text-[#666666] mt-1">
+                          Avg R:R
+                        </div>
                       </div>
                     </div>
                   </div>
