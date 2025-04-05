@@ -131,13 +131,13 @@ const THEMES: Theme[] = [
   }
 ];
 
-// Add these theme glow colors after the THEMES array
+// Update the theme glow colors to be more vibrant
 const THEME_GLOW_COLORS: Record<string, string> = {
-  'black': 'rgba(255, 255, 255, 0.1)',
-  'gold': 'rgba(198, 167, 89, 0.2)',
-  'lavender': 'rgba(146, 115, 199, 0.2)',
-  'space-grey': 'rgba(122, 122, 127, 0.2)',
-  'rose-gold': 'rgba(196, 138, 128, 0.2)'
+  'black': 'rgba(255, 255, 255, 0.15)',
+  'gold': 'rgba(255, 215, 0, 0.3)',
+  'lavender': 'rgba(186, 155, 239, 0.3)',
+  'space-grey': 'rgba(192, 192, 197, 0.25)',
+  'rose-gold': 'rgba(255, 192, 203, 0.3)'
 };
 
 const TAG_ICONS: Record<string, LucideIcon> = {
@@ -1393,20 +1393,34 @@ export default function ProfileBuilder() {
                   </button>
                 </div>
                 <div className="relative">
-                  {/* Animated glow effect */}
+                  {/* Enhanced glow effect */}
                   <motion.div
-                    className="absolute -inset-[2px] rounded-[34px] opacity-75"
+                    className="absolute -inset-[3px] rounded-[35px] opacity-100"
                     style={{
                       background: `linear-gradient(90deg, transparent, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent)`,
-                      filter: 'blur(8px)',
+                      filter: 'blur(12px)',
                     }}
                     animate={{
+                      scale: [1, 1.02, 1],
+                      opacity: [0.8, 1, 0.8],
                       backgroundPosition: ['200% 50%', '-200% 50%'],
                     }}
                     transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'linear',
+                      backgroundPosition: {
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: 'linear',
+                      },
+                      scale: {
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      },
+                      opacity: {
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }
                     }}
                   />
                   <div className={`rounded-[32px] overflow-hidden shadow-2xl ${currentTheme.bgGradient} relative z-10`}>
