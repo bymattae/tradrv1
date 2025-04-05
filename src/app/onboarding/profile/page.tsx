@@ -1375,99 +1375,91 @@ export default function ProfileBuilder() {
               className="fixed inset-0 flex items-center justify-center z-50 p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-gray-900/95 rounded-2xl overflow-hidden shadow-2xl max-w-md w-full border border-gray-800">
-                <div className={`p-8 ${currentTheme.bgGradient}`}>
-                  <div className="text-center mb-6">
-                    <h2 className={`text-2xl font-semibold ${currentTheme.textColor} tracking-tight`}>Live Preview</h2>
-                    <p className={`text-sm mt-1 ${currentTheme.textColor} opacity-70`}>This is how your profile will look</p>
-                  </div>
-                  
-                  {/* Preview content with improved styling */}
-                  <div className="space-y-8">
-                    {/* Avatar and username section */}
-                    <div className="flex items-center gap-5">
-                      <div className="relative">
-                        <div className={`w-24 h-24 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden ring-4 ${currentTheme.borderColor}`}>
-                          {profileData.avatar ? (
-                            <Image 
-                              src={profileData.avatar} 
-                              alt="Avatar" 
-                              width={96} 
-                              height={96}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <User className={`w-10 h-10 ${currentTheme.textColor} opacity-50`} />
+              <div className="bg-gray-900/95 rounded-2xl overflow-hidden shadow-2xl max-w-md w-full border-2 border-gray-800">
+                <div className="p-4 border-b border-gray-800 bg-gray-900/80">
+                  <h2 className="text-lg font-medium text-white tracking-tight">Live Preview</h2>
+                </div>
+                <div className="p-6">
+                  <div className={`rounded-xl overflow-hidden shadow-lg border-2 ${currentTheme.borderColor}`}>
+                    <div className={`p-8 ${currentTheme.bgGradient}`}>
+                      <div className="space-y-8">
+                        <div className="flex items-center gap-5">
+                          <div className="relative">
+                            <div className={`w-24 h-24 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden ring-4 ${currentTheme.borderColor}`}>
+                              {profileData.avatar ? (
+                                <Image 
+                                  src={profileData.avatar} 
+                                  alt="Avatar" 
+                                  width={96} 
+                                  height={96}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <User className={`w-10 h-10 ${currentTheme.textColor} opacity-50`} />
+                              )}
+                            </div>
+                          </div>
+                          <div>
+                            <div className={`font-semibold text-2xl ${currentTheme.textColor} flex items-center gap-2`}>
+                              @{profileData.username || "username"}
+                              {isUsernameVerified && <VerifiedBadge />}
+                            </div>
+                            <div className="flex items-center text-sm mt-1">
+                              <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}>
+                                tradr.co/@{profileData.username || "username"}
+                              </span>
+                              <Copy 
+                                className={`w-3.5 h-3.5 ml-2 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} 
+                                onClick={handleCopyLink} 
+                              />
+                              {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className={`${currentTheme.inputBg} p-6 rounded-xl`}>
+                          <p className={`text-lg font-medium ${currentTheme.textColor}`}>
+                            {profileData.bio || "Your bio will appear here..."}
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap gap-3">
+                          {profileData.tags.map((tag, i) => (
+                            <div 
+                              key={i} 
+                              className={`px-4 py-2 rounded-lg text-base font-medium ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                            >
+                              #{tag}
+                            </div>
+                          ))}
+                          {profileData.tags.length === 0 && (
+                            <div className={`text-base ${currentTheme.textColor} opacity-50`}>
+                              Add tags to showcase your trading style
+                            </div>
                           )}
                         </div>
-                      </div>
-                      <div>
-                        <div className={`font-semibold text-2xl ${currentTheme.textColor} flex items-center gap-2`}>
-                          @{profileData.username || "username"}
-                          {isUsernameVerified && <VerifiedBadge />}
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
+                            <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
+                              {profileData.stats.performance}%
+                            </div>
+                            <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Performance</div>
+                          </div>
+                          <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
+                            <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
+                              {profileData.stats.winRate}%
+                            </div>
+                            <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Win Rate</div>
+                          </div>
+                          <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
+                            <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
+                              {profileData.stats.maxDD}%
+                            </div>
+                            <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Max DD</div>
+                          </div>
                         </div>
-                        <div className="flex items-center text-sm mt-1">
-                          <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}>
-                            tradr.co/@{profileData.username || "username"}
-                          </span>
-                          <Copy 
-                            className={`w-3.5 h-3.5 ml-2 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} 
-                            onClick={handleCopyLink} 
-                          />
-                          {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bio section */}
-                    <div className={`${currentTheme.inputBg} p-6 rounded-xl`}>
-                      <p className={`text-lg font-medium ${currentTheme.textColor}`}>
-                        {profileData.bio || "Your bio will appear here..."}
-                      </p>
-                    </div>
-
-                    {/* Tags section */}
-                    <div className="flex flex-wrap gap-3">
-                      {profileData.tags.map((tag, i) => (
-                        <div 
-                          key={i} 
-                          className={`px-4 py-2 rounded-lg text-base font-medium ${currentTheme.inputBg} ${currentTheme.textColor}`}
-                        >
-                          #{tag}
-                        </div>
-                      ))}
-                      {profileData.tags.length === 0 && (
-                        <div className={`text-base ${currentTheme.textColor} opacity-50`}>
-                          Add tags to showcase your trading style
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Stats section */}
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
-                        <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
-                          {profileData.stats.performance}%
-                        </div>
-                        <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Performance</div>
-                      </div>
-                      <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
-                        <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
-                          {profileData.stats.winRate}%
-                        </div>
-                        <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Win Rate</div>
-                      </div>
-                      <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
-                        <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
-                          {profileData.stats.maxDD}%
-                        </div>
-                        <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Max DD</div>
                       </div>
                     </div>
                   </div>
                 </div>
-                
-                {/* Modal footer with consistent button styling */}
                 <div className="p-6 border-t border-gray-800 bg-gray-900/80">
                   <button 
                     onClick={() => setIsPreviewOpen(false)}
