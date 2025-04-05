@@ -131,6 +131,15 @@ const THEMES: Theme[] = [
   }
 ];
 
+// Add these theme glow colors after the THEMES array
+const THEME_GLOW_COLORS: Record<string, string> = {
+  'black': 'rgba(255, 255, 255, 0.1)',
+  'gold': 'rgba(198, 167, 89, 0.2)',
+  'lavender': 'rgba(146, 115, 199, 0.2)',
+  'space-grey': 'rgba(122, 122, 127, 0.2)',
+  'rose-gold': 'rgba(196, 138, 128, 0.2)'
+};
+
 const TAG_ICONS: Record<string, LucideIcon> = {
   'trader': Target,
   'funded': Zap,
@@ -717,13 +726,13 @@ export default function ProfileBuilder() {
               </div>
               <button 
                 className={`absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full 
-                         ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
+                           ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'bg-white/20' : 'bg-black/20'}`}
                 onClick={() => setActiveEditDrawer('username')}
               >
                 <Pencil className={`w-3 h-3 ${currentTheme.id === 'gold' || currentTheme.id === 'rose-gold' ? 'text-black' : 'text-white'}`} />
               </button>
+              </div>
             </div>
-          </div>
 
           {/* Bio - adjusted space */}
           <div className="mb-4 text-sm leading-relaxed relative border border-gray-700/30 p-3 rounded-lg">
@@ -818,7 +827,7 @@ export default function ProfileBuilder() {
                 <div className={`absolute inset-0 ${theme.bgGradient}`} />
               </motion.button>
             ))}
-          </div>
+                </div>
         </motion.div>
         
         {/* Buttons with clean styling */}
@@ -839,7 +848,7 @@ export default function ProfileBuilder() {
           >
             Continue
           </motion.button>
-        </div>
+              </div>
             </div>
 
       {/* Add Level Up Toast notification */}
@@ -1383,88 +1392,106 @@ export default function ProfileBuilder() {
                     <X className="w-4 h-4 text-white/80" />
                   </button>
                 </div>
-                <div className={`rounded-[32px] overflow-hidden shadow-2xl ${currentTheme.bgGradient}`}>
-                  <div className="p-8 space-y-7">
-                    {/* Avatar and username section */}
-                    <div className="space-y-5">
-                      <div className="w-[88px] h-[88px] rounded-full bg-[#141414] flex items-center justify-center overflow-hidden">
-                        {profileData.avatar ? (
-                          <Image 
-                            src={profileData.avatar} 
-                            alt="Avatar" 
-                            width={88} 
-                            height={88}
-                            className="w-full h-full object-cover"
-                          />
+                <div className="relative">
+                  {/* Animated glow effect */}
+                  <motion.div
+                    className="absolute -inset-[2px] rounded-[34px] opacity-75"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent)`,
+                      filter: 'blur(8px)',
+                    }}
+                    animate={{
+                      backgroundPosition: ['200% 50%', '-200% 50%'],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
+                  />
+                  <div className={`rounded-[32px] overflow-hidden shadow-2xl ${currentTheme.bgGradient} relative z-10`}>
+                    <div className="p-8 space-y-7">
+                      {/* Avatar and username section */}
+                      <div className="space-y-5">
+                        <div className="w-[88px] h-[88px] rounded-full bg-[#141414] flex items-center justify-center overflow-hidden">
+                          {profileData.avatar ? (
+                            <Image 
+                              src={profileData.avatar} 
+                              alt="Avatar" 
+                              width={88} 
+                              height={88}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <User className="w-8 h-8 text-white opacity-50" />
+                          )}
+                        </div>
+                        <div>
+                          <div className={`text-[28px] flex items-center gap-2 font-medium ${currentTheme.textColor}`}>
+                            @{profileData.username || "username"}
+                            {isUsernameVerified && <VerifiedBadge />}
+                          </div>
+                          <div className="flex items-center text-[15px] text-[#666666] mt-1">
+                            <span>tradr.co/@{profileData.username || "username"}</span>
+                            <button 
+                              onClick={handleCopyLink}
+                              className="ml-2 p-0.5 hover:bg-white/10 rounded transition-colors"
+                            >
+                              <Copy className={`w-3.5 h-3.5 text-[#666666]`} />
+                            </button>
+                            {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Bio */}
+                      <div className={`text-[17px] leading-[1.4] ${currentTheme.textColor}`}>
+                        {profileData.bio || "Your bio will appear here..."}
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2">
+                        {profileData.tags.length > 0 ? (
+                          profileData.tags.map((tag, i) => (
+                            <div 
+                              key={i} 
+                              className={`px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] ${currentTheme.textColor}`}
+                            >
+                              #{tag}
+                            </div>
+                          ))
                         ) : (
-                          <User className="w-8 h-8 text-white opacity-50" />
+                          <div className="text-[15px] text-[#666666]">
+                            #hashtags will be here
+                          </div>
                         )}
                       </div>
-                      <div>
-                        <div className={`text-[28px] flex items-center gap-2 font-medium ${currentTheme.textColor}`}>
-                          @{profileData.username || "username"}
-                          {isUsernameVerified && <VerifiedBadge />}
-                        </div>
-                        <div className="flex items-center text-[15px] text-[#666666] mt-1">
-                          <span>tradr.co/@{profileData.username || "username"}</span>
-                          <button 
-                            onClick={handleCopyLink}
-                            className="ml-2 p-0.5 hover:bg-white/10 rounded transition-colors"
-                          >
-                            <Copy className={`w-3.5 h-3.5 text-[#666666]`} />
-                          </button>
-                          {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Bio */}
-                    <div className={`text-[17px] leading-[1.4] ${currentTheme.textColor}`}>
-                      {profileData.bio || "Your bio will appear here..."}
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
-                      {profileData.tags.length > 0 ? (
-                        profileData.tags.map((tag, i) => (
-                          <div 
-                            key={i} 
-                            className={`px-4 py-[6px] rounded-[12px] text-[15px] font-medium bg-[#141414] ${currentTheme.textColor}`}
-                          >
-                            #{tag}
+                      {/* Stats */}
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="text-center">
+                          <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
+                            {profileData.stats.performance}%
                           </div>
-                        ))
-                      ) : (
-                        <div className="text-[15px] text-[#666666]">
-                          #hashtags will be here
+                          <div className="text-[13px] text-[#666666] mt-1">
+                            Gain
+                          </div>
                         </div>
-                      )}
-                    </div>
-
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="text-center">
-                        <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
-                          {profileData.stats.performance}%
+                        <div className="text-center">
+                          <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
+                            {profileData.stats.winRate}%
+                          </div>
+                          <div className="text-[13px] text-[#666666] mt-1">
+                            Win Rate
+                          </div>
                         </div>
-                        <div className="text-[13px] text-[#666666] mt-1">
-                          Gain
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
-                          {profileData.stats.winRate}%
-                        </div>
-                        <div className="text-[13px] text-[#666666] mt-1">
-                          Win Rate
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
-                          {profileData.stats.maxDD}%
-                        </div>
-                        <div className="text-[13px] text-[#666666] mt-1">
-                          Avg R:R
+                        <div className="text-center">
+                          <div className={`text-[28px] font-medium ${currentTheme.textColor}`}>
+                            {profileData.stats.maxDD}%
+                          </div>
+                          <div className="text-[13px] text-[#666666] mt-1">
+                            Avg R:R
+                          </div>
                         </div>
                       </div>
                     </div>
