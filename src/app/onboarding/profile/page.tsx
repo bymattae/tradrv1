@@ -1371,98 +1371,76 @@ export default function ProfileBuilder() {
               style={styles}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-gray-900/95 rounded-2xl overflow-hidden shadow-2xl max-w-md w-full border-2 border-gray-800">
-                <div className="p-4 border-b border-gray-800 bg-gray-900/80">
-                  <h2 className="text-lg font-medium text-white tracking-tight" style={styles}>Live Preview</h2>
-                </div>
-                <div className="p-6">
-                  <div className={`rounded-xl overflow-hidden shadow-lg border-2 ${currentTheme.borderColor}`}>
-                    <div className={`p-8 ${currentTheme.bgGradient}`} style={styles}>
-                      <div className="space-y-8">
-                        <div className="flex items-center gap-5">
-                          <div className="relative">
-                            <div className={`w-24 h-24 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden ring-4 ${currentTheme.borderColor}`}>
-                              {profileData.avatar ? (
-                                <Image 
-                                  src={profileData.avatar} 
-                                  alt="Avatar" 
-                                  width={96} 
-                                  height={96}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <User className={`w-10 h-10 ${currentTheme.textColor} opacity-50`} />
-                              )}
-                            </div>
-                          </div>
-                          <div>
-                            <div className={`font-semibold text-2xl ${currentTheme.textColor} flex items-center gap-2`}>
-                              @{profileData.username || "username"}
-                              {isUsernameVerified && <VerifiedBadge />}
-                            </div>
-                            <div className="flex items-center text-sm mt-1">
-                              <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}>
-                                tradr.co/@{profileData.username || "username"}
-                              </span>
-                              <Copy 
-                                className={`w-3.5 h-3.5 ml-2 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} 
-                                onClick={handleCopyLink} 
-                              />
-                              {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
-                            </div>
-                          </div>
+              <div className="max-w-[380px] w-full">
+                <div className={`rounded-2xl overflow-hidden shadow-2xl ${currentTheme.bgGradient}`}>
+                  <div className="p-8 space-y-6">
+                    {/* Avatar and username section */}
+                    <div className="flex items-center gap-4">
+                      <div className={`w-20 h-20 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden`}>
+                        {profileData.avatar ? (
+                          <Image 
+                            src={profileData.avatar} 
+                            alt="Avatar" 
+                            width={80} 
+                            height={80}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <User className={`w-8 h-8 ${currentTheme.textColor} opacity-50`} />
+                        )}
+                      </div>
+                      <div>
+                        <div className={`text-2xl font-medium ${currentTheme.textColor} flex items-center gap-2`}>
+                          @{profileData.username || "username"}
+                          {isUsernameVerified && <VerifiedBadge />}
                         </div>
-                        <div className={`${currentTheme.inputBg} p-6 rounded-xl`}>
-                          <p className={`text-lg font-medium ${currentTheme.textColor}`}>
-                            {profileData.bio || "Your bio will appear here..."}
-                          </p>
-                        </div>
-                        <div className="flex flex-wrap gap-3">
-                          {profileData.tags.map((tag, i) => (
-                            <div 
-                              key={i} 
-                              className={`px-4 py-2 rounded-lg text-base font-medium ${currentTheme.inputBg} ${currentTheme.textColor}`}
-                            >
-                              #{tag}
-                            </div>
-                          ))}
-                          {profileData.tags.length === 0 && (
-                            <div className={`text-base ${currentTheme.textColor} opacity-50`}>
-                              Add tags to showcase your trading style
-                            </div>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-3 gap-4">
-                          <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
-                            <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
-                              {profileData.stats.performance}%
-                            </div>
-                            <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Performance</div>
-                          </div>
-                          <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
-                            <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
-                              {profileData.stats.winRate}%
-                            </div>
-                            <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Win Rate</div>
-                          </div>
-                          <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
-                            <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
-                              {profileData.stats.maxDD}%
-                            </div>
-                            <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Max DD</div>
-                          </div>
+                        <div className="flex items-center text-sm mt-1">
+                          <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white/70' : 'text-black/70'}>
+                            tradr.co/@{profileData.username || "username"}
+                          </span>
                         </div>
                       </div>
                     </div>
+
+                    {/* Bio */}
+                    <div className={`text-lg ${currentTheme.textColor}`}>
+                      {profileData.bio || "Your bio will appear here..."}
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {profileData.tags.map((tag, i) => (
+                        <div 
+                          key={i} 
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                        >
+                          #{tag}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="text-center">
+                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                          {profileData.stats.performance}%
+                        </div>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-70`}>Gain</div>
+                      </div>
+                      <div className="text-center">
+                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                          {profileData.stats.winRate}%
+                        </div>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-70`}>Win Rate</div>
+                      </div>
+                      <div className="text-center">
+                        <div className={`text-2xl font-medium ${currentTheme.textColor}`}>
+                          {profileData.stats.maxDD}%
+                        </div>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-70`}>Avg R:R</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="p-6 border-t border-gray-800 bg-gray-900/80">
-                  <button 
-                    onClick={() => setIsPreviewOpen(false)}
-                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3.5 rounded-xl font-medium tracking-tight text-lg transition-colors"
-                  >
-                    Looks good
-                  </button>
                 </div>
               </div>
             </motion.div>
