@@ -709,16 +709,14 @@ export default function ProfileBuilder() {
                 )}
               </div>
               <div className="text-xs text-gray-500 flex items-center mt-1">
-                <span>tradr.co/@{profileData.username || "username"}</span>
-                <button 
-                  onClick={handleCopyLink}
-                  className="ml-1 text-gray-400 hover:text-white transition-colors"
-                >
-                  <Copy className="w-3 h-3" />
-                </button>
-                {showCopied && (
-                  <span className="ml-1 text-green-400 text-2xs">copied!</span>
-                )}
+                <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}>
+                  tradr.co/@{profileData.username || "username"}
+                </span>
+                <Copy 
+                  className={`w-3 h-3 ml-1 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} 
+                  onClick={handleCopyLink} 
+                />
+                {showCopied && <span className="ml-1 text-green-400 text-2xs">copied!</span>}
               </div>
               <button 
                 className={`absolute -right-1 top-0 p-1 opacity-70 hover:opacity-100 transition-opacity rounded-full 
@@ -1148,28 +1146,7 @@ export default function ProfileBuilder() {
                   <div className="space-y-4">
                     <div className="pb-3 mb-3 border-b border-gray-800/80">
                       <h3 className="text-xl font-semibold text-white">Add your hashtags</h3>
-                      <p className="text-[#C5C5C5] text-sm mt-1">choose up to 3 tags that match your style.</p>
-                    </div>
-
-                    <div className="flex justify-center mb-4">
-                      <div className="flex gap-2">
-                        {[0, 1, 2].map((index) => (
-                          <div 
-                            key={index} 
-                            className={`w-10 h-10 rounded-md flex items-center justify-center transition-all ${
-                              index < profileData.tags.length 
-                                ? 'bg-blue-600 scale-110' 
-                                : 'bg-gray-700/50'
-                            }`}
-                          >
-                            {index < profileData.tags.length ? (
-                              <Check className="w-5 h-5 text-white" />
-                            ) : (
-                              <span className="text-gray-400">{index + 1}</span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                      <p className="text-[#C5C5C5] text-sm mt-1">Only 3 hashtags allowed</p>
                     </div>
 
                     <div className="bg-gray-800 rounded-md border border-gray-700 p-4">
@@ -1379,7 +1356,7 @@ export default function ProfileBuilder() {
         )}
       </AnimatePresence>
 
-      {/* Preview Modal - Updated with cleaner styling */}
+      {/* Preview Modal */}
       <AnimatePresence>
         {isPreviewOpen && (
           <>
@@ -1387,76 +1364,80 @@ export default function ProfileBuilder() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md z-50"
+              className="fixed inset-0 bg-black/90 backdrop-blur-xl z-50"
               onClick={() => setIsPreviewOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="fixed inset-0 flex items-center justify-center z-50 p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl max-w-md w-full">
-                <div className={`p-6 ${currentTheme.bgGradient}`}>
-                  <div className="text-center mb-4">
-                    <h2 className={`text-xl font-medium ${currentTheme.textColor} tracking-tight`}>Live Preview</h2>
+              <div className="bg-gray-900/95 rounded-2xl overflow-hidden shadow-2xl max-w-md w-full border border-gray-800">
+                <div className={`p-8 ${currentTheme.bgGradient}`}>
+                  <div className="text-center mb-6">
+                    <h2 className={`text-2xl font-semibold ${currentTheme.textColor} tracking-tight`}>Live Preview</h2>
+                    <p className={`text-sm mt-1 ${currentTheme.textColor} opacity-70`}>This is how your profile will look</p>
                   </div>
                   
-                  {/* Preview content with cleaner styling */}
-                  <div className="space-y-6">
+                  {/* Preview content with improved styling */}
+                  <div className="space-y-8">
                     {/* Avatar and username section */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-5">
                       <div className="relative">
-                        <div className={`w-20 h-20 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden`}>
+                        <div className={`w-24 h-24 rounded-full ${currentTheme.inputBg} flex items-center justify-center overflow-hidden ring-4 ${currentTheme.borderColor}`}>
                           {profileData.avatar ? (
                             <Image 
                               src={profileData.avatar} 
                               alt="Avatar" 
-                              width={80} 
-                              height={80}
+                              width={96} 
+                              height={96}
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <User className={`w-8 h-8 ${currentTheme.textColor} opacity-50`} />
+                            <User className={`w-10 h-10 ${currentTheme.textColor} opacity-50`} />
                           )}
-                        </div>
-                        <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${currentTheme.inputBg} flex items-center justify-center border-2 ${currentTheme.borderColor}`}>
-                          <Camera className={`w-3 h-3 ${currentTheme.textColor}`} />
                         </div>
                       </div>
                       <div>
-                        <div className={`font-medium text-xl ${currentTheme.textColor} flex items-center gap-2`}>
+                        <div className={`font-semibold text-2xl ${currentTheme.textColor} flex items-center gap-2`}>
                           @{profileData.username || "username"}
                           {isUsernameVerified && <VerifiedBadge />}
                         </div>
-                        <div className="flex items-center text-xs text-gray-400">
-                          <span>tradr.co/@{profileData.username || "username"}</span>
-                          <Copy className="w-3 h-3 ml-1 cursor-pointer hover:text-white" onClick={handleCopyLink} />
-                          {showCopied && <span className="ml-1 text-green-400 text-2xs">copied!</span>}
+                        <div className="flex items-center text-sm mt-1">
+                          <span className={currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}>
+                            tradr.co/@{profileData.username || "username"}
+                          </span>
+                          <Copy 
+                            className={`w-3.5 h-3.5 ml-2 cursor-pointer hover:opacity-80 ${currentTheme.id === 'black' || currentTheme.id === 'space-grey' ? 'text-white' : 'text-black'}`} 
+                            onClick={handleCopyLink} 
+                          />
+                          {showCopied && <span className="ml-2 text-green-400 text-xs">copied!</span>}
                         </div>
                       </div>
                     </div>
 
                     {/* Bio section */}
-                    <div className={`${currentTheme.inputBg} p-4 rounded-lg`}>
-                      <p className={`text-base ${currentTheme.textColor}`}>
+                    <div className={`${currentTheme.inputBg} p-6 rounded-xl`}>
+                      <p className={`text-lg font-medium ${currentTheme.textColor}`}>
                         {profileData.bio || "Your bio will appear here..."}
                       </p>
                     </div>
 
                     {/* Tags section */}
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {profileData.tags.map((tag, i) => (
                         <div 
                           key={i} 
-                          className={`px-3 py-1.5 rounded-full text-sm ${currentTheme.inputBg} ${currentTheme.textColor}`}
+                          className={`px-4 py-2 rounded-lg text-base font-medium ${currentTheme.inputBg} ${currentTheme.textColor}`}
                         >
                           #{tag}
                         </div>
                       ))}
                       {profileData.tags.length === 0 && (
-                        <div className={`text-sm ${currentTheme.textColor} opacity-50`}>
+                        <div className={`text-base ${currentTheme.textColor} opacity-50`}>
                           Add tags to showcase your trading style
                         </div>
                       )}
@@ -1464,35 +1445,35 @@ export default function ProfileBuilder() {
 
                     {/* Stats section */}
                     <div className="grid grid-cols-3 gap-4">
-                      <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
-                        <div className={`text-lg font-medium ${currentTheme.textColor}`}>
+                      <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
+                        <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
                           {profileData.stats.performance}%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Performance</div>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Performance</div>
                       </div>
-                      <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
-                        <div className={`text-lg font-medium ${currentTheme.textColor}`}>
+                      <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
+                        <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
                           {profileData.stats.winRate}%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Win Rate</div>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Win Rate</div>
                       </div>
-                      <div className={`${currentTheme.inputBg} p-3 rounded-lg text-center`}>
-                        <div className={`text-lg font-medium ${currentTheme.textColor}`}>
+                      <div className={`${currentTheme.inputBg} p-4 rounded-xl text-center`}>
+                        <div className={`text-xl font-semibold ${currentTheme.textColor}`}>
                           {profileData.stats.maxDD}%
                         </div>
-                        <div className={`text-xs ${currentTheme.textColor} opacity-70`}>Max DD</div>
+                        <div className={`text-sm ${currentTheme.textColor} opacity-70 mt-1`}>Max DD</div>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                {/* Modal footer with buttons */}
-                <div className={`p-4 border-t ${currentTheme.borderColor}`}>
+                {/* Modal footer with consistent button styling */}
+                <div className="p-6 border-t border-gray-800 bg-gray-900/80">
                   <button 
                     onClick={() => setIsPreviewOpen(false)}
-                    className={`w-full py-2 rounded-lg ${currentTheme.inputBg} ${currentTheme.textColor} hover:opacity-80 transition-opacity`}
+                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3.5 rounded-xl font-medium tracking-tight text-lg transition-colors"
                   >
-                    Close
+                    Looks good
                   </button>
                 </div>
               </div>
