@@ -131,13 +131,13 @@ const THEMES: Theme[] = [
   }
 ];
 
-// Update the theme glow colors to be more vibrant
+// Update the theme glow colors to be more vibrant and unicorn-like
 const THEME_GLOW_COLORS: Record<string, string> = {
-  'black': 'rgba(255, 255, 255, 0.3)',
-  'gold': 'rgba(255, 215, 0, 0.5)',
-  'lavender': 'rgba(186, 155, 239, 0.5)',
-  'space-grey': 'rgba(192, 192, 197, 0.4)',
-  'rose-gold': 'rgba(255, 192, 203, 0.5)'
+  'black': 'rgba(255, 255, 255, 0.8)',
+  'gold': 'rgba(255, 223, 100, 0.8)',
+  'lavender': 'rgba(186, 155, 239, 0.8)',
+  'space-grey': 'rgba(192, 192, 197, 0.8)',
+  'rose-gold': 'rgba(255, 192, 203, 0.8)'
 };
 
 const TAG_ICONS: Record<string, LucideIcon> = {
@@ -1394,36 +1394,31 @@ export default function ProfileBuilder() {
                 </div>
                 <div className="relative">
                   {/* Enhanced glow effect */}
-                  <motion.div
-                    className="absolute -inset-[4px] rounded-[36px] opacity-100"
-                    style={{
-                      background: `linear-gradient(90deg, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent, ${THEME_GLOW_COLORS[currentTheme.id]}), 
-                                  linear-gradient(180deg, ${THEME_GLOW_COLORS[currentTheme.id]}, transparent, ${THEME_GLOW_COLORS[currentTheme.id]})`,
-                      filter: 'blur(20px)',
-                    }}
-                    animate={{
-                      scale: [1, 1.02, 1],
-                      opacity: [0.7, 1, 0.7],
-                      backgroundPosition: ['200% 200%', '-200% -200%'],
-                    }}
-                    transition={{
-                      backgroundPosition: {
-                        duration: 5,
-                        repeat: Infinity,
-                        ease: 'linear',
-                      },
-                      scale: {
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      },
-                      opacity: {
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }
-                    }}
-                  />
+                  <div className="absolute -inset-[2px] rounded-[34px]">
+                    <div className="absolute inset-0 rounded-[34px] overflow-hidden">
+                      <motion.div
+                        className="w-[200%] h-[200%] absolute"
+                        style={{
+                          background: `conic-gradient(from 0deg at 50% 50%, 
+                            transparent 0%, 
+                            ${THEME_GLOW_COLORS[currentTheme.id]} 10%, 
+                            ${THEME_GLOW_COLORS[currentTheme.id]} 20%, 
+                            transparent 30%)`,
+                          filter: 'blur(8px)',
+                        }}
+                        animate={{
+                          rotate: [0, 360],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Card content */}
                   <div className={`rounded-[32px] overflow-hidden shadow-2xl ${currentTheme.bgGradient} relative z-10`}>
                     <div className="p-8 space-y-7">
                       {/* Avatar and username section */}
